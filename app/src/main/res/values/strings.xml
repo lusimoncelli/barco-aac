@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Barco App</string>
+    <string name="hola_juan_">\u00A1Hola Juan! </string>
 </resources>
