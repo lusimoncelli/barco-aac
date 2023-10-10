@@ -48,6 +48,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
         // UI Initialization
         final Button buttonConnect = findViewById(R.id.buttonConnect);
+        final Button buttonNavigate = findViewById(R.id.button_inicio);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
@@ -119,6 +120,16 @@ public class BluetoothActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Move to adapter list
                 Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Button Navigate to main menu
+        buttonNavigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to main menu
+                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -282,6 +293,7 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         }
     }
+
 
     /* ============================ Terminate Connection at BackPress ====================== */
     @Override

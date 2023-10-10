@@ -6,23 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Custom Bottom Navigation -->
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="234dp"
-        android:layout_height="220dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/button"
-        android:elevation="4dp"
-        android:text="ABCDE"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Content View -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/customBottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Custom Bottom Navigation -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/customBottomNavigation"
         android:layout_width="0dp"
@@ -34,29 +28,26 @@
 
         <!-- Custom Button 1 -->
         <Button
-            android:id="@+id/button_inicio"
+            android:id="@+id/customButton1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Inicio"
+            android:text="Button 1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_settings"
+            app:layout_constraintEnd_toStartOf="@+id/customButton2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Custom Button 2 -->
         <Button
-            android:id="@+id/button_settings"
+            android:id="@+id/customButton2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Conexión BT"
+            android:text="Button 2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_inicio"
+            app:layout_constraintStart_toEndOf="@+id/customButton1"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 

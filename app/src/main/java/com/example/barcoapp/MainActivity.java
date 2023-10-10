@@ -1,5 +1,6 @@
 package com.example.barcoapp;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
-    private RelativeLayout container;
     private int currentButtonIndex = 0;
     private Button[] buttons;
     private String[] buttonTexts;
@@ -18,7 +18,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        container = findViewById(R.id.container);
+        // UI Initialization
+        final Button buttonSettings = findViewById(R.id.button_settings);
+
+
+        // Go to Settings
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
+                startActivity(intent);
+            }
+        });
 
         buttonTexts = getResources().getStringArray(R.array.numbers_buttons);
         buttons = new Button[buttonTexts.length];
@@ -34,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                     // TODO: handle button when clicked
                 }
             });
-            container.addView(buttons[i]);
             }
         // Change button every 1 second
         final Handler handler = new Handler();
