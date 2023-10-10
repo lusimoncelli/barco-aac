@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout container;
     private int currentButtonIndex = 0;
     private Button[] buttons;
+    private String[] buttonTexts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -19,13 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
         container = findViewById(R.id.container);
 
-        buttons = new Button[5];
-
+        buttonTexts = getResources().getStringArray(R.array.numbers_buttons);
+        buttons = new Button[buttonTexts.length];
 
         for (int i = 0; i < buttons.length; i++){
             buttons[i] = new Button(this);
             // TODO: change text on buttons, use strings.xml
-            buttons[i].setText("Prueba");
+            buttons[i].setText(buttonTexts[i]);
             buttons[i].setVisibility(View.INVISIBLE);
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override

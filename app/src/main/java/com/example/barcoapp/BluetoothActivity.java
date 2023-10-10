@@ -1,11 +1,14 @@
 package com.example.barcoapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -147,6 +150,7 @@ public class BluetoothActivity extends AppCompatActivity {
     /* ============================ Thread to Create Bluetooth Connection =================================== */
     public static class CreateConnectThread extends Thread {
 
+        @SuppressLint("MissingPermission")
         public CreateConnectThread(BluetoothAdapter bluetoothAdapter, String address) {
             /*
             Use a temporary object that is later assigned to mmSocket
@@ -163,7 +167,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 You should try using other methods i.e. :
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
                  */
-                tmp = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid);
+                tmp = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
 
             } catch (IOException e) {
                 Log.e(TAG, "Socket's create() method failed", e);
@@ -171,6 +175,7 @@ public class BluetoothActivity extends AppCompatActivity {
             mmSocket = tmp;
         }
 
+        @SuppressLint("MissingPermission")
         public void run() {
             // Cancel discovery because it otherwise slows down the connection.
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

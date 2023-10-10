@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Barco App</string>
-    <string name="hola_juan_">\u00A1Hola Juan! </string>
+    <string name="hola_juan">\u00A1Hola Juan! </string>
+
+    <string-array name="buttons_main">
+        <item name="abcde"> ABCDE </item>
+        <item name="numbers"> Numeros </item>
+        <item name="new_keyboard"> Nuevo Teclado </item>
+    </string-array>
+
+    <string-array name="numbers_buttons">
+        <item name="zero"> 0 </item>
+        <item name="one"> 1 </item>
+        <item name="two"> 2</item>
+        <item name="three"> 3 </item>
+        <item name="four"> 4 </item>
+        <item name="five"> 5</item>
+        <item name="six"> 6 </item>
+        <item name="seven"> 7 </item>
+        <item name="eight"> 8</item>
+        <item name="nine"> 9 </item>
+    </string-array>
 </resources>
