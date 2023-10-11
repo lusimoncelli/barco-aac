@@ -9,61 +9,97 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
-    private int currentButtonIndex = 0;
-    private Button[] buttons;
-    private String[] buttonTexts;
+    private Handler handler = new Handler();
+
+    // Buttons Initialization
+    private Button buttonSettings;
+    private Button buttonABCDE;
+    private Button buttonNumbers;
+    private Button buttonNewKeyboard;
+    // Flag to control the button loop
+    private boolean buttonSequenceRunning = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // UI Initialization
-        final Button buttonSettings = findViewById(R.id.button_settings);
+        buttonNumbers = findViewById(R.id.button_numbers);
+        buttonSettings = findViewById(R.id.button_settings);
+        buttonABCDE = findViewById(R.id.button_abcde);
+        buttonNewKeyboard = findViewById(R.id.button_newkeyboard);
 
+        // Set buttons as invisible
+        buttonNumbers.setVisibility(View.INVISIBLE);
+        buttonNewKeyboard.setVisibility(View.INVISIBLE);
+        buttonABCDE.setVisibility(View.INVISIBLE);
+
+        StartButtonAppereanceSequence();
 
         // Go to Settings
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonSequenceRunning = false;
                 Intent intent = new Intent(MainActivity.this, BluetoothActivity.class);
                 startActivity(intent);
             }
         });
 
-        buttonTexts = getResources().getStringArray(R.array.numbers_buttons);
-        buttons = new Button[buttonTexts.length];
-
-        for (int i = 0; i < buttons.length; i++){
-            buttons[i] = new Button(this);
-            // TODO: change text on buttons, use strings.xml
-            buttons[i].setText(buttonTexts[i]);
-            buttons[i].setVisibility(View.INVISIBLE);
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO: handle button when clicked
-                }
-            });
+        // Go to numbers keyboard
+        buttonNumbers.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                buttonSequenceRunning = false;
+                Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
+                startActivity(intent);
             }
-        // Change button every 1 second
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
+        });
+
+        // Go to normal keyboard
+        //TODO: create ABCDE keyboard instance
+
+        // Go to create keyboard
+        //TODO: create new keyboard instance
+
+
+    }
+
+    private void StartButtonAppereanceSequence(){
+        // Initial sequence
+        buttonSequence();
+    }
+
+    private void buttonSequence() {
+        if (!buttonSequenceRunning){
+            return; // Exit when a button is clicked
+        }
+
+        // Show buttonABCDE
+        buttonABCDE.setVisibility(View.VISIBLE);
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (currentButtonIndex < buttons.length) {
-                    buttons[currentButtonIndex].setVisibility(View.INVISIBLE);
-                    currentButtonIndex++;
-                    if (currentButtonIndex < buttons.length) {
-                        buttons[currentButtonIndex].setVisibility(View.VISIBLE);
-                        handler.postDelayed(this, 1000); // Repeat every 1 second
+                // Hide buttonABCDE and show buttonNumbers
+                buttonABCDE.setVisibility(View.INVISIBLE);
+                buttonNumbers.setVisibility(View.VISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Hide buttonNumbers and show buttonNewKeyboard
+                        buttonNumbers.setVisibility(View.INVISIBLE);
+                        buttonNewKeyboard.setVisibility(View.VISIBLE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Hide buttonNewKeyboard and restart the sequence
+                                buttonNewKeyboard.setVisibility(View.INVISIBLE);
+                                buttonSequence();
+                            }
+                        }, 1000); // Delay before restarting the sequence
                     }
-                }
+                }, 1000);
             }
-        };
-
-        // Start initial change
-        buttons[currentButtonIndex].setVisibility(View.VISIBLE);
-        handler.postDelayed(runnable, 10000);
+        }, 1000);
     }
 }
