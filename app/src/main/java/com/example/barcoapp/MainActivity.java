@@ -57,7 +57,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Go to normal keyboard
-        //TODO: create ABCDE keyboard instance
+        buttonABCDE.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                buttonSequenceRunning = false;
+                Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
+                startActivity(intent);
+            }
+        });
 
         // Go to create keyboard
         //TODO: create new keyboard instance
