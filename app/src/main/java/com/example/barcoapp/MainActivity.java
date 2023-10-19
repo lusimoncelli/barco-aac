@@ -67,9 +67,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Go to create keyboard
-        //TODO: create new keyboard instance
-
-
+        buttonNewKeyboard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                buttonSequenceRunning = false;
+                Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void StartButtonAppereanceSequence(){
