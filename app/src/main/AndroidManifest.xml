@@ -30,6 +30,7 @@
         <activity android:name=".SelectDeviceActivity"></activity>
         <activity android:name=".NumbersKeyboardActivity"></activity>
         <activity android:name=".AlphanumericKeyboardActivity"></activity>
+        <activity android:name=".NewKeyboardActivity"></activity>
 
     </application>
 

@@ -21,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
 
         buttonNumbers = findViewById(R.id.button_numbers);
@@ -37,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buttonNewKeyboard.setVisibility(View.INVISIBLE);
         buttonABCDE.setVisibility(View.INVISIBLE);
 
-        StartButtonAppearanceSequence();
+        StartButtonAppereanceSequence();
 
         // Go to Settings
         buttonSettings.setOnClickListener(new View.OnClickListener() {
@@ -70,18 +67,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Go to create keyboard
-        //TODO: create new keyboard instance
+        buttonNewKeyboard.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                buttonSequenceRunning = false;
+                Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
+                startActivity(intent);
+            }
 
-
-
+});
     }
 
-    public void handleSensorData(String sensorData) {
-        // Handle the sensor data specific to this activity
-        // You can update the UI or perform actions based on the data
-    }
-
-    private void StartButtonAppearanceSequence(){
+    private void StartButtonAppereanceSequence(){
         // Initial sequence
         buttonSequence();
     }
