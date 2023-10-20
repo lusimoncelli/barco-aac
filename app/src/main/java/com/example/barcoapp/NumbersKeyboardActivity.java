@@ -2,14 +2,15 @@ package com.example.barcoapp;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.TextView;
-import android.widget.Button;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NumbersKeyboardActivity extends AppCompatActivity {
 
-    private TextView enteredText;
+    private EditText enteredText;
     private Handler handler = new Handler();
 
     // Button initialization
@@ -27,6 +28,8 @@ public class NumbersKeyboardActivity extends AppCompatActivity {
         setContentView(R.layout.numbers_layout);
 
         enteredText = findViewById(R.id.enteredText);
+        enteredText.setTextColor(getResources().getColor(R.color.black));
+        enteredText.setVisibility(View.VISIBLE);
 
         // Initialize buttons
         numberButtons = new Button[]{
@@ -56,7 +59,7 @@ public class NumbersKeyboardActivity extends AppCompatActivity {
         if (index >= 0 && index < numberButtons.length){
             numberButtons[index].setVisibility(visibility);
         }
-    };
+    }
 
     private void startButtonLoop(){
         loopRunning = true;
@@ -83,6 +86,10 @@ public class NumbersKeyboardActivity extends AppCompatActivity {
         enteredText.append(text);
         stopButtonLoop();
         startButtonLoop();
+    }
+
+    public Button getButton(){
+        return numberButtons[currentButtonIndex];
     }
 
     public void onButtonClick(View view){

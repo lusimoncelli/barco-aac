@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AlphanumericKeyboardActivity extends AppCompatActivity {
-    private TextView enteredText;
+    private EditText enteredText;
     private Handler handler = new Handler();
 
     // Button initialization

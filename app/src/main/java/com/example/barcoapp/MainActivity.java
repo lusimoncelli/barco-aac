@@ -1,11 +1,11 @@
 package com.example.barcoapp;
 
 import android.content.Intent;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
         buttonNumbers = findViewById(R.id.button_numbers);
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         buttonNewKeyboard.setVisibility(View.INVISIBLE);
         buttonABCDE.setVisibility(View.INVISIBLE);
 
-        StartButtonAppereanceSequence();
+        StartButtonAppearanceSequence();
 
         // Go to Settings
         buttonSettings.setOnClickListener(new View.OnClickListener() {
@@ -70,9 +73,15 @@ public class MainActivity extends AppCompatActivity {
         //TODO: create new keyboard instance
 
 
+
     }
 
-    private void StartButtonAppereanceSequence(){
+    public void handleSensorData(String sensorData) {
+        // Handle the sensor data specific to this activity
+        // You can update the UI or perform actions based on the data
+    }
+
+    private void StartButtonAppearanceSequence(){
         // Initial sequence
         buttonSequence();
     }
