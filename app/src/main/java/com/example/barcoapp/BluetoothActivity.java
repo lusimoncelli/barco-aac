@@ -27,6 +27,7 @@ import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
     private String deviceName = null;
     private String deviceAddress;
+    public static boolean buttonClick;
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -45,8 +46,7 @@ public class BluetoothActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
-        final Button buttonToggle = findViewById(R.id.buttonToggle);
-        buttonToggle.setEnabled(false);
+
         // If a bluetooth device has been selected from SelectDeviceActivity
         deviceName = getIntent().getStringExtra("deviceName");
         if (deviceName != null) {
@@ -78,23 +78,12 @@ public class BluetoothActivity extends AppCompatActivity {
                                 toolbar.setSubtitle("Connected to " + deviceName);
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
-                                buttonToggle.setEnabled(true);
+
                                 break;
                             case -1:
                                 toolbar.setSubtitle("Device fails to connect");
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
-                                break;
-                        }
-                        break;
-                    case MESSAGE_READ:
-                        String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        switch (arduinoMsg.toLowerCase()) {
-                            case "led is turned on":
-                                textViewInfo.setText("Arduino Message : " + arduinoMsg);
-                                break;
-                            case "led is turned off":
-                                textViewInfo.setText("Arduino Message : " + arduinoMsg);
                                 break;
                         }
                         break;
@@ -121,28 +110,7 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         });
 
-        // Button to ON/OFF LED on Arduino Board
-        buttonToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String btnState = buttonToggle.getText().toString().toLowerCase();
-                switch (btnState) {
-                    case "turn on":
-                        buttonToggle.setText("Turn Off");
-                        // Command to turn on LED on Arduino. Must match with the command in Arduino code
-                        cmdText = "<turn on>";
-                        break;
-                    case "turn off":
-                        buttonToggle.setText("Turn On");
-                        // Command to turn off LED on Arduino. Must match with the command in Arduino code
-                        cmdText = "<turn off>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
+
     }
     /* ============================ Thread to Create Bluetooth Connection =================================== */
     public static class CreateConnectThread extends Thread {
@@ -224,8 +192,8 @@ public class BluetoothActivity extends AppCompatActivity {
             mmOutStream = tmpOut;
         }
         public void run() {
-            byte[] buffer = new byte[1024];  // buffer store for the stream
-            int bytes = 0; // bytes returned from read()
+            byte[] buffer = new byte[1];  // buffer store for the stream
+            int bytesRead; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
@@ -233,15 +201,16 @@ public class BluetoothActivity extends AppCompatActivity {
                     Read from the InputStream from Arduino until termination character is reached.
                     Then send the whole String message to GUI Handler.
                      */
-                    buffer[bytes] = (byte) mmInStream.read();
-                    String readMessage;
-                    if (buffer[bytes] == '\n') {
-                        readMessage = new String(buffer, 0, bytes);
-                        Log.e("Arduino Message", readMessage);
-                        handler.obtainMessage(MESSAGE_READ, readMessage).sendToTarget();
-                        bytes = 0;
-                    } else {
-                        bytes++;
+                    bytesRead = mmInStream.read(buffer);
+                    if (bytesRead > 0) {
+                        byte sensorSignal = buffer[0];
+                        Log.d("Sensor", String.valueOf(sensorSignal));
+
+                        if (sensorSignal == 0) {
+                            buttonClick = true;
+                        }
+
+                        handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -249,15 +218,8 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             }
         }
-        /* Call this from the main activity to send data to the remote device */
-        public void write(String input) {
-            byte[] bytes = input.getBytes(); //converts entered String into bytes
-            try {
-                mmOutStream.write(bytes);
-            } catch (IOException e) {
-                Log.e("Send Error", "Unable to send message", e);
-            }
-        }
+
+
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
             try {

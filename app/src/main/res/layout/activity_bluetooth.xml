@@ -16,7 +16,9 @@
         app:layout_constraintBottom_toTopOf="@+id/customBottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </FrameLayout>
 
     <!-- Custom Bottom Navigation -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,6 +67,16 @@
         app:title="Bluetooth Connection"
         app:titleTextColor="@android:color/background_light" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="256dp"
+        android:layout_height="135dp"
+        android:text="En la lista de dispositivos seleccionar BARCO APP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragmentContainer" />
+
     <Button
         android:id="@+id/buttonConnect"
         style="@style/Widget.AppCompat.Button.Borderless"
@@ -75,19 +87,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-    <Button
-        android:id="@+id/buttonToggle"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:text="Turn On"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -107,12 +106,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:gravity="center_horizontal"
         android:textAlignment="center"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonToggle"
-        android:gravity="center_horizontal" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         buttonNewKeyboard.setVisibility(View.INVISIBLE);
         buttonABCDE.setVisibility(View.INVISIBLE);
 
-        StartButtonAppereanceSequence();
+        StartButtonAppearanceSequence();
 
         // Go to Settings
         buttonSettings.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Go to normal keyboard
+        // Go to alphanumeric keyboard
         buttonABCDE.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 });
     }
 
-    private void StartButtonAppereanceSequence(){
+    private void StartButtonAppearanceSequence(){
         // Initial sequence
         buttonSequence();
     }
@@ -90,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Show buttonABCDE
         buttonABCDE.setVisibility(View.VISIBLE);
+
+        // Check for sensor data
+        if (BluetoothActivity.buttonClick) {
+            buttonClick();
+        }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -102,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
                         // Hide buttonNumbers and show buttonNewKeyboard
                         buttonNumbers.setVisibility(View.INVISIBLE);
                         buttonNewKeyboard.setVisibility(View.VISIBLE);
+
+                        // Check for sensor data:
+                        if (BluetoothActivity.buttonClick) {
+                            buttonClick();
+                        }
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -115,4 +125,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 1000);
     }
+
+    // Helper method to perform the button click
+    private void buttonClick() {
+        Button visibleButton = getVisibleButton();
+        if (visibleButton != null) {
+            visibleButton.performClick();
+            BluetoothActivity.buttonClick = false; // Reset the buttonClick variable
+        }
+    }
+
+    private Button getVisibleButton() {
+        if (buttonNumbers.getVisibility() == View.VISIBLE) {
+            return buttonNumbers;
+        } else if (buttonNewKeyboard.getVisibility() == View.VISIBLE) {
+            return buttonNewKeyboard;
+        } else if (buttonABCDE.getVisibility() == View.VISIBLE){
+            return buttonABCDE;
+        } else {
+            return null;
+        }
+    }
+
 }
