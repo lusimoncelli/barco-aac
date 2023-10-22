@@ -12,12 +12,20 @@ tools:context=".MainActivity">
     style="@style/MyButtonStyle"
     android:id="@+id/button_A"
     android:text="A"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_B"
     android:text="B"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 
@@ -25,139 +33,239 @@ tools:context=".MainActivity">
     style="@style/MyButtonStyle"
     android:id="@+id/button_C"
     android:text="C"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_D"
     android:text="D"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_E"
     android:text="E"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_F"
     android:text="F"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_G"
     android:text="G"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_H"
     android:text="H"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_I"
     android:text="I"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_J"
     android:text="J"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_K"
     android:text="K"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_L"
     android:text="L"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_M"
     android:text="M"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_N"
     android:text="N"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
 <Button
     style="@style/MyButtonStyle"
     android:id="@+id/button_O"
     android:text="O"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     tools:ignore="MissingConstraints" />
 
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_P"
         android:text="P"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_Q"
         android:text="Q"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_R"
         android:text="R"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_S"
         android:text="S"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_T"
         android:text="T"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_U"
         android:text="U"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_V"
         android:text="V"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_W"
         android:text="W"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_X"
         android:text="X"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_Y"
         android:text="Y"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_Z"
         android:text="Z"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button__"
         android:text=" "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
 
