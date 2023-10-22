@@ -14,7 +14,7 @@ void loop() {
   // Leer datos digitales de Serial1 (Bluetooth)
   while (btSerial.available()) {
     myChar = btSerial.read();
-    Serial.print(myChar);
+    //Serial.print(myChar);
   }
 
   // Leer datos del sensor IR
@@ -26,8 +26,8 @@ void loop() {
   btSerial.write(sensorValue);
 
   // Enviar datos analógicos al Monitor Serial (opcional)
-  Serial.print("Valor del sensor: ");
-  Serial.println(sensorValue);
+  //Serial.print("Valor del sensor: ");
+  //Serial.println(sensorValue);
 
   // Agregar un pequeño retardo para ajustar la velocidad de actualización
   delay(500);
