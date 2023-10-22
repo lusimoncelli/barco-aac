@@ -37,6 +37,7 @@ public class AlphanumericKeyboardActivity extends LoopActivity {
               R.id.button_X,
               R.id.button_Y,
               R.id.button_Z,
+              R.id.button__,
       }, R.layout.alphanumeric_layout);
   }
 }
