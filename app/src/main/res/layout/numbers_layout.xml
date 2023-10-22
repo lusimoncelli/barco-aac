@@ -8,57 +8,107 @@
 
     <!-- Buttons -->
 
+
     <Button
-        style="@style/MyButtonStyle"
         android:id="@+id/button_zero"
+        style="@style/MyButtonStyle"
         android:text="0"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_one"
-        android:text="1"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_two"
-        android:text="2"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_three"
-        android:text="3"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_four"
-        android:text="4"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_five"
-        android:text="5"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_six"
-        android:text="6"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_seven"
-        android:text="7"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_eight"
-        android:text="8"
-        tools:ignore="MissingConstraints" />
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_nine"
-        android:text="9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <Button
+        android:id="@+id/button_one"
+        style="@style/MyButtonStyle"
+        android:text="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_two"
+        style="@style/MyButtonStyle"
+        android:text="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_three"
+        style="@style/MyButtonStyle"
+        android:text="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_four"
+        style="@style/MyButtonStyle"
+        android:text="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_five"
+        style="@style/MyButtonStyle"
+        android:text="5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_six"
+        style="@style/MyButtonStyle"
+        android:text="6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_seven"
+        style="@style/MyButtonStyle"
+        android:text="7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_eight"
+        style="@style/MyButtonStyle"
+        android:text="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_nine"
+        style="@style/MyButtonStyle"
+        android:text="9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/enteredText"
@@ -71,10 +121,9 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/button_six"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

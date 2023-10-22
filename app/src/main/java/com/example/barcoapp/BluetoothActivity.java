@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,18 +33,21 @@ public class BluetoothActivity extends AppCompatActivity {
     public static CreateConnectThread createConnectThread;
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
+
+    private Button buttonConnect;
+    private static Button buttonNavigate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
 
         // UI Initialization
-        final Button buttonConnect = findViewById(R.id.buttonConnect);
-        final Button buttonNavigate = findViewById(R.id.button_inicio);
+        buttonConnect = findViewById(R.id.buttonConnect);
+        buttonNavigate = findViewById(R.id.button_inicio);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
-        final TextView textViewInfo = findViewById(R.id.textViewInfo);
+
 
         // If a bluetooth device has been selected from SelectDeviceActivity
         deviceName = getIntent().getStringExtra("deviceName");
@@ -208,6 +210,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
                         if (sensorSignal == 0) {
                             buttonClick = true;
+                            buttonNavigate.performClick();
                         }
 
                         handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
