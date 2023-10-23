@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
     private String deviceName = null;
@@ -89,9 +88,21 @@ public class BluetoothActivity extends AppCompatActivity {
                                 break;
                         }
                         break;
+                    case MESSAGE_READ:
+                        String arduinoMsg = msg.obj.toString();
+                        switch (arduinoMsg){
+                            case "0":
+                                    buttonClick = true;
+                                    buttonNavigate.performClick();
+                                    break;
+                            case "1":
+                                break;
+
+                        }
                 }
             }
         };
+
         // Select Bluetooth Device
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,20 +189,20 @@ public class BluetoothActivity extends AppCompatActivity {
     public static class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
+
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
-            OutputStream tmpOut = null;
-            // Get the input and output streams, using temp objects because
+
+            // Get the input stream, using temp objects because
             // member streams are final
             try {
                 tmpIn = socket.getInputStream();
-                tmpOut = socket.getOutputStream();
+
             } catch (IOException e) {
             }
             mmInStream = tmpIn;
-            mmOutStream = tmpOut;
+
         }
         public void run() {
             byte[] buffer = new byte[1];  // buffer store for the stream
@@ -204,17 +215,10 @@ public class BluetoothActivity extends AppCompatActivity {
                     Then send the whole String message to GUI Handler.
                      */
                     bytesRead = mmInStream.read(buffer);
-                    if (bytesRead > 0) {
-                        byte sensorSignal = buffer[0];
-                        Log.d("Sensor", String.valueOf(sensorSignal));
+                    String sensorSignal = new String(buffer, 0, bytesRead);
+                    Log.d("Sensor", sensorSignal);
+                    handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
-                        if (sensorSignal == 0) {
-                            buttonClick = true;
-                            buttonNavigate.performClick();
-                        }
-
-                        handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     break;
