@@ -9,13 +9,8 @@
     <!-- Custom Bottom Navigation -->
 
     <Button
+        style="@style/MyButtonStyle"
         android:id="@+id/button_abcde"
-        android:layout_width="234dp"
-        android:layout_height="220dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/button"
-        android:elevation="4dp"
         android:text="ABCDE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,14 +19,9 @@
         tools:ignore="MissingConstraints" />
 
     <Button
+        style="@style/MyButtonStyle"
         android:id="@+id/button_numbers"
-        android:layout_width="234dp"
-        android:layout_height="220dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/button"
-        android:elevation="4dp"
-        android:text="Numeros"
+        android:text="Números"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,13 +29,8 @@
         tools:ignore="MissingConstraints" />
 
     <Button
+        style="@style/MyButtonStyle"
         android:id="@+id/button_newkeyboard"
-        android:layout_width="234dp"
-        android:layout_height="220dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/button"
-        android:elevation="4dp"
         android:text="Nuevo Teclado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,27 +47,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Custom Button 1 -->
-        <Button
-            android:id="@+id/button_inicio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Inicio"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/button_inicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Inicio"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_settings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Custom Button 2 -->
-        <Button
-            android:id="@+id/button_settings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Conexión BT"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button_inicio"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/button_settings"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Conexión BT"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_inicio"
+        app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
