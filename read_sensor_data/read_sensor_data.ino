@@ -6,8 +6,8 @@ int sensorValue = 0;        // Variable para almacenar la lectura del sensor
 SoftwareSerial btSerial(15, 14); // RX, TX
 
 void setup() {
-  Serial.begin(9600);
-  btSerial.begin(9600);
+  Serial.begin(38400);
+  btSerial.begin(38400);
   pinMode(irSensorPin, INPUT);
 }
 
