@@ -107,7 +107,7 @@ public class BluetoothActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Navigate to main menu
-                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                Intent intent = new Intent(BluetoothActivity.this, LogInActivity.class);
                 startActivity(intent);
             }
         });
