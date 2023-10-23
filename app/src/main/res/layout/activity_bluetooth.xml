@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BluetoothActivity">
+    tools:context=".BluetoothActivity"
+    tools:ignore="ExtraText">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
@@ -49,25 +50,30 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/BT"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:subtitleTextColor="@android:color/background_light"
         app:title="Bluetooth Connection"
-        app:titleTextColor="@android:color/background_light" />
+        app:titleTextColor="@android:color/black" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="256dp"
-        android:layout_height="135dp"
-        android:text="En la lista de dispositivos seleccionar BARCO APP"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fragmentContainer" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="En la lista de dispositivos seleccionar BARCO APP" />
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/buttonConnect"
