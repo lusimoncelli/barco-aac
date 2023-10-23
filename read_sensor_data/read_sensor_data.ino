@@ -25,9 +25,6 @@ void loop() {
   sensorValue = digitalRead(irSensorPin);
   btSerial.write(sensorValue); // Transmitir datos a través del btSerial
 
-  // Enviar datos analógicos al Monitor Serial (opcional)
-  //Serial.print("Valor del sensor: ");
-  //Serial.println(sensorValue);
 
   // Limpio el buffer
   btSerial.flush();
