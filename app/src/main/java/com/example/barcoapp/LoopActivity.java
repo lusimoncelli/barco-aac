@@ -85,7 +85,7 @@ public class LoopActivity extends AppCompatActivity {
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
 
                 if (loopRunning) {
-                    handler.postDelayed(this, 1000);
+                    handler.postDelayed(this, FrequencyHolder.getFrequency());
                 }
             }
         }, 1000);
