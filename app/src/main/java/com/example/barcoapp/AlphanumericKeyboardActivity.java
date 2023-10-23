@@ -41,7 +41,6 @@ public class AlphanumericKeyboardActivity extends LoopActivity {
               R.id.button__,
       }, R.layout.alphanumeric_layout);
   }
-
       @Override
       protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);

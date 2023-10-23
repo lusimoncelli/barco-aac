@@ -88,7 +88,7 @@ public class LoopActivity extends AppCompatActivity {
                     handler.postDelayed(this, FrequencyHolder.getFrequency());
                 }
             }
-        }, 1000);
+        },FrequencyHolder.getFrequency());
     }
 
     private void stopButtonLoop() {
