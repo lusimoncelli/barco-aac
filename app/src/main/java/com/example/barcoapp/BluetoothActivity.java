@@ -205,18 +205,18 @@ public class BluetoothActivity extends AppCompatActivity {
 
         }
         public void run() {
-            byte[] buffer = new byte[1];  // buffer store for the stream
+            byte[] buffer = new byte[1];  // buffer to store sensor data
             int bytesRead; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
                     /*
-                    Read from the InputStream from Arduino until termination character is reached.
-                    Then send the whole String message to GUI Handler.
+                    Read from input stream
+                    Send string to GUI handler
                      */
                     bytesRead = mmInStream.read(buffer);
                     String sensorSignal = new String(buffer, 0, bytesRead);
-                    Log.d("Sensor", sensorSignal);
+                    Log.d("Sensor", sensorSignal); // Log signal
                     handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
                 } catch (IOException e) {
