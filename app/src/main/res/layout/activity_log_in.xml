@@ -56,7 +56,10 @@
         android:layout_height="100dp"
         android:src="@drawable/logo_barco_app"
         app:layout_constraintBottom_toTopOf="@id/enteredText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
