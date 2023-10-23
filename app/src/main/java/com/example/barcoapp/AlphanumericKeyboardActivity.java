@@ -1,5 +1,6 @@
 package com.example.barcoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AlphanumericKeyboardActivity extends LoopActivity {
-  public AlphanumericKeyboardActivity(){
+  public AlphanumericKeyboardActivity() {
       super(new Integer[]{
               R.id.button_A,
               R.id.button_B,
@@ -40,4 +41,19 @@ public class AlphanumericKeyboardActivity extends LoopActivity {
               R.id.button__,
       }, R.layout.alphanumeric_layout);
   }
-}
+
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+
+          Button backButton = findViewById(R.id.button_back_to_main);
+          backButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  // Define the behavior to return to the main activity here
+                  Intent intent = new Intent(AlphanumericKeyboardActivity.this, MainActivity.class);
+                  startActivity(intent);
+              }
+          });
+      }
+  }
