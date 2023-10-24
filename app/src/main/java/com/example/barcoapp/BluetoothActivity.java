@@ -214,9 +214,12 @@ public class BluetoothActivity extends AppCompatActivity {
                     Read from input stream
                     Send string to GUI handler
                      */
+
+                    buffer[0] = (byte) mmInStream.read();
                     bytesRead = mmInStream.read(buffer);
                     String sensorSignal = new String(buffer, 0, bytesRead);
                     Log.d("Sensor", sensorSignal); // Log signal
+                    Log.d("Test", "pruebaa");
                     handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
                 } catch (IOException e) {

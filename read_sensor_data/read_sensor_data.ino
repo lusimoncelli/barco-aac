@@ -6,8 +6,8 @@ int sensorValue = 0;        // Variable para almacenar la lectura del sensor
 SoftwareSerial btSerial(15, 14); // RX, TX
 
 void setup() {
-  Serial.begin(38400);
-  btSerial.begin(38400);
+  Serial.begin(9600);
+  btSerial.begin(9600);
   pinMode(irSensorPin, INPUT);
 }
 
@@ -25,7 +25,4 @@ void loop() {
   sensorValue = digitalRead(irSensorPin);
   btSerial.write(sensorValue); // Transmitir datos a través del btSerial
 
-
-  // Limpio el buffer
-  btSerial.flush();
 }

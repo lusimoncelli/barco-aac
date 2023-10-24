@@ -30,9 +30,9 @@ public class SelectDeviceActivity extends AppCompatActivity {
 
 
         // Get List of Paired Bluetooth Device
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        //    return;
+        //}
 
 
 
