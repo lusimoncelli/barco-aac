@@ -57,7 +57,4 @@ void loop() {
   sensorValue = digitalRead(irSensorPin);
   btSerial.write(sensorValue); // Transmitir datos a través del btSerial
 
-
-  // Limpio el buffer
-  btSerial.flush();
 }
