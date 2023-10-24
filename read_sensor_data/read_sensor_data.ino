@@ -1,60 +1,57 @@
-<<<<<<< HEAD
-char myChar;
-const int irSensorPin = A0;  // Pin analógico conectado al sensor IR
-int sensorValue = 0;         // Variable para almacenar la lectura del sensor
-
-void setup() {
-  Serial.begin(38400);
-  Serial1.begin(38400);
-  Serial1.println("Conexión exitosa"); 
-}
-
-void loop() {
-  // Leer datos digitales de Serial1 (Bluetooth)
-  while (Serial1.available()) {
-    myChar = Serial1.read();
-    //Serial.print(myChar);
-  }
-
-  // Leer datos analógicos del sensor IR
-  sensorValue = analogRead(irSensorPin);
-
-  // Transmitir datos analógicos a través de Serial1 (Bluetooth)
-  //Serial1.print(sensorValue);
-
-  // Enviar datos analógicos al Monitor Serial (opcional)
-  //Serial.print("Valor del sensor: ");
-  //Serial.println(sensorValue);
-
-  // Agregar un pequeño retardo para ajustar la velocidad de actualización
-  delay(100);  // Puedes ajustar el valor del retardo según sea necesario
-
-=======
+//importo librerias y configuro pines de comunicacion
 #include <SoftwareSerial.h>
+#include <TimerThree.h>
 
-char myChar;
-const int irSensorPin = 8;  // Pin digital conectado al sensor IR
+irSensorPin = 8;  // Pin digital conectado al sensor IR
 int sensorValue = 0;        // Variable para almacenar la lectura del sensor
 SoftwareSerial btSerial(15, 14); // RX, TX
+unsigned long myTime; //para millis y probar
+
+//esto para protocolo de comunicacion
+void rts();
+unsigned int buffer1[125];
+unsigned int buffer2[125];
+bool bufferFlag = false;
+bool sendFlag = false;
 
 void setup() {
-  Serial.begin(9600);
-  btSerial.begin(9600);
+  // Initialization
+  Timer3.initialize(4000);  // every 5ms
+  Timer3.attachInterrupt(rts);
   pinMode(irSensorPin, INPUT);
+
+  // Communication rate of the Bluetooth Module
+  btSerial.begin(9600); 
+  Serial.begin(9600);
 }
 
-void loop() {
-
-  // Leer datos digitales del serial bt
-  while (btSerial.available()) {
-    myChar = btSerial.read();
-    Serial.print(myChar);
+void rts(){
+  static unsigned long counter = 0;
+  static unsigned int pos = 0;
+  counter++;
+  
+  // Every 4 ms
+  if (counter%1 == 0)
+  {
+    // send the value of analog input 0:
+      buffer1[pos++] = digitalRead(irSensorPin);
+  }
+    
+    if (pos == 125)
+    {
+      for (unsigned int i=0; i<125; i++)
+        buffer2[i] = buffer1[i];
+      bufferFlag = true;
+      pos = 0;
+    }
   }
 
-  // Leer datos del sensor IR
-  // IR = 0 -> Parpadeo
-  // IR = 1 -> Ojo abierto
-  sensorValue = digitalRead(irSensorPin);
-  btSerial.write(sensorValue); // Transmitir datos a través del btSerial
-
+void loop() {
+  // Si la bandera está activada, enviar el buffer a través del módulo Bluetooth
+  if (bufferFlag) {
+    for (unsigned int i = 0; i < 125; i++) {
+    btSerial.write(buffer2[i]);
+  }
+  bufferFlag = false;
+  }
 }
