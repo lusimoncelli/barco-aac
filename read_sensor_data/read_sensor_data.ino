@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 #include <TimerThree.h>
 
-irSensorPin = 8;  // Pin digital conectado al sensor IR
+int irSensorPin = 8;  // Pin digital conectado al sensor IR
 int sensorValue = 0;        // Variable para almacenar la lectura del sensor
 SoftwareSerial btSerial(15, 14); // RX, TX
 unsigned long myTime; //para millis y probar
