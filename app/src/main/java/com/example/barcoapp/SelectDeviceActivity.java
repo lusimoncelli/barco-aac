@@ -1,14 +1,17 @@
 package com.example.barcoapp;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,7 +28,14 @@ public class SelectDeviceActivity extends AppCompatActivity {
         // Bluetooth Setup
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+
         // Get List of Paired Bluetooth Device
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         List<Object> deviceList = new ArrayList<>();
         if (pairedDevices.size() > 0) {
@@ -51,6 +61,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
             });
             snackbar.show();
         }
+
 
     }
 }

@@ -1,96 +1,43 @@
 package com.example.barcoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.TextView;
-import android.widget.Button;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-public class NumbersKeyboardActivity extends AppCompatActivity {
+public class NumbersKeyboardActivity extends LoopActivity {
+    public NumbersKeyboardActivity(){
+        super(new Integer[]{
+                R.id.button_zero,
+                R.id.button_one,
+                R.id.button_two,
+                R.id.button_three,
+                R.id.button_four,
+                R.id.button_five,
+                R.id.button_six,
+                R.id.button_seven,
+                R.id.button_eight,
+                R.id.button_nine,
 
-    private TextView enteredText;
-    private Handler handler = new Handler();
-
-    // Button initialization
-    private Button[] numberButtons;
-    private Button backButton;
-    private int currentButtonIndex = 0;
-    private boolean loopRunning = false;
-
-
-
+        }, R.layout.numbers_layout);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.numbers_layout);
 
-        enteredText = findViewById(R.id.enteredText);
-
-        // Initialize buttons
-        numberButtons = new Button[]{
-                findViewById(R.id.button_zero),
-                findViewById(R.id.button_one),
-                findViewById(R.id.button_two),
-                findViewById(R.id.button_three),
-                findViewById(R.id.button_four),
-                findViewById(R.id.button_five),
-                findViewById(R.id.button_six),
-                findViewById(R.id.button_seven),
-                findViewById(R.id.button_eight),
-                findViewById(R.id.button_nine),
-
-        };
-
-        for (Button button : numberButtons) {
-            button.setVisibility(View.INVISIBLE);
-        }
-
-        setButtonVisibility(currentButtonIndex, View.VISIBLE);
-        startButtonLoop();
-
-    }
-
-    private void setButtonVisibility(int index, int visibility){
-        if (index >= 0 && index < numberButtons.length){
-            numberButtons[index].setVisibility(visibility);
-        }
-    };
-
-    private void startButtonLoop(){
-        loopRunning = true;
-        handler.postDelayed(new Runnable() {
+        Button backButton = findViewById(R.id.button_back_to_main);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % numberButtons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
-
-                if (loopRunning){
-                    handler.postDelayed(this, 1000);
-                }
+            public void onClick(View v) {
+                // Define the behavior to return to the main activity here
+                Intent intent = new Intent(NumbersKeyboardActivity.this, MainActivity.class);
+                startActivity(intent);
             }
-        }, 1000);
-    }
-
-    private void stopButtonLoop() {
-        loopRunning = false;
-        currentButtonIndex = 0;
-    }
-
-    private void appendText(String text) {
-        enteredText.append(text);
-        stopButtonLoop();
-        startButtonLoop();
-    }
-
-    public void onButtonClick(View view){
-
-        if (loopRunning){
-            Button clickedButton = (Button) view;
-            String buttonText = clickedButton.getText().toString();
-            appendText(buttonText);
-        }
+        });
     }
 }
