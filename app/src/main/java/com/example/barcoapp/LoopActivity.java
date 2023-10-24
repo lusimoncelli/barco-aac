@@ -19,7 +19,6 @@ public class LoopActivity extends AppCompatActivity {
 
     // Button initialization
     private Integer[] buttonsId;
-
     private Button[] buttons;
     private Button backButton;
     private int currentButtonIndex = 0;

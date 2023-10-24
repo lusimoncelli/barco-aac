@@ -2,6 +2,7 @@ package com.example.barcoapp;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -128,8 +131,6 @@ public class BluetoothActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
     /* ============================ Thread to Create Bluetooth Connection =================================== */
     public static class CreateConnectThread extends Thread {
@@ -242,7 +243,6 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         }
     }
-
 
     /* ============================ Terminate Connection at BackPress ====================== */
     @Override
