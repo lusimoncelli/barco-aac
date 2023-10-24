@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +27,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private String deviceName = null;
     private String deviceAddress;
     public static boolean buttonClick;
+    private TextView textView;
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -43,6 +45,8 @@ public class BluetoothActivity extends AppCompatActivity {
         // UI Initialization
         buttonConnect = findViewById(R.id.buttonConnect);
         buttonNavigate = findViewById(R.id.button_inicio);
+        textView = findViewById(R.id.textViewBT);
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
@@ -94,8 +98,10 @@ public class BluetoothActivity extends AppCompatActivity {
                             case "0":
                                     buttonClick = true;
                                     buttonNavigate.performClick();
+                                    textView.setText("Leiste data" + arduinoMsg);
                                     break;
                             case "1":
+                                textView.setText("Leiste data" + arduinoMsg);
                                 break;
 
                         }
