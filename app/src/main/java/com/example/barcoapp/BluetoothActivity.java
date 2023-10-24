@@ -206,7 +206,7 @@ public class BluetoothActivity extends AppCompatActivity {
         }
         public void run() {
             byte[] buffer = new byte[1];  // buffer to store sensor data
-            int bytesRead; // bytes returned from read()
+            int sensorSignal; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
@@ -215,11 +215,9 @@ public class BluetoothActivity extends AppCompatActivity {
                     Send string to GUI handler
                      */
 
-                    buffer[0] = (byte) mmInStream.read();
-                    bytesRead = mmInStream.read(buffer);
-                    String sensorSignal = new String(buffer, 0, bytesRead);
-                    Log.d("Sensor", sensorSignal); // Log signal
-                    Log.d("Test", "pruebaa");
+                    buffer[0] = (byte) mmInStream.read(); // Read byte
+                    sensorSignal = (buffer[0] & 0xFF); // Transform it to int
+                    Log.d("Sensor", String.valueOf(sensorSignal)); // Log signal
                     handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
                 } catch (IOException e) {
