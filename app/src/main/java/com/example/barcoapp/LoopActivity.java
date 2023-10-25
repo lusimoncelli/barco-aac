@@ -22,7 +22,6 @@ public class LoopActivity extends AppCompatActivity {
     private boolean isLongPressing = false;
 
     // Button initialization
-    private Integer[] buttonsId;
     private Button[] buttons;
     private int currentButtonIndex = 0;
     public boolean loopRunning = false;
@@ -80,11 +79,11 @@ public class LoopActivity extends AppCompatActivity {
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
     }
 
-    public void setButtons(Integer[] buttonIds) {
-        buttonsId = buttonIds;
-        buttons = new Button[buttonsId.length];
-        for (int index = 0; index < buttonIds.length; index++) {
-            buttons[index] = findViewById(buttonIds[index]);
+    public void setButtons(Integer[] currentButtonsId) {
+        currentButtonsId = currentButtonsId;
+        buttons = new Button[currentButtonsId.length];
+        for (int index = 0; index < currentButtonsId.length; index++) {
+            buttons[index] = findViewById(currentButtonsId[index]);
         }
     }
 
