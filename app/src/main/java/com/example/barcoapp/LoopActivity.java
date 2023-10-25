@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class LoopActivity extends AppCompatActivity {
-    protected Integer[] carousel1ButtonsId; // Botones del primer carrusel
-    protected Integer[] carousel2ButtonsId; // Botones del segundo carrusel
-    protected Integer[] currentButtonsId;
+    public Integer[] carousel1ButtonsId; // Botones del primer carrusel
+    public Integer[] carousel2ButtonsId; // Botones del segundo carrusel
+    public Integer[] currentButtonsId;
     private boolean isNewCarousel = false; //Inicia el teclado de letras
     private int layoutId;
     private EditText enteredText;
@@ -27,9 +27,9 @@ public class LoopActivity extends AppCompatActivity {
     private int currentButtonIndex = 0;
     public boolean loopRunning = false;
 
-    protected LoopActivity(Integer[] buttonsId, int layoutId) {
-        this.buttonsId = buttonsId;
-        this.buttons = new Button[buttonsId.length];
+    protected LoopActivity(Integer[] currentButtonsId, int layoutId) {
+        this.currentButtonsId = currentButtonsId;
+        this.buttons = new Button[currentButtonsId.length];
         this.layoutId = layoutId;
     }
 
