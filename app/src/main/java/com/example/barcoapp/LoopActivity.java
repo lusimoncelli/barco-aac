@@ -9,8 +9,12 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LoopActivity extends AppCompatActivity {
 
+public class LoopActivity extends AppCompatActivity {
+    protected Integer[] carousel1ButtonsId; // Botones del primer carrusel
+    protected Integer[] carousel2ButtonsId; // Botones del segundo carrusel
+    protected Integer[] currentButtonsId;
+    private boolean isNewCarousel = false; //Inicia el teclado de letras
     private int layoutId;
     private EditText enteredText;
     private Handler handler = new Handler();
@@ -20,9 +24,8 @@ public class LoopActivity extends AppCompatActivity {
     // Button initialization
     private Integer[] buttonsId;
     private Button[] buttons;
-    private Button backButton;
     private int currentButtonIndex = 0;
-    private boolean loopRunning = false;
+    public boolean loopRunning = false;
 
     protected LoopActivity(Integer[] buttonsId, int layoutId) {
         this.buttonsId = buttonsId;
@@ -34,19 +37,50 @@ public class LoopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
-
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
+
+        Button deleteCharButton = findViewById(R.id.button_DeleteChar);
+        Button deleteWordButton = findViewById(R.id.button_DeleteWord);
+        // Configura un OnClickListener para el botón DeleteChar
+        deleteCharButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtiene el texto actual del cuadro de texto
+                String currentText = enteredText.getText().toString();
+                // Verifica si el texto no está vacío
+                if (!currentText.isEmpty()) {
+                    // Elimina la última letra del texto
+                    String newText = currentText.substring(0, currentText.length() - 1);
+                    enteredText.setText(newText);
+                }
+            }
+        });
+        deleteWordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Establece el texto en blanco (elimina todo el texto)
+                enteredText.setText("");
+            }
+        });
+
 
         int index = 0;
         for (Integer buttonId : buttonsId)
             this.buttons[index++] = findViewById(buttonId);
 
+
         for (Button button : buttons) {
             button.setVisibility(View.INVISIBLE);
-            button.setOnTouchListener(new View.OnTouchListener() {
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
+                public void onClick(View v) {
+                    if (loopRunning && isNewCarousel) {
+                        Button clickedButton = (Button) v;
+                        String buttonText = clickedButton.getText().toString();
+                        appendText(buttonText);
+                    }}
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         isLongPressing = true;
@@ -64,18 +98,23 @@ public class LoopActivity extends AppCompatActivity {
         startLoop();
     }
 
+    private void appendText(String text) {
+        enteredText.append(text);
+        stopButtonLoop();
+        startButtonLoop();
+    }
     private void setButtonVisibility(int index, int visibility) {
         if (index >= 0 && index < buttons.length) {
             buttons[index].setVisibility(visibility);
         }
     }
 
-    private void startButtonLoop() {
+    public void startButtonLoop() {
         loopRunning = true;
         setButtonVisibility(currentButtonIndex, View.VISIBLE);
     }
 
-    private void startLoop() {
+    public void startLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -90,35 +129,31 @@ public class LoopActivity extends AppCompatActivity {
         },FrequencyHolder.getFrequency());
     }
 
-    private void stopButtonLoop() {
+    public void stopButtonLoop() {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
     }
 
-    private void appendText(String text) {
-        enteredText.append(text);
-        stopButtonLoop();
-        startButtonLoop();
-    }
-
-    public Button getButton() {
-        return buttons[currentButtonIndex];
-    }
-
-    public void onButtonClick(View view) {
-        if (loopRunning) {
-            Button clickedButton = (Button) view;
-            String buttonText = clickedButton.getText().toString();
-            appendText(buttonText);
+    public void setButtons(Integer[] buttonIds) {
+        buttonsId = buttonIds;
+        buttons = new Button[buttonsId.length];
+        for (int index = 0; index < buttonIds.length; index++) {
+            buttons[index] = findViewById(buttonIds[index]);
         }
     }
 
     private Runnable longPressRunnable = new Runnable() {
         @Override
         public void run() {
-            enteredText.setText("");
-            stopButtonLoop();
-            startButtonLoop();
+            isNewCarousel = !isNewCarousel; // Cambiar entre carruseles al realizar un "long press"
+            if (isNewCarousel) {
+                currentButtonsId = carousel2ButtonsId; // Cambiar al segundo carrusel (opciones)
+            } else {
+                currentButtonsId = carousel1ButtonsId; // Cambiar al primer carrusel (letras/números)
+            }
+            setButtons(currentButtonsId);
         }
     };
 }
+
+
