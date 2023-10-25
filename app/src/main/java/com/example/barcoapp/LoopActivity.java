@@ -31,34 +31,19 @@ public class LoopActivity extends AppCompatActivity {
         this.buttons = new Button[currentButtonsId.length];
         this.layoutId = layoutId;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
-
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
 
         int index = 0;
-        for (Integer currentButtonsId : currentButtonsId)
-            this.buttons[index++] = findViewById(currentButtonsId);
-        for (Button button : buttons) {
-            button.setVisibility(View.INVISIBLE);
-            button.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        isLongPressing = true;
-                        longPressHandler.postDelayed(longPressRunnable, 2000);
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isLongPressing = false;
-                        longPressHandler.removeCallbacks(longPressRunnable);
-                    }
-                    return false;
-                }
-            });
-        }
+        for (Integer buttonId : currentButtonsId)
+            this.buttons[index++] = findViewById(buttonId);
+
         startButtonLoop();
         startLoop();
     }
@@ -92,10 +77,6 @@ public class LoopActivity extends AppCompatActivity {
     public void stopButtonLoop() {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-    }
-
-    public Button getButton() {
-        return buttons[currentButtonIndex];
     }
 
     public void setButtons(Integer[] currentButtonsId) {
