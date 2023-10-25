@@ -41,68 +41,14 @@ public class LoopActivity extends AppCompatActivity {
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
 
-        Button deleteCharButton = findViewById(R.id.button_DeleteChar);
-        Button deleteWordButton = findViewById(R.id.button_DeleteWord);
-        // Configura un OnClickListener para el botón DeleteChar
-        deleteCharButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Obtiene el texto actual del cuadro de texto
-                String currentText = enteredText.getText().toString();
-                // Verifica si el texto no está vacío
-                if (!currentText.isEmpty()) {
-                    // Elimina la última letra del texto
-                    String newText = currentText.substring(0, currentText.length() - 1);
-                    enteredText.setText(newText);
-                }
-            }
-        });
-        deleteWordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Establece el texto en blanco (elimina todo el texto)
-                enteredText.setText("");
-            }
-        });
-
-
         int index = 0;
         for (Integer buttonId : buttonsId)
             this.buttons[index++] = findViewById(buttonId);
-
-
-        for (Button button : buttons) {
-            button.setVisibility(View.INVISIBLE);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (loopRunning && isNewCarousel) {
-                        Button clickedButton = (Button) v;
-                        String buttonText = clickedButton.getText().toString();
-                        appendText(buttonText);
-                    }}
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        isLongPressing = true;
-                        longPressHandler.postDelayed(longPressRunnable, 2000);
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isLongPressing = false;
-                        longPressHandler.removeCallbacks(longPressRunnable);
-                    }
-                    return false;
-                }
-            });
-        }
 
         startButtonLoop();
         startLoop();
     }
 
-    private void appendText(String text) {
-        enteredText.append(text);
-        stopButtonLoop();
-        startButtonLoop();
-    }
     private void setButtonVisibility(int index, int visibility) {
         if (index >= 0 && index < buttons.length) {
             buttons[index].setVisibility(visibility);
