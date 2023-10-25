@@ -22,13 +22,16 @@ public class LoopActivity extends AppCompatActivity {
     private boolean isLongPressing = false;
 
     // Button initialization
-    private Button[] buttons;
+    private Button[] buttons1;
+    private Button[] buttons2;
     private int currentButtonIndex = 0;
     public boolean loopRunning = false;
 
     protected LoopActivity(Integer[] currentButtonsId, int layoutId) {
         this.currentButtonsId = currentButtonsId;
-        this.buttons = new Button[currentButtonsId.length];
+        this.buttons1 = new Button[carousel1ButtonsId.length];
+        this.buttons2 = new Button[carousel2ButtonsId.length];
+
         this.layoutId = layoutId;
     }
     @Override
@@ -41,9 +44,9 @@ public class LoopActivity extends AppCompatActivity {
         enteredText.setVisibility(View.VISIBLE);
 
         int index = 0;
-        for (Integer currentButtonsId : currentButtonsId)
-            this.buttons[index++] = findViewById(currentButtonsId);
-        for (Button button : buttons) {
+        for (Integer currentButtonsId : this.carousel1ButtonsId)
+            this.buttons1[index++] = findViewById(currentButtonsId);
+        for (Button button : buttons1) {
             button.setVisibility(View.INVISIBLE);
             button.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -59,13 +62,38 @@ public class LoopActivity extends AppCompatActivity {
                 }
             });
         }
+
+
+
+        for (Integer currentButtonsId : this.carousel2ButtonsId)
+            this.buttons2[index++] = findViewById(currentButtonsId);
+        for (Button button : buttons2) {
+            button.setVisibility(View.INVISIBLE);
+            button.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        isLongPressing = true;
+                        longPressHandler.postDelayed(longPressRunnable, 2000);
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        isLongPressing = false;
+                        longPressHandler.removeCallbacks(longPressRunnable);
+                    }
+                    return false;
+                }
+            });
+        }
+
+
+
+
         startButtonLoop();
         startLoop();
     }
 
     private void setButtonVisibility(int index, int visibility) {
-        if (index >= 0 && index < buttons.length) {
-            buttons[index].setVisibility(visibility);
+        if (index >= 0 && index < buttons1.length) {
+            buttons1[index].setVisibility(visibility);
         }
     }
 
@@ -79,7 +107,7 @@ public class LoopActivity extends AppCompatActivity {
             @Override
             public void run() {
                 setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
+                currentButtonIndex = (currentButtonIndex + 1) % buttons1.length;
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
 
                 if (loopRunning) {
@@ -95,14 +123,14 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     public Button getButton() {
-        return buttons[currentButtonIndex];
+        return buttons1[currentButtonIndex];
     }
 
     public void setButtons(Integer[] currentButtonsId) {
         currentButtonsId = currentButtonsId;
-        buttons = new Button[currentButtonsId.length];
+        buttons1 = new Button[currentButtonsId.length];
         for (int index = 0; index < currentButtonsId.length; index++) {
-            buttons[index] = findViewById(currentButtonsId[index]);
+            buttons1[index] = findViewById(currentButtonsId[index]);
         }
     }
 
