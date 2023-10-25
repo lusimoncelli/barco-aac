@@ -34,16 +34,17 @@ public class LoopActivity extends AppCompatActivity {
 
         this.layoutId = layoutId;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
-
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
 
         int index = 0;
+
         for (Integer currentButtonsId : this.carousel1ButtonsId)
             this.buttons1[index++] = findViewById(currentButtonsId);
         for (Button button : buttons1) {
