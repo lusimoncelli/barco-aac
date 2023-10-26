@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ZoomButtonsController;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,7 +32,6 @@ public class LoopActivity extends AppCompatActivity {
         this.currentButtonsId = currentButtonsId;
         this.buttons1 = new Button[carousel1ButtonsId.length];
         this.buttons2 = new Button[carousel2ButtonsId.length];
-
         this.layoutId = layoutId;
     }
 
@@ -44,11 +44,12 @@ public class LoopActivity extends AppCompatActivity {
         enteredText.setVisibility(View.VISIBLE);
 
         int index = 0;
-
-        for (Integer currentButtonsId : this.carousel1ButtonsId)
+        for (Integer currentButtonsId : carousel1ButtonsId)
             this.buttons1[index++] = findViewById(currentButtonsId);
+
         for (Button button : buttons1) {
             button.setVisibility(View.INVISIBLE);
+            //habria que agregar que cuando se jecute un longrpress, el indice vuelva a 0
             button.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -64,9 +65,8 @@ public class LoopActivity extends AppCompatActivity {
             });
         }
 
-
-
-        for (Integer currentButtonsId : this.carousel2ButtonsId)
+//paso de los carousel_ButtonsId a buttons_ asi
+        for (Integer currentButtonsId : carousel2ButtonsId)
             this.buttons2[index++] = findViewById(currentButtonsId);
         for (Button button : buttons2) {
             button.setVisibility(View.INVISIBLE);
@@ -84,20 +84,16 @@ public class LoopActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
-
         startButtonLoop();
         startLoop();
     }
 
     private void setButtonVisibility(int index, int visibility) {
-        if (index >= 0 && index < buttons1.length) {
+        if (index >= 0 && index < currentButtonsId.length) { //puse currentButtonsId para que cambie segun que carousel esta activo
             buttons1[index].setVisibility(visibility);
         }
     }
-
+//aca hay un problema, porque uno de los carouseles tiene indices hasta 26 y el otro hasta 4
     public void startButtonLoop() {
         loopRunning = true;
         setButtonVisibility(currentButtonIndex, View.VISIBLE);
@@ -108,7 +104,7 @@ public class LoopActivity extends AppCompatActivity {
             @Override
             public void run() {
                 setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons1.length;
+                currentButtonIndex = (currentButtonIndex + 1) % currentButtonsId.length; //cambie el % con currentButtonsId
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
 
                 if (loopRunning) {
@@ -123,8 +119,14 @@ public class LoopActivity extends AppCompatActivity {
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
     }
 
+    //agregue un for para que el getButton() dependa de que carousel esta activo
     public Button getButton() {
-        return buttons1[currentButtonIndex];
+        if(isNewCarousel){
+            return buttons2[currentButtonIndex];
+        }
+        else{
+            return buttons1[currentButtonIndex];
+        }
     }
 
     public void setButtons(Integer[] currentButtonsId) {
