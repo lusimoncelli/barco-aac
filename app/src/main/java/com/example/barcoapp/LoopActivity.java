@@ -1,5 +1,6 @@
 package com.example.barcoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -15,25 +16,37 @@ public class LoopActivity extends AppCompatActivity {
     private EditText enteredText;
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
-    private boolean isLongPressing = false;
 
     // Button initialization
     private Integer[] buttonsId;
     private Button[] buttons;
-    private Button backButton;
+    private String[] initialButtonTexts;
     private int currentButtonIndex = 0;
     private boolean loopRunning = false;
+    private Button backButton;
+    private boolean isLongPressing = false;
 
-    protected LoopActivity(Integer[] buttonsId, int layoutId) {
+    protected LoopActivity(Integer[] buttonsId, int layoutId, String[] initialButtonTexts) {
         this.buttonsId = buttonsId;
         this.buttons = new Button[buttonsId.length];
         this.layoutId = layoutId;
+        this.initialButtonTexts = initialButtonTexts;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
+
+        Button backButton = findViewById(R.id.button_back_to_main);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Define the behavior to return to the main activity here
+                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
@@ -60,7 +73,7 @@ public class LoopActivity extends AppCompatActivity {
             });
         }
 
-        startButtonLoop();
+        setInitialButtonAsVisible();
         startLoop();
     }
 
@@ -70,7 +83,7 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
-    private void startButtonLoop() {
+    private void setInitialButtonAsVisible() {
         loopRunning = true;
         setButtonVisibility(currentButtonIndex, View.VISIBLE);
     }
@@ -98,7 +111,7 @@ public class LoopActivity extends AppCompatActivity {
     private void appendText(String text) {
         enteredText.append(text);
         stopButtonLoop();
-        startButtonLoop();
+        setInitialButtonAsVisible();
     }
 
     public Button getButton() {
@@ -106,10 +119,17 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     public void onButtonClick(View view) {
-        if (loopRunning) {
-            Button clickedButton = (Button) view;
-            String buttonText = clickedButton.getText().toString();
+        if(!loopRunning) return;
+
+        Button clickedButton = (Button) view;
+        String buttonText = clickedButton.getText().toString();
+        int buttonTextLength = buttonText.length();
+        if( buttonTextLength == 1){
             appendText(buttonText);
+            restartButtons();
+        }else{
+            this.buttons[0].setText(buttonText.substring(0, buttonTextLength / 2));
+            this.buttons[1].setText(buttonText.substring(buttonTextLength / 2));
         }
     }
 
@@ -118,7 +138,15 @@ public class LoopActivity extends AppCompatActivity {
         public void run() {
             enteredText.setText("");
             stopButtonLoop();
-            startButtonLoop();
+            setInitialButtonAsVisible();
         }
     };
+
+    private void restartButtons(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts){
+            this.buttons[index++].setText(initialText);
+        }
+    }
+
 }
