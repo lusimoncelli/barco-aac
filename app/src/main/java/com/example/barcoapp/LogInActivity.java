@@ -1,10 +1,14 @@
 package com.example.barcoapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LogInActivity extends AppCompatActivity {
@@ -88,5 +92,27 @@ public class LogInActivity extends AppCompatActivity {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         handler.removeCallbacksAndMessages(null); // Remove any pending posts
+    }
+
+    private final BroadcastReceiver sensorDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals("CUSTOM_INTENT_SENSOR_ZERO")) {
+                buttons[currentButtonIndex].performClick();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("CUSTOM_INTENT_SENSOR_ZERO");
+        registerReceiver(sensorDataReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(sensorDataReceiver);
     }
 }
