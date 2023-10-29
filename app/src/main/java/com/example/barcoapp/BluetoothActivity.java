@@ -2,7 +2,6 @@ package com.example.barcoapp;
 
 import static android.content.ContentValues.TAG;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +47,26 @@ public class BluetoothActivity extends AppCompatActivity {
         buttonNavigate = findViewById(R.id.button_inicio);
         textView = findViewById(R.id.textViewBT);
 
+        // Select Bluetooth Device
+        buttonConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Move to adapter list
+                Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Button Navigate to main menu
+        buttonNavigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to main menu
+                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
@@ -73,6 +90,7 @@ public class BluetoothActivity extends AppCompatActivity {
             createConnectThread = new CreateConnectThread(bluetoothAdapter, deviceAddress);
             createConnectThread.start();
         }
+
         /*
         Second most important piece of Code. GUI Handler
          */
@@ -101,10 +119,11 @@ public class BluetoothActivity extends AppCompatActivity {
                             case "0":
                                     buttonClick = true;
                                     buttonNavigate.performClick();
-                                    textView.setText("Leiste data" + arduinoMsg);
+                                    textView.setText("Leiste data " + arduinoMsg);
+                                    sendBroadcast(new Intent("CUSTOM_INTENT_SENSOR_ZERO"));
                                     break;
                             case "1":
-                                textView.setText("Leiste data" + arduinoMsg);
+                                textView.setText("Leiste data " + arduinoMsg);
                                 break;
 
                         }
@@ -112,25 +131,6 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         };
 
-        // Select Bluetooth Device
-        buttonConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Move to adapter list
-                Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Button Navigate to main menu
-        buttonNavigate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Navigate to main menu
-                Intent intent = new Intent(BluetoothActivity.this, LogInActivity.class);
-                startActivity(intent);
-            }
-        });
     }
     /* ============================ Thread to Create Bluetooth Connection =================================== */
     public static class CreateConnectThread extends Thread {
@@ -224,7 +224,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
                     buffer[0] = (byte) mmInStream.read(); // Read byte
                     sensorSignal = (buffer[0] & 0xFF); // Transform it to int
-                    Log.d("Sensor", String.valueOf(sensorSignal)); // Log signal
+                    // Log.d("Sensor", String.valueOf(sensorSignal)); // Log signal
                     handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
                 } catch (IOException e) {
