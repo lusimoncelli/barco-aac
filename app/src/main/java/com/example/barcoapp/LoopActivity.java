@@ -1,74 +1,62 @@
 package com.example.barcoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ZoomButtonsController;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 public class LoopActivity extends AppCompatActivity {
-    public Integer[] carousel1ButtonsId; // Botones del primer carrusel
-    public Integer[] carousel2ButtonsId; // Botones del segundo carrusel
-    public Integer[] currentButtonsId;
-    private boolean isNewCarousel = false; //Inicia el teclado de letras
+
     private int layoutId;
     private EditText enteredText;
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
-    private boolean isLongPressing = false;
 
     // Button initialization
-    private Button[] buttons1;
-    private Button[] buttons2;
+    private Integer[] buttonsId;
+    private Button[] buttons;
+    private String[] initialButtonTexts;
     private int currentButtonIndex = 0;
-    public boolean loopRunning = false;
+    private boolean loopRunning = false;
+    private Button backButton;
+    private boolean isLongPressing = false;
 
-    protected LoopActivity(Integer[] currentButtonsId, int layoutId) {
-        this.currentButtonsId = currentButtonsId;
-        this.buttons1 = new Button[carousel1ButtonsId.length];
-        this.buttons2 = new Button[carousel2ButtonsId.length];
+    protected LoopActivity(Integer[] buttonsId, int layoutId, String[] initialButtonTexts) {
+        this.buttonsId = buttonsId;
+        this.buttons = new Button[buttonsId.length];
         this.layoutId = layoutId;
+        this.initialButtonTexts = initialButtonTexts;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
+
+        Button backButton = findViewById(R.id.button_back_to_main);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Define the behavior to return to the main activity here
+                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
 
         int index = 0;
-        for (Integer currentButtonsId : carousel1ButtonsId)
-            this.buttons1[index++] = findViewById(currentButtonsId);
+        for (Integer buttonId : buttonsId)
+            this.buttons[index++] = findViewById(buttonId);
 
-        for (Button button : buttons1) {
-            button.setVisibility(View.INVISIBLE);
-            //habria que agregar que cuando se jecute un longrpress, el indice vuelva a 0
-            button.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        isLongPressing = true;
-                        longPressHandler.postDelayed(longPressRunnable, 2000);
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isLongPressing = false;
-                        longPressHandler.removeCallbacks(longPressRunnable);
-                    }
-                    return false;
-                }
-            });
-        }
-
-//paso de los carousel_ButtonsId a buttons_ asi
-        for (Integer currentButtonsId : carousel2ButtonsId)
-            this.buttons2[index++] = findViewById(currentButtonsId);
-        for (Button button : buttons2) {
+        for (Button button : buttons) {
             button.setVisibility(View.INVISIBLE);
             button.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -84,27 +72,28 @@ public class LoopActivity extends AppCompatActivity {
                 }
             });
         }
-        startButtonLoop();
+
+        setInitialButtonAsVisible();
         startLoop();
     }
 
     private void setButtonVisibility(int index, int visibility) {
-        if (index >= 0 && index < currentButtonsId.length) { //puse currentButtonsId para que cambie segun que carousel esta activo
-            buttons1[index].setVisibility(visibility);
+        if (index >= 0 && index < buttons.length) {
+            buttons[index].setVisibility(visibility);
         }
     }
-//aca hay un problema, porque uno de los carouseles tiene indices hasta 26 y el otro hasta 4
-    public void startButtonLoop() {
+
+    private void setInitialButtonAsVisible() {
         loopRunning = true;
         setButtonVisibility(currentButtonIndex, View.VISIBLE);
     }
 
-    public void startLoop() {
+    private void startLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % currentButtonsId.length; //cambie el % con currentButtonsId
+                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
 
                 if (loopRunning) {
@@ -114,41 +103,51 @@ public class LoopActivity extends AppCompatActivity {
         },FrequencyHolder.getFrequency());
     }
 
-    public void stopButtonLoop() {
+    private void stopButtonLoop() {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
     }
 
-    //agregue un for para que el getButton() dependa de que carousel esta activo
-    public Button getButton() {
-        if(isNewCarousel){
-            return buttons2[currentButtonIndex];
-        }
-        else{
-            return buttons1[currentButtonIndex];
-        }
+    private void appendText(String text) {
+        enteredText.append(text);
+        stopButtonLoop();
+        setInitialButtonAsVisible();
     }
 
-    public void setButtons(Integer[] currentButtonsId) {
-        currentButtonsId = currentButtonsId;
-        buttons1 = new Button[currentButtonsId.length];
-        for (int index = 0; index < currentButtonsId.length; index++) {
-            buttons1[index] = findViewById(currentButtonsId[index]);
+    public Button getButton() {
+        return buttons[currentButtonIndex];
+    }
+
+    public void onButtonClick(View view) {
+        if(!loopRunning) return;
+
+        Button clickedButton = (Button) view;
+        String buttonText = clickedButton.getText().toString();
+        int buttonTextLength = buttonText.length();
+        if( buttonTextLength == 1){
+            appendText(buttonText);
+            restartButtons();
+        }else{
+            this.buttons[0].setText(buttonText.substring(0, buttonTextLength / 2));
+            this.buttons[1].setText(buttonText.substring(buttonTextLength / 2));
         }
     }
 
     private Runnable longPressRunnable = new Runnable() {
         @Override
         public void run() {
-            isNewCarousel = !isNewCarousel; // Cambiar entre carruseles al realizar un "long press"
-            if (isNewCarousel) {
-                currentButtonsId = carousel2ButtonsId; // Cambiar al segundo carrusel (opciones)
-            } else {
-                currentButtonsId = carousel1ButtonsId; // Cambiar al primer carrusel (letras/números)
-            }
-            setButtons(currentButtonsId);
+            enteredText.setText("");
+            stopButtonLoop();
+            setInitialButtonAsVisible();
         }
     };
-}
 
+    private void restartButtons(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts){
+            this.buttons[index++].setText(initialText);
+        }
+    }
+
+}
 

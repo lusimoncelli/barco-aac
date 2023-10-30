@@ -12,16 +12,18 @@
         style="@style/MyButtonStyle"
         android:id="@+id/button_abcde"
         android:text="ABCDE"
+        android:onClick="buttonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,UsingOnClickInXml" />
 
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_numbers"
         android:text="Números"
+        android:onClick="buttonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +34,7 @@
         style="@style/MyButtonStyle"
         android:id="@+id/button_newkeyboard"
         android:text="Nuevo Teclado"
+        android:onClick="buttonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +57,9 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
 

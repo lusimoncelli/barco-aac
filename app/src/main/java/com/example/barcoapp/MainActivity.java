@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 
-});
+        });
     }
 
     private void StartButtonAppearanceSequence(){
@@ -91,10 +91,13 @@ public class MainActivity extends AppCompatActivity {
         // Show buttonABCDE
         buttonABCDE.setVisibility(View.VISIBLE);
 
+        /*
         // Check for sensor data
         if (BluetoothActivity.buttonClick) {
             buttonClick();
         }
+
+         */
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -107,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
                         // Hide buttonNumbers and show buttonNewKeyboard
                         buttonNumbers.setVisibility(View.INVISIBLE);
                         buttonNewKeyboard.setVisibility(View.VISIBLE);
-
+                        /*
                         // Check for sensor data:
                         if (BluetoothActivity.buttonClick) {
                             buttonClick();
                         }
+
+                         */
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -127,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Helper method to perform the button click
-    private void buttonClick() {
+    public void buttonClick(View view) {
         Button visibleButton = getVisibleButton();
         if (visibleButton != null) {
             visibleButton.performClick();
