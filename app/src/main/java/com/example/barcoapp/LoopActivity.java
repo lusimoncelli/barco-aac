@@ -118,7 +118,6 @@ public class LoopActivity extends AppCompatActivity {
         return buttons[currentButtonIndex];
     }
 
-    /*
     public void onButtonClick(View view) {
         if(!loopRunning) return;
 
@@ -133,8 +132,6 @@ public class LoopActivity extends AppCompatActivity {
             this.buttons[1].setText(buttonText.substring(buttonTextLength / 2));
         }
     }
-
-     */
 
     private Runnable longPressRunnable = new Runnable() {
         @Override
