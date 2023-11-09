@@ -1,23 +1,27 @@
-<resources>
-    <string name="app_name">Barco App</string>
-    <string name="hola_juan">\u00A1Hola Juan! </string>
+<?xml version="1.0" encoding="utf-8"?>
 
-    <string-array name="buttons_main">
-        <item name="abcde"> ABCDE </item>
-        <item name="numbers"> Numeros </item>
-        <item name="new_keyboard"> Nuevo Teclado </item>
-    </string-array>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string-array name="numbers_buttons">
-        <item name="zero"> 0 </item>
-        <item name="one"> 1 </item>
-        <item name="two"> 2</item>
-        <item name="three"> 3 </item>
-        <item name="four"> 4 </item>
-        <item name="five"> 5</item>
-        <item name="six"> 6 </item>
-        <item name="seven"> 7 </item>
-        <item name="eight"> 8</item>
-        <item name="nine"> 9 </item>
-    </string-array>
+    <!--  BluetoothChat -->
+    <string name="send">Enviar</string>
+    <string name="not_connected">No hay ningún dispositivo conectado</string>
+    <string name="bt_not_enabled_leaving">El bluetooth no está encendido.</string>
+    <string name="title_connecting">connecting...</string>
+    <string name="title_connected_to">Conectado a <xliff:g id="device_name">%1$s</xliff:g></string>
+    <string name="title_not_connected">No conectado</string>
+
+    <!--  DeviceListActivity -->
+    <string name="scanning">Escaneando...</string>
+    <string name="select_device">Seleccionar un dispositivo</string>
+    <string name="none_paired">No hay ningún dispositivo emparejado</string>
+    <string name="none_found">Ningún dispositivo fue encontrado</string>
+    <string name="title_paired_devices">Dispositivos emparejados</string>
+    <string name="title_other_devices">Otros dispositivos disponibles</string>
+    <string name="button_scan">Buscar otros dispositivos</string>
+
+    <!-- Options Menu -->
+    <string name="secure_connect">Conectar a un dispositivo - Seguro</string>
+    <string name="insecure_connect">Conectar a un dispositivo - Inseguro</string>
+    <string name="discoverable">Permitir nuevas conexiones</string>
+
 </resources>
