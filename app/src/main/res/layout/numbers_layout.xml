@@ -11,21 +11,26 @@
     <Button
         android:id="@+id/button_01234"
         style="@style/MyButtonStyle"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:text="01234"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button_56789"
+        android:enabled='true'
         style="@style/MyButtonStyle"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
         android:text="56789"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
         tools:ignore="MissingConstraints" />
 
 
