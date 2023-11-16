@@ -117,9 +117,14 @@ public class BluetoothActivity extends AppCompatActivity {
                         String arduinoMsg = msg.obj.toString();
                         switch (arduinoMsg){
                             case "0":
-                                    buttonClick = true;
-                                    buttonNavigate.performClick();
-                                    textView.setText("Leiste data " + arduinoMsg);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            buttonClick = true;
+                                            buttonNavigate.performClick();
+                                            textView.setText("Leiste data " + arduinoMsg);
+                                        }
+                                    });
                                     sendBroadcast(new Intent("CUSTOM_INTENT_SENSOR_ZERO"));
                                     break;
                             case "1":
