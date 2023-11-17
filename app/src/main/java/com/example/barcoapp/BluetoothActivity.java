@@ -24,8 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
+
+    private SensorDataApplication sensorDataApplication;
     private String deviceName = null;
     private String deviceAddress;
+    public String sensorValue;
     public static boolean buttonClick;
     private TextView textView;
     public static Handler handler;
@@ -46,6 +49,9 @@ public class BluetoothActivity extends AppCompatActivity {
         buttonConnect = findViewById(R.id.buttonConnect);
         buttonNavigate = findViewById(R.id.button_inicio);
         textView = findViewById(R.id.textViewBT);
+
+        // Sensor Data application to send data over other activities
+        sensorDataApplication = (SensorDataApplication) getApplication();
 
         // Select Bluetooth Device
         buttonConnect.setOnClickListener(new View.OnClickListener() {
@@ -117,20 +123,17 @@ public class BluetoothActivity extends AppCompatActivity {
                         String arduinoMsg = msg.obj.toString();
                         switch (arduinoMsg){
                             case "0":
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        buttonClick = true;
-                                        buttonNavigate.performClick();
-                                        textView.setText("Leiste data " + arduinoMsg);
-                                    }
-                                });
-                                sendBroadcast(new Intent("CUSTOM_INTENT_SENSOR_ZERO"));
+                                sensorValue = "0";
+                                sensorDataApplication.setSensorData(sensorValue);
                                 break;
                             case "1":
+                                sensorValue = "1";
+                                sensorDataApplication.setSensorData(sensorValue);
                                 textView.setText("Leiste data " + arduinoMsg);
                                 break;
-
+                            case "00000":
+                                sensorValue = "00000";
+                                sensorDataApplication.setSensorData(sensorValue);
                         }
                 }
             }

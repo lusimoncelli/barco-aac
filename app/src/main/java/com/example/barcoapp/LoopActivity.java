@@ -16,6 +16,8 @@ public class LoopActivity extends AppCompatActivity {
     private EditText enteredText;
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
+    private Handler checkSensorDataHandler = new Handler();
+    private int CHECK_INTERVAL = 300;
 
     // Button initialization
     private Integer[] buttonsId;
@@ -37,6 +39,11 @@ public class LoopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
+
+        // Access sensorDataApplication to retrieve sensor data
+        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
+        // Start variable check
+        startSensorDataCheck();
 
         Button backButton = findViewById(R.id.button_back_to_main);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +82,32 @@ public class LoopActivity extends AppCompatActivity {
 
         setInitialButtonAsVisible();
         startLoop();
+    }
+
+    private void startSensorDataCheck() {
+        checkSensorDataHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String receivedData = SensorDataApplication.getSensorData();
+                if ("0".equals(receivedData)) {
+                    pressVisibleButton();
+                } else if ("00000".equals(receivedData)) {
+                    performLongClick();
+                }
+
+                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+            }
+        }, CHECK_INTERVAL);
+    }
+
+    private void pressVisibleButton() {
+        Button visibleButton = buttons[currentButtonIndex];
+        visibleButton.performClick();
+    }
+
+    private void performLongClick() {
+        Button visibleButton = buttons[currentButtonIndex];
+        visibleButton.performLongClick();
     }
 
     private void setButtonVisibility(int index, int visibility) {
