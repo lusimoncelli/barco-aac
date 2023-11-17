@@ -125,11 +125,12 @@ public class BluetoothActivity extends AppCompatActivity {
                             case "0":
                                 sensorValue = "0";
                                 sensorDataApplication.setSensorData(sensorValue);
+                                Log.d("Send data to APP", String.valueOf(System.currentTimeMillis()));
                                 break;
                             case "1":
                                 sensorValue = "1";
                                 sensorDataApplication.setSensorData(sensorValue);
-                                textView.setText("Leiste data " + arduinoMsg);
+                                //textView.setText("Leiste data " + arduinoMsg);
                                 break;
                             case "00000":
                                 sensorValue = "00000";
@@ -232,8 +233,9 @@ public class BluetoothActivity extends AppCompatActivity {
 
                     buffer[0] = (byte) mmInStream.read(); // Read byte
                     sensorSignal = (buffer[0] & 0xFF); // Transform it to int
-                    // Log.d("Sensor", String.valueOf(sensorSignal)); // Log signal
                     handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
+                    buffer = new byte[1];
+
 
                 } catch (IOException e) {
                     e.printStackTrace();

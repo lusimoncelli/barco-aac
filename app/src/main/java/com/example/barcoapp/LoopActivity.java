@@ -3,6 +3,7 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,7 @@ public class LoopActivity extends AppCompatActivity {
     private EditText enteredText;
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 300;
+    private int CHECK_INTERVAL = 1000;
 
     // Button initialization
     private Integer[] buttonsId;
@@ -82,7 +82,7 @@ public class LoopActivity extends AppCompatActivity {
         // Access sensorDataApplication to retrieve sensor data
         SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
         // Start variable check
-        startSensorDataCheck();
+
 
         initializeConfigCarrousel();
 
@@ -126,21 +126,6 @@ public class LoopActivity extends AppCompatActivity {
         startLoop();
     }
 
-    private void startSensorDataCheck() {
-        checkSensorDataHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String receivedData = SensorDataApplication.getSensorData();
-                if ("0".equals(receivedData)) {
-                    pressVisibleButton();
-                } else if ("00000".equals(receivedData)) {
-                    performLongClick();
-                }
-
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
-            }
-        }, CHECK_INTERVAL);
-    }
 
     private void pressVisibleButton() {
         Button visibleButton = buttons[currentButtonIndex];
@@ -172,12 +157,26 @@ public class LoopActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+
+
                 if (!configCarrouselActivated)
                     currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
                 else
                     currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
+
+                String receivedData = SensorDataApplication.getSensorData();
+                Log.d("Get data from app", String.valueOf(System.currentTimeMillis()));
+
+                if ("0".equals(receivedData)) {
+                    Log.d("Press button", String.valueOf(System.currentTimeMillis()));
+                    pressVisibleButton();
+
+                } else if ("00000".equals(receivedData)) {
+                    performLongClick();
+                }
 
                 if (loopRunning) {
                     handler.postDelayed(this, FrequencyHolder.getFrequency());
