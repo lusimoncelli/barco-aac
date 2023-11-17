@@ -120,14 +120,14 @@ public class BluetoothActivity extends AppCompatActivity {
                         }
                         break;
                     case MESSAGE_READ:
-                        String arduinoMsg = msg.obj.toString();
-                        switch (arduinoMsg){
-                            case "0":
+                        //String arduinoMsg = msg.obj.toString();
+                        switch (msg.what){
+                            case 1:
                                 sensorValue = "0";
                                 sensorDataApplication.setSensorData(sensorValue);
-                                Log.d("Send data to APP", String.valueOf(System.currentTimeMillis()));
+                                //Log.d("Send data to APP", String.valueOf(System.currentTimeMillis()));
                                 break;
-                            case "1":
+                            case > 1:
                                 sensorValue = "1";
                                 sensorDataApplication.setSensorData(sensorValue);
                                 //textView.setText("Leiste data " + arduinoMsg);
@@ -221,7 +221,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
         }
         public void run() {
-            byte[] buffer = new byte[1];  // buffer to store sensor data
+            byte[] buffer = new byte[5];  // buffer to store sensor data
             int sensorSignal; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
@@ -230,11 +230,19 @@ public class BluetoothActivity extends AppCompatActivity {
                     Read from input stream
                     Send string to GUI handler
                      */
+                    for (int i = 0; i < buffer.length; i++) {
+                        buffer[i] = (byte) mmInStream.read(); // Read byte
+                        //sensorSignal = (buffer[i] & 0xFF); // Transform it to int
+                    }
 
-                    buffer[0] = (byte) mmInStream.read(); // Read byte
-                    sensorSignal = (buffer[0] & 0xFF); // Transform it to int
-                    handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-                    buffer = new byte[1];
+                    int count = 0; // Variable to count the occurrences of '0' in the buffer
+                    for (int j = 0; j < buffer.length; j++) {
+                        if (buffer[j] == 0) {
+                            count += 1;
+                        }
+                    }
+                    handler.obtainMessage(MESSAGE_READ, count).sendToTarget();
+                    buffer = new byte[5];
 
 
                 } catch (IOException e) {
