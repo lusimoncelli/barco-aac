@@ -1,57 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/addPhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onAddPhotoButtonClick"
-        android:text="Add Photo"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <EditText
+        android:id="@+id/enteredText"
+        android:layout_width="331dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="202dp"
+        android:layout_marginBottom="101dp"
+        android:text=""
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.097"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="0.666" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/customBottomNavigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/button_inicio"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:text="Teclados"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center_horizontal" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TableLayout
-        android:id="@+id/layout_buttons"
-        android:layout_width="376dp"
-        android:layout_height="522dp"
-        android:layout_marginTop="78dp"
+    <Button
+        android:id="@+id/button_hola"
+        style="@style/MyButtonStyle"
+        android:text="HOLA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPhotoButton" />
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        style="@style/MyButtonStyle"
+        android:id="@+id/button_chau"
+        android:text="CHAU"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        style="@style/MyButtonStyle"
+        android:id="@+id/button_si"
+        android:text="SI"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        style="@style/MyButtonStyle"
+        android:id="@+id/button_no"
+        android:text="NO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_Home"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:text="Inicio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

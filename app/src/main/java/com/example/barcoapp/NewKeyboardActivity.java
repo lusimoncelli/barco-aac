@@ -1,103 +1,111 @@
 package com.example.barcoapp;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.EditText;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NewKeyboardActivity extends AppCompatActivity {
 
-    private Button addPhotoButton;
-    private Button buttonSettings;
-    private Button buttonMenu;
-    private TableLayout layoutButtons;
-    private ActivityResultLauncher<Intent> galleryLauncher;
+    private Button[] buttons_predeterminados = new Button[4]; // Array to hold the buttons
+    private Button button_Home;
+    private int currentButtonIndex = 0; // Current index for the button visibility loop
+    private boolean loopRunning = false; // Flag to control the loop
+    private Handler handler = new Handler(); // Handler instance to manage button visibility
+    private EditText enteredText;
 
     @SuppressLint("MissingInflatedId")
-    protected void onCreate(Bundle savedInstanceState){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_keyboard_layout);
 
-        addPhotoButton = findViewById(R.id.addPhotoButton);
-        buttonSettings = findViewById(R.id.button_settings);
-        buttonMenu = findViewById(R.id.button_inicio);
+        // Initialize the buttons using their IDs from the activity_calibrations layout
+        buttons_predeterminados[0] = findViewById(R.id.button_hola);
+        buttons_predeterminados[1] = findViewById(R.id.button_chau);
+        buttons_predeterminados[2] = findViewById(R.id.button_si);
+        buttons_predeterminados[3] = findViewById(R.id.button_no);
+        button_Home = findViewById(R.id.button_Home);
 
-        layoutButtons = findViewById(R.id.layout_buttons);
+        // Set buttons initially invisible
+        setButtonVisibility(0, View.INVISIBLE);
+        setButtonVisibility(1, View.INVISIBLE);
+        setButtonVisibility(2, View.INVISIBLE);
+        setButtonVisibility(3, View.INVISIBLE);
+        button_Home.setVisibility(View.INVISIBLE);
 
-        // Go to Settings
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
+        enteredText = findViewById(R.id.enteredText);
+        enteredText.setTextColor(getResources().getColor(R.color.black));
+        enteredText.setVisibility(View.VISIBLE);
+
+        // Set click listeners for the buttons
+        for (Button button : buttons_predeterminados) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onButtonClick(view);
+                }
+            });
+        }
+
+        button_Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NewKeyboardActivity.this, BluetoothActivity.class);
+                boolean buttonSequenceRunning = false;
+                Intent intent = new Intent(NewKeyboardActivity.this, LogInActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Go to main screen
-        buttonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(NewKeyboardActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        startButtonLoop(); // Start the button visibility loop
+    }
 
-        galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                Intent data = result.getData();
-                if (data != null) {
-                    Uri imageUri = data.getData();
-                    if (imageUri != null) {
-                        createButtonWithImage(imageUri);
-                    }
+    public void onButtonClick(View view) {
+        Button clickedButton = (Button) view;
+        String buttonText = clickedButton.getText().toString();
+        appendText(buttonText);
+        // Add your other button click logic here
+    }
+
+    private void appendText(String text) {
+        enteredText.append(text);
+                //setInitialButtonAsVisible();
+    }
+
+    private void setButtonVisibility(int index, int visibility) {
+        if (index >= 0 && index < buttons_predeterminados.length) {
+            buttons_predeterminados[index].setVisibility(visibility);
+        }
+    }
+
+    private void startButtonLoop() {
+        loopRunning = true;
+        startLoop();
+    }
+
+    private void startLoop() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+                currentButtonIndex = (currentButtonIndex + 1) % buttons_predeterminados.length;
+                setButtonVisibility(currentButtonIndex, View.VISIBLE);
+
+                if (loopRunning) {
+                    handler.postDelayed(this, FrequencyHolder.getFrequency());
                 }
             }
-        });
-
-        // Open Gallery to add photo
-        addPhotoButton.setOnClickListener(view -> openGallery());
-
+        }, 0); // Start the loop immediately
     }
 
-    private void openGallery(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        galleryLauncher.launch(intent);
-    }
-
-
-    private void createButtonWithImage(Uri imageUri) {
-        // Create a new button
-        ImageView imageView = new ImageView(this);
-        imageView.setLayoutParams(new TableRow.LayoutParams(150, 150));
-        imageView.setImageURI(imageUri);
-
-        // Create a new row in the table layout and add the ImageView
-        TableRow newRow = new TableRow(this);
-        newRow.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        newRow.addView(imageView);
-
-        // Add the new row to the table layout
-        layoutButtons.addView(newRow);
+    private void stopButtonLoop() {
+        loopRunning = false;
+        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        handler.removeCallbacksAndMessages(null); // Remove any pending posts
     }
 }
-
-
-
-
-
-
-
-
-
-
