@@ -168,9 +168,12 @@ public class LoopActivity extends AppCompatActivity {
 
     private void setInitialButtonAsVisible() {
         loopRunning = true;
-        for (Button button : buttons) {
-            button.setVisibility(View.VISIBLE);}
-    }
+        if(!configCarrouselActivated){
+            for (Button button : buttons) {
+                button.setVisibility(View.VISIBLE);}}
+        else {setButtonVisibility(currentButtonIndex,View.VISIBLE);}
+        }
+    
 
     private void startLoop() {
         handler.postDelayed(new Runnable() {
@@ -233,13 +236,16 @@ public class LoopActivity extends AppCompatActivity {
     }
     private Runnable longPressRunnable = () -> {
         loopRunning = false;
-        for (Button button : buttons) {
-            button.setVisibility(View.INVISIBLE);}
-        //setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        if(!configCarrouselActivated){
+            for (Button button : buttons) {
+                button.setVisibility(View.INVISIBLE);}}
+        else {setButtonVisibility(currentButtonIndex, View.INVISIBLE);}
         currentButtonIndex = 0 ;
         configCarrouselActivated = !configCarrouselActivated;
-        if(!configCarrouselActivated)
-            restartButtons();
+
+        if(!configCarrouselActivated){
+            restartButtons();}
+
         setInitialButtonAsVisible();
         handler.removeCallbacksAndMessages(null);
         startLoop();
