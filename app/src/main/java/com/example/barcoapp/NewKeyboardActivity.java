@@ -96,14 +96,13 @@ public class NewKeyboardActivity extends AppCompatActivity {
     public void onButtonClick(View view) {
         Button clickedButton = (Button) view;
         String buttonText = clickedButton.getText().toString();
-        appendText(buttonText);
-        // Add your other button click logic here
+        setEnteredText(buttonText);
     }
 
-    private void appendText(String text) {
-        enteredText.append(text);
-        //setInitialButtonAsVisible();
+    private void setEnteredText(String text) {
+        enteredText.setText(text);
     }
+
 
     private void setButtonVisibility(int index, int visibility) {
         if (index >= 0 && index < buttons_shortcuts.length) {
