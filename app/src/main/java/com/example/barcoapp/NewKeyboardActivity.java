@@ -19,6 +19,9 @@ public class NewKeyboardActivity extends AppCompatActivity {
     private Handler handler = new Handler(); // Handler instance to manage button visibility
     private EditText enteredText;
 
+    private Handler checkSensorDataHandler = new Handler();
+    private int CHECK_INTERVAL = 50; // milliseconds
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,48 @@ public class NewKeyboardActivity extends AppCompatActivity {
             }
         });
 
+        // Access sensorDataApplication to retrieve sensor data
+        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
+        // Start variable check
+        startSensorDataCheck();
+
+    }
+
+    private void startSensorDataCheck() {
+        checkSensorDataHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String receivedData = SensorDataApplication.getSensorData();
+                if ("0".equals(receivedData)) {
+                    pressVisibleButton();
+                } else if ("2".equals(receivedData)) {
+                    performLongClick();
+                }
+
+                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+            }
+        }, CHECK_INTERVAL);
+    }
+
+    private void pressVisibleButton() {
+
+        Button visibleButton = buttons_shortcuts[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performClick();
+            }
+        });
+    }
+
+    private void performLongClick() {
+        Button visibleButton = buttons_shortcuts[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performLongClick();
+            }
+        });
     }
 
     public void onButtonClick(View view) {
