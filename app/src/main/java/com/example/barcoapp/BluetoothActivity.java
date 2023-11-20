@@ -129,12 +129,12 @@ public class BluetoothActivity extends AppCompatActivity {
                                 break;
                             case "1":
                                 sensorValue = "1";
-                                sensorDataApplication.setSensorData(sensorValue);
-                                //textView.setText("Leiste data " + arduinoMsg);
+                                //sensorDataApplication.setSensorData(sensorValue);
                                 break;
                             case "00000":
                                 sensorValue = "00000";
                                 sensorDataApplication.setSensorData(sensorValue);
+                                break;
                         }
                 }
             }
@@ -243,22 +243,19 @@ public class BluetoothActivity extends AppCompatActivity {
                         Log.d("COUNT", String.valueOf(count));
                         if (count == 3) {
                             sensorSignal = 0;
-                            Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
-                            count = 0;
-                            handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-                            break;
                         } else {
                             sensorSignal = 1;
-                            Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
-                            handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
                         }
+
+                        Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
+                        handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
 
                         buffer[0] = (byte) mmInStream.read(); // Read byte
                         byteRead = (buffer[0] & 0xFF); // Transform it to int
 
                     }
 
-                    handler.obtainMessage(MESSAGE_READ, byteRead).sendToTarget();
+                    // handler.obtainMessage(MESSAGE_READ, byteRead).sendToTarget();
 
 
                     //Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));

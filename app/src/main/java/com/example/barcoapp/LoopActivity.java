@@ -17,7 +17,7 @@ public class LoopActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
     private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 5; // milliseconds
+    private int CHECK_INTERVAL = 50; // milliseconds
 
     // Button initialization
     private Integer[] buttonsId;
@@ -105,7 +105,7 @@ public class LoopActivity extends AppCompatActivity {
                 String receivedData = SensorDataApplication.getSensorData();
                 if ("0".equals(receivedData)) {
                     pressVisibleButton();
-                } else if ("00000".equals(receivedData)) {
+                } else if ("2".equals(receivedData)) {
                     performLongClick();
                 }
 
