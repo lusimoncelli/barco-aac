@@ -94,6 +94,10 @@ public class LoopActivity extends AppCompatActivity {
         for (Integer buttonId : buttonsId)
             this.buttons[index++] = findViewById(buttonId);
 
+        for (Button button : buttons) {
+            button.setOnTouchListener(changeCarrouselHandler);
+        }
+
         setInitialButtonAsVisible();
         startLoop();
     }
