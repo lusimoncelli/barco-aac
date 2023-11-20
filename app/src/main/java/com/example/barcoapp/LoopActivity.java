@@ -26,7 +26,7 @@ public class LoopActivity extends AppCompatActivity {
     private String[] initialButtonTexts;
     private int currentButtonIndex = 0;
     private boolean loopRunning = false;
-    private Button backButton;
+
     private boolean isLongPressing = false;
 
     private View.OnTouchListener changeCarrouselHandler = new View.OnTouchListener() {
