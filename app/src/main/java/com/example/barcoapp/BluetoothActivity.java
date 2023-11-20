@@ -131,8 +131,8 @@ public class BluetoothActivity extends AppCompatActivity {
                                 sensorValue = "1";
                                 //sensorDataApplication.setSensorData(sensorValue);
                                 break;
-                            case "00000":
-                                sensorValue = "00000";
+                            case "2":
+                                sensorValue = "2";
                                 sensorDataApplication.setSensorData(sensorValue);
                                 break;
                         }
@@ -238,9 +238,11 @@ public class BluetoothActivity extends AppCompatActivity {
                     byteRead = (buffer[0] & 0xFF); // Transform it to int
                     Log.d("BYTE_READ", String.valueOf(byteRead));
 
+
                     while (byteRead == 0) {
                         count ++;
                         Log.d("COUNT", String.valueOf(count));
+
                         if (count == 3) {
                             sensorSignal = 0;
                         } else {
@@ -254,11 +256,6 @@ public class BluetoothActivity extends AppCompatActivity {
                         byteRead = (buffer[0] & 0xFF); // Transform it to int
 
                     }
-
-                    // handler.obtainMessage(MESSAGE_READ, byteRead).sendToTarget();
-
-
-                    //Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
 
                     Arrays.fill(buffer, (byte) 1);
 

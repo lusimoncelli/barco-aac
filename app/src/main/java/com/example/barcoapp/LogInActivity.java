@@ -16,7 +16,8 @@ public class LogInActivity extends AppCompatActivity {
     private Button[] buttons = new Button[3]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
-
+    private Handler checkSensorDataHandler = new Handler();
+    private int CHECK_INTERVAL = 50; // milliseconds
     private Handler handler = new Handler(); // Handler instance to manage button visibility
 
     @Override
@@ -58,6 +59,48 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Move to the bluetooth activity
                 startActivity(new Intent(LogInActivity.this, BluetoothActivity.class));
+            }
+        });
+
+        // Access sensorDataApplication to retrieve sensor data
+        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
+        // Start variable check
+        startSensorDataCheck();
+    }
+
+    private void startSensorDataCheck() {
+        checkSensorDataHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String receivedData = SensorDataApplication.getSensorData();
+                if ("0".equals(receivedData)) {
+                    pressVisibleButton();
+                } else if ("2".equals(receivedData)) {
+                    performLongClick();
+                }
+
+                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+            }
+        }, CHECK_INTERVAL);
+    }
+
+    private void pressVisibleButton() {
+
+        Button visibleButton = buttons[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performClick();
+            }
+        });
+    }
+
+    private void performLongClick() {
+        Button visibleButton = buttons[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performLongClick();
             }
         });
     }

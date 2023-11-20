@@ -8,7 +8,7 @@ public class SensorDataApplication extends Application {
 
     public static String getSensorData() {
         tmp = sensorData;
-        sensorData = "1";
+        sensorData = "1"; // refractary period
         return tmp;
     }
 

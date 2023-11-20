@@ -71,7 +71,7 @@
             android:layout_height="135dp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="En la lista de dispositivos seleccionar BARCO APP" />
+            android:text="En la lista de dispositivos seleccionar APP BARCO" />
     </RelativeLayout>
 
 
