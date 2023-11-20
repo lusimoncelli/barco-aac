@@ -17,7 +17,7 @@ public class LoopActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
     private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 300;
+    private int CHECK_INTERVAL = 5; // milliseconds
 
     // Button initialization
     private Integer[] buttonsId;
@@ -94,24 +94,6 @@ public class LoopActivity extends AppCompatActivity {
         for (Integer buttonId : buttonsId)
             this.buttons[index++] = findViewById(buttonId);
 
-        for (Button button : buttons) {
-            //button.setVisibility(View.INVISIBLE);
-            button.setOnTouchListener(changeCarrouselHandler);
-            //button.setOnTouchListener(new View.OnTouchListener() {
-              //  @Override
-                //public boolean onTouch(View v, MotionEvent event) {
-                  //  if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //    isLongPressing = true;
-                      //  longPressHandler.postDelayed(longPressRunnable, 2000);
-                    //} else if (event.getAction() == MotionEvent.ACTION_UP) {
-                      //  isLongPressing = false;
-                        //longPressHandler.removeCallbacks(longPressRunnable);
-                    //}
-                    //return false;
-                //}
-            //});
-        }
-
         setInitialButtonAsVisible();
         startLoop();
     }
@@ -133,13 +115,24 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     private void pressVisibleButton() {
+
         Button visibleButton = buttons[currentButtonIndex];
-        visibleButton.performClick();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performClick();
+            }
+        });
     }
 
     private void performLongClick() {
         Button visibleButton = buttons[currentButtonIndex];
-        visibleButton.performLongClick();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performLongClick();
+            }
+        });
     }
 
     private void setButtonVisibility(int index, int visibility) {

@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
 
@@ -125,7 +126,6 @@ public class BluetoothActivity extends AppCompatActivity {
                             case "0":
                                 sensorValue = "0";
                                 sensorDataApplication.setSensorData(sensorValue);
-                                Log.d("Send data to APP", String.valueOf(System.currentTimeMillis()));
                                 break;
                             case "1":
                                 sensorValue = "1";
@@ -221,20 +221,49 @@ public class BluetoothActivity extends AppCompatActivity {
 
         }
         public void run() {
-            byte[] buffer = new byte[1];  // buffer to store sensor data
-            int sensorSignal; // bytes returned from read()
+            byte[] buffer = new byte[125];  // buffer to store sensor data
+            int sensorSignal;
+
+            int byteRead;// bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
+
                     /*
                     Read from input stream
                     Send string to GUI handler
                      */
-
+                    int count = 0;
                     buffer[0] = (byte) mmInStream.read(); // Read byte
-                    sensorSignal = (buffer[0] & 0xFF); // Transform it to int
-                    handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-                    buffer = new byte[1];
+                    byteRead = (buffer[0] & 0xFF); // Transform it to int
+                    Log.d("BYTE_READ", String.valueOf(byteRead));
+
+                    while (byteRead == 0) {
+                        count ++;
+                        Log.d("COUNT", String.valueOf(count));
+                        if (count == 3) {
+                            sensorSignal = 0;
+                            Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
+                            count = 0;
+                            handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
+                            break;
+                        } else {
+                            sensorSignal = 1;
+                            Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
+                            handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
+                        }
+
+                        buffer[0] = (byte) mmInStream.read(); // Read byte
+                        byteRead = (buffer[0] & 0xFF); // Transform it to int
+
+                    }
+
+                    handler.obtainMessage(MESSAGE_READ, byteRead).sendToTarget();
+
+
+                    //Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
+
+                    Arrays.fill(buffer, (byte) 1);
 
 
                 } catch (IOException e) {

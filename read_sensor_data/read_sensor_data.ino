@@ -16,7 +16,7 @@ bool sendFlag = false;
 
 void setup() {
   // Initialization
-  Timer3.initialize(4000);  // every 5ms
+  Timer3.initialize(50000);  // every 50 ms
   Timer3.attachInterrupt(rts);
   pinMode(irSensorPin, INPUT);
 
@@ -30,7 +30,7 @@ void rts(){
   static unsigned int pos = 0;
   counter++;
   
-  // Every 4 ms
+  // Every 50 ms
   if (counter%1 == 0)
   {
     // send the value of analog input 0:
