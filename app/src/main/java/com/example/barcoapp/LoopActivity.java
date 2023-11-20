@@ -86,16 +86,6 @@ public class LoopActivity extends AppCompatActivity {
 
         initializeConfigCarrousel();
 
-        Button backButton = findViewById(R.id.button_back_to_main);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Define the behavior to return to the main activity here
-                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
@@ -105,21 +95,21 @@ public class LoopActivity extends AppCompatActivity {
             this.buttons[index++] = findViewById(buttonId);
 
         for (Button button : buttons) {
-            button.setVisibility(View.INVISIBLE);
+            //button.setVisibility(View.INVISIBLE);
             button.setOnTouchListener(changeCarrouselHandler);
-            button.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        isLongPressing = true;
-                        longPressHandler.postDelayed(longPressRunnable, 2000);
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isLongPressing = false;
-                        longPressHandler.removeCallbacks(longPressRunnable);
-                    }
-                    return false;
-                }
-            });
+            //button.setOnTouchListener(new View.OnTouchListener() {
+              //  @Override
+                //public boolean onTouch(View v, MotionEvent event) {
+                  //  if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //    isLongPressing = true;
+                      //  longPressHandler.postDelayed(longPressRunnable, 2000);
+                    //} else if (event.getAction() == MotionEvent.ACTION_UP) {
+                      //  isLongPressing = false;
+                        //longPressHandler.removeCallbacks(longPressRunnable);
+                    //}
+                    //return false;
+                //}
+            //});
         }
 
         setInitialButtonAsVisible();
@@ -163,21 +153,39 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    private void setButtonEnable(int index, boolean isEnabled) {
+        if (!configCarrouselActivated) {
+            if (index >= 0 && index < buttons.length) {
+                buttons[index].setEnabled(isEnabled);
+            }
+        } else {
+            if (index >= 0 && index < configButtons.length) {
+                configButtons[index].setEnabled(isEnabled);
+            }
+        }
+    }
+
+
     private void setInitialButtonAsVisible() {
         loopRunning = true;
-        setButtonVisibility(currentButtonIndex, View.VISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.VISIBLE);}
     }
 
     private void startLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                if (!configCarrouselActivated)
+                if (!configCarrouselActivated){
+                    setButtonEnable(currentButtonIndex, false);
                     currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
-                else
+                    setButtonEnable(currentButtonIndex, true);}
+
+                else{
+                    setButtonVisibility(currentButtonIndex,View.INVISIBLE);
                     currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
+                    setButtonVisibility(currentButtonIndex,View.VISIBLE);
+                }
 
                 if (loopRunning) {
                     handler.postDelayed(this, FrequencyHolder.getFrequency());
@@ -188,7 +196,8 @@ public class LoopActivity extends AppCompatActivity {
 
     private void stopButtonLoop() {
         loopRunning = false;
-        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.INVISIBLE);}
     }
 
     private void appendText(String text) {
@@ -216,9 +225,17 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    private void restartButtons(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts){
+            this.buttons[index++].setText(initialText);
+        }
+    }
     private Runnable longPressRunnable = () -> {
         loopRunning = false;
-        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.INVISIBLE);}
+        //setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         currentButtonIndex = 0 ;
         configCarrouselActivated = !configCarrouselActivated;
         if(!configCarrouselActivated)
@@ -227,13 +244,6 @@ public class LoopActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
         startLoop();
     };
-
-    private void restartButtons(){
-        int index = 0;
-        for(String initialText: this.initialButtonTexts){
-            this.buttons[index++].setText(initialText);
-        }
-    }
 
 }
 

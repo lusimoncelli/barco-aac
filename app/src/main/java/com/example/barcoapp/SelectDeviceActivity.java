@@ -35,9 +35,16 @@ public class SelectDeviceActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 // Permission not granted, request it
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.BLUETOOTH_SCAN},
-                        BLUETOOTH_PERMISSION_REQUEST);
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                Manifest.permission.BLUETOOTH,
+                                Manifest.permission.BLUETOOTH_ADMIN,
+                                Manifest.permission.BLUETOOTH_SCAN,
+                                Manifest.permission.BLUETOOTH_CONNECT,
+                        },
+                        BLUETOOTH_PERMISSION_REQUEST
+                );
             } else {
                 // Proceed w/ bluetooth operation if permission is already granted
                 // Bluetooth Setup

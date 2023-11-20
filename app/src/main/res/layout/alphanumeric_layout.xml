@@ -8,16 +8,17 @@
 
     <!-- Buttons -->
     <Button
-    android:id="@+id/button_A"
-    style="@style/MyButtonStyle"
-    android:layout_marginStart="68dp"
-    android:layout_marginLeft="68dp"
-    android:text="ABCDEFGHIJKLM"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:enabled='true'
-    tools:ignore="MissingConstraints" />
+        android:id="@+id/button_A"
+        style="@style/MyButtonStyle"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:text="ABCDEFGHIJKLM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:background="@drawable/button_enabled_background"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button_B"
@@ -30,26 +31,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
+        android:background="@drawable/button_enabled_background"
         tools:ignore="MissingConstraints" />
 
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_back_to_main"
         android:text="Teclados"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:background="@drawable/button_enabled_background"
         tools:ignore="MissingConstraints" />
 
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/delete_all"
         android:text="Borrar todo"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:background="@drawable/button_enabled_background"
         tools:ignore="MissingConstraints" />
 
 
