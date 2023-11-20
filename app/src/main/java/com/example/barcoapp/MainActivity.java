@@ -141,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
                 setButtonVisibility(currentButtonIndex, View.INVISIBLE);
                 currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
-
+                if (loopRunning) {
+                    handler.postDelayed(this, FrequencyHolder.getFrequency());
+                }
             }
         }, 0); // Start the loop immediately
     }
