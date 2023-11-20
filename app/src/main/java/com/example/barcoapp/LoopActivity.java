@@ -3,7 +3,6 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,8 @@ public class LoopActivity extends AppCompatActivity {
     private EditText enteredText;
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
-    private int CHECK_INTERVAL = 1000;
+    private Handler checkSensorDataHandler = new Handler();
+    private int CHECK_INTERVAL = 300;
 
     // Button initialization
     private Integer[] buttonsId;
@@ -82,19 +82,9 @@ public class LoopActivity extends AppCompatActivity {
         // Access sensorDataApplication to retrieve sensor data
         SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
         // Start variable check
-
+        startSensorDataCheck();
 
         initializeConfigCarrousel();
-
-        Button backButton = findViewById(R.id.button_back_to_main);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Define the behavior to return to the main activity here
-                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
@@ -105,27 +95,42 @@ public class LoopActivity extends AppCompatActivity {
             this.buttons[index++] = findViewById(buttonId);
 
         for (Button button : buttons) {
-            button.setVisibility(View.INVISIBLE);
+            //button.setVisibility(View.INVISIBLE);
             button.setOnTouchListener(changeCarrouselHandler);
-            button.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        isLongPressing = true;
-                        longPressHandler.postDelayed(longPressRunnable, 2000);
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                        isLongPressing = false;
-                        longPressHandler.removeCallbacks(longPressRunnable);
-                    }
-                    return false;
-                }
-            });
+            //button.setOnTouchListener(new View.OnTouchListener() {
+              //  @Override
+                //public boolean onTouch(View v, MotionEvent event) {
+                  //  if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //    isLongPressing = true;
+                      //  longPressHandler.postDelayed(longPressRunnable, 2000);
+                    //} else if (event.getAction() == MotionEvent.ACTION_UP) {
+                      //  isLongPressing = false;
+                        //longPressHandler.removeCallbacks(longPressRunnable);
+                    //}
+                    //return false;
+                //}
+            //});
         }
 
         setInitialButtonAsVisible();
         startLoop();
     }
 
+    private void startSensorDataCheck() {
+        checkSensorDataHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String receivedData = SensorDataApplication.getSensorData();
+                if ("0".equals(receivedData)) {
+                    pressVisibleButton();
+                } else if ("00000".equals(receivedData)) {
+                    performLongClick();
+                }
+
+                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+            }
+        }, CHECK_INTERVAL);
+    }
 
     private void pressVisibleButton() {
         Button visibleButton = buttons[currentButtonIndex];
@@ -148,34 +153,38 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    private void setButtonEnable(int index, boolean isEnabled) {
+        if (!configCarrouselActivated) {
+            if (index >= 0 && index < buttons.length) {
+                buttons[index].setEnabled(isEnabled);
+            }
+        } else {
+            if (index >= 0 && index < configButtons.length) {
+                configButtons[index].setEnabled(isEnabled);
+            }
+        }
+    }
+
+
     private void setInitialButtonAsVisible() {
         loopRunning = true;
-        setButtonVisibility(currentButtonIndex, View.VISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.VISIBLE);}
     }
 
     private void startLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-
-
-                if (!configCarrouselActivated)
+                if (!configCarrouselActivated){
+                    setButtonEnable(currentButtonIndex, false);
                     currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
-                else
+                    setButtonEnable(currentButtonIndex, true);}
+
+                else{
+                    setButtonVisibility(currentButtonIndex,View.INVISIBLE);
                     currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
-
-                String receivedData = SensorDataApplication.getSensorData();
-                Log.d("Get data from app", String.valueOf(System.currentTimeMillis()));
-
-                if ("0".equals(receivedData)) {
-                    Log.d("Press button", String.valueOf(System.currentTimeMillis()));
-                    pressVisibleButton();
-
-                } else if ("00000".equals(receivedData)) {
-                    performLongClick();
+                    setButtonVisibility(currentButtonIndex,View.VISIBLE);
                 }
 
                 if (loopRunning) {
@@ -187,7 +196,8 @@ public class LoopActivity extends AppCompatActivity {
 
     private void stopButtonLoop() {
         loopRunning = false;
-        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.INVISIBLE);}
     }
 
     private void appendText(String text) {
@@ -215,9 +225,17 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    private void restartButtons(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts){
+            this.buttons[index++].setText(initialText);
+        }
+    }
     private Runnable longPressRunnable = () -> {
         loopRunning = false;
-        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        for (Button button : buttons) {
+            button.setVisibility(View.INVISIBLE);}
+        //setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         currentButtonIndex = 0 ;
         configCarrouselActivated = !configCarrouselActivated;
         if(!configCarrouselActivated)
@@ -226,13 +244,6 @@ public class LoopActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
         startLoop();
     };
-
-    private void restartButtons(){
-        int index = 0;
-        for(String initialText: this.initialButtonTexts){
-            this.buttons[index++].setText(initialText);
-        }
-    }
 
 }
 
