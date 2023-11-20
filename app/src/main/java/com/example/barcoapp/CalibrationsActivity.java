@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CalibrationsActivity extends AppCompatActivity {
 
-    private Button[] buttons_calibrations = new Button[3]; // Array to hold the buttons
+    private Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
 
-    private Button buttonSettings;
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
     private Handler handler = new Handler(); // Handler instance to manage button visibility
@@ -29,13 +28,14 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[0] = findViewById(R.id.button_slow);
         buttons_calibrations[1] = findViewById(R.id.button_medium);
         buttons_calibrations[2] = findViewById(R.id.button_high);
+        buttons_calibrations[3] = findViewById(R.id.button_settings);
 
-        buttonSettings = findViewById(R.id.button_settings);
 
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
         setButtonVisibility(1, View.INVISIBLE);
         setButtonVisibility(2, View.INVISIBLE);
+        setButtonVisibility(3, View.INVISIBLE);
 
         startButtonLoop(); // Start the button visibility loop
 
@@ -61,7 +61,7 @@ public class CalibrationsActivity extends AppCompatActivity {
             }
         });
 
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
+        buttons_calibrations[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
