@@ -173,7 +173,7 @@ public class LoopActivity extends AppCompatActivity {
                 button.setVisibility(View.VISIBLE);}}
         else {setButtonVisibility(currentButtonIndex,View.VISIBLE);}
         }
-    
+
 
     private void startLoop() {
         handler.postDelayed(new Runnable() {
