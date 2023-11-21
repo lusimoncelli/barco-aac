@@ -9,14 +9,14 @@ unsigned long myTime; //para millis y probar
 
 //esto para protocolo de comunicacion
 void rts();
-unsigned int buffer1[125];
-unsigned int buffer2[125];
+unsigned int buffer1[100];
+unsigned int buffer2[100];
 bool bufferFlag = false;
 bool sendFlag = false;
 
 void setup() {
   // Initialization
-  Timer3.initialize(4000);  // every 5ms
+  Timer3.initialize(5000);  // every 50 ms
   Timer3.attachInterrupt(rts);
   pinMode(irSensorPin, INPUT);
 
@@ -30,16 +30,16 @@ void rts(){
   static unsigned int pos = 0;
   counter++;
   
-  // Every 4 ms
+  // Every 50 ms
   if (counter%1 == 0)
   {
     // send the value of analog input 0:
       buffer1[pos++] = digitalRead(irSensorPin);
   }
     
-    if (pos == 125)
+    if (pos == 100)
     {
-      for (unsigned int i=0; i<125; i++)
+      for (unsigned int i=0; i<100; i++)
         buffer2[i] = buffer1[i];
       bufferFlag = true;
       pos = 0;
@@ -49,7 +49,7 @@ void rts(){
 void loop() {
   // Si la bandera está activada, enviar el buffer a través del módulo Bluetooth
   if (bufferFlag) {
-    for (unsigned int i = 0; i < 125; i++) {
+    for (unsigned int i = 0; i < 100; i++) {
     btSerial.write(buffer2[i]);
   }
   bufferFlag = false;

@@ -68,17 +68,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
         tools:ignore="MissingConstraints" />
 
     <Button
         style="@style/MyButtonStyle"
-        android:id="@+id/delete_all"
+        android:id="@+id/button_delete_all"
         android:text="Borrar todo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enteredText"
         tools:ignore="MissingConstraints" />
 
 

@@ -18,7 +18,7 @@ public class LoopActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Handler longPressHandler = new Handler();
     private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 300;
+    private int CHECK_INTERVAL = 50; // milliseconds
 
     // Button initialization
     private Integer[] buttonsId;
@@ -27,7 +27,7 @@ public class LoopActivity extends AppCompatActivity {
     private String[] initialButtonTexts;
     private int currentButtonIndex = 0;
     private boolean loopRunning = false;
-    private Button backButton;
+
     private boolean isLongPressing = false;
 
     private View.OnTouchListener changeCarrouselHandler = new View.OnTouchListener() {
@@ -96,21 +96,7 @@ public class LoopActivity extends AppCompatActivity {
             this.buttons[index++] = findViewById(buttonId);
 
         for (Button button : buttons) {
-            //button.setVisibility(View.INVISIBLE);
             button.setOnTouchListener(changeCarrouselHandler);
-            //button.setOnTouchListener(new View.OnTouchListener() {
-              //  @Override
-                //public boolean onTouch(View v, MotionEvent event) {
-                  //  if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    //    isLongPressing = true;
-                      //  longPressHandler.postDelayed(longPressRunnable, 2000);
-                    //} else if (event.getAction() == MotionEvent.ACTION_UP) {
-                      //  isLongPressing = false;
-                        //longPressHandler.removeCallbacks(longPressRunnable);
-                    //}
-                    //return false;
-                //}
-            //});
         }
 
         setInitialButtonAsVisible();
@@ -124,7 +110,7 @@ public class LoopActivity extends AppCompatActivity {
                 String receivedData = SensorDataApplication.getSensorData();
                 if ("0".equals(receivedData)) {
                     pressVisibleButton();
-                } else if ("00000".equals(receivedData)) {
+                } else if ("2".equals(receivedData)) {
                     performLongClick();
                 }
 
@@ -134,13 +120,24 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     private void pressVisibleButton() {
+
         Button visibleButton = buttons[currentButtonIndex];
-        visibleButton.performClick();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performClick();
+            }
+        });
     }
 
     private void performLongClick() {
         Button visibleButton = buttons[currentButtonIndex];
-        visibleButton.performLongClick();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performLongClick();
+            }
+        });
     }
 
     private void setButtonVisibility(int index, int visibility) {

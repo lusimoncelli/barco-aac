@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CalibrationsActivity extends AppCompatActivity {
 
-    private Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
+    private Button[] buttons_calibrations = new Button[3]; // Array to hold the buttons
 
-    private Button buttonSettings;
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
     private Handler handler = new Handler(); // Handler instance to manage button visibility
+    private Handler checkSensorDataHandler = new Handler();
+    private int CHECK_INTERVAL = 50; // milliseconds
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -27,14 +28,22 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[0] = findViewById(R.id.button_slow);
         buttons_calibrations[1] = findViewById(R.id.button_medium);
         buttons_calibrations[2] = findViewById(R.id.button_high);
-        buttons_calibrations[3] = findViewById(R.id.button_settings)
-        //buttonSettings = findViewById(R.id.button_settings);
+<<<<<<< HEAD
+        buttonSettings = findViewById(R.id.button_settings);
+=======
+        buttons_calibrations[3] = findViewById(R.id.button_settings);
+
+>>>>>>> bf0cbe38ace7e5b71f6225e9d4e0c1737965d692
 
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
         setButtonVisibility(1, View.INVISIBLE);
         setButtonVisibility(2, View.INVISIBLE);
         setButtonVisibility(3, View.INVISIBLE);
+<<<<<<< HEAD
+=======
+
+>>>>>>> bf0cbe38ace7e5b71f6225e9d4e0c1737965d692
         startButtonLoop(); // Start the button visibility loop
 
         // Set click listeners for the slow, medium, and high buttons
@@ -59,12 +68,54 @@ public class CalibrationsActivity extends AppCompatActivity {
             }
         });
 
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
+        buttons_calibrations[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
                 Intent intent = new Intent(CalibrationsActivity.this, LogInActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Access sensorDataApplication to retrieve sensor data
+        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
+        // Start variable check
+        startSensorDataCheck();
+    }
+
+    private void startSensorDataCheck() {
+        checkSensorDataHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String receivedData = SensorDataApplication.getSensorData();
+                if ("0".equals(receivedData)) {
+                    pressVisibleButton();
+                } else if ("2".equals(receivedData)) {
+                    performLongClick();
+                }
+
+                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+            }
+        }, CHECK_INTERVAL);
+    }
+
+    private void pressVisibleButton() {
+
+        Button visibleButton = buttons_calibrations[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performClick();
+            }
+        });
+    }
+
+    private void performLongClick() {
+        Button visibleButton = buttons_calibrations[currentButtonIndex];
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                visibleButton.performLongClick();
             }
         });
     }

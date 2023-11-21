@@ -4,9 +4,12 @@ import android.app.Application;
 
 public class SensorDataApplication extends Application {
     private static String sensorData = "1";
+    private static String tmp;
 
     public static String getSensorData() {
-        return sensorData;
+        tmp = sensorData;
+        sensorData = "1"; // refractary period
+        return tmp;
     }
 
     public void setSensorData(String sensorData) {
