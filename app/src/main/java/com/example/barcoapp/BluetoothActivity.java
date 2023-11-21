@@ -221,43 +221,32 @@ public class BluetoothActivity extends AppCompatActivity {
 
         }
         public void run() {
-            byte[] buffer = new byte[125];  // buffer to store sensor data
             int sensorSignal;
+            int count = 0;
+            int byteRead;
 
-            int byteRead;// bytes returned from read()
-            // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
-
-                    /*
-                    Read from input stream
-                    Send string to GUI handler
-                     */
-                    int count = 0;
-                    buffer[0] = (byte) mmInStream.read(); // Read byte
-                    byteRead = (buffer[0] & 0xFF); // Transform it to int
+                    byteRead = ((byte) mmInStream.read() & 0xFF); // Transform it to int
                     Log.d("BYTE_READ", String.valueOf(byteRead));
 
-
-                    while (byteRead == 0) {
+                    if (byteRead == 0) {
                         count ++;
-                        Log.d("COUNT", String.valueOf(count));
-
-                        if (count == 3) {
+                    }else {
+                        if(count > 300){
+                            sensorSignal = 2;
+                            Log.d("PRESS", "Long press");
+                        }
+                        else if (count > 50) {
+                            Log.d("PRESS", "short press");
                             sensorSignal = 0;
                         } else {
                             sensorSignal = 1;
                         }
-
                         Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
                         handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-
-                        buffer[0] = (byte) mmInStream.read(); // Read byte
-                        byteRead = (buffer[0] & 0xFF); // Transform it to int
-
+                        count = 0 ;
                     }
-
-                    Arrays.fill(buffer, (byte) 1);
 
 
                 } catch (IOException e) {
@@ -266,7 +255,6 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             }
         }
-
 
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
