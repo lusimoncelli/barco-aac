@@ -9,17 +9,17 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
 
     // Buttons Initialization
-    private Button[] buttons = new Button[4];
+    private final Button[] buttons = new Button[4];
 
     // Flag to control the button loop
     private boolean loopRunning = false;
     private int currentButtonIndex = 0; // Current index for the button visibility loop
 
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 50; // milliseconds
+    private final Handler checkSensorDataHandler = new Handler();
+    private final int CHECK_INTERVAL = 50; // milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

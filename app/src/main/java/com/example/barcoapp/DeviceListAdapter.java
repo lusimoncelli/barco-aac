@@ -14,8 +14,8 @@ import java.util.List;
 
 public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
-    private List<Object> deviceList;
+    private final Context context;
+    private final List<Object> deviceList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName, textAddress;

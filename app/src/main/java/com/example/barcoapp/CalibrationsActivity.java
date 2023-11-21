@@ -10,13 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CalibrationsActivity extends AppCompatActivity {
 
-    private Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
+    private final Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
 
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
-    private Handler handler = new Handler(); // Handler instance to manage button visibility
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 50; // milliseconds
+    private final Handler handler = new Handler(); // Handler instance to manage button visibility
+    private final Handler checkSensorDataHandler = new Handler();
+    private final int CHECK_INTERVAL = 50; // milliseconds
 
     @SuppressLint("MissingInflatedId")
     @Override
