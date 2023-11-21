@@ -52,7 +52,7 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     private void initializeConfigCarrousel(){
-        this.configButtons = new Button[2];
+        this.configButtons = new Button[3];
         Button backButton = findViewById(R.id.button_back_to_main);
         backButton.setVisibility(View.INVISIBLE);
         backButton.setOnClickListener(v -> {
@@ -63,6 +63,17 @@ public class LoopActivity extends AppCompatActivity {
         });
         backButton.setOnTouchListener(changeCarrouselHandler);
 
+        Button delButton=findViewById(R.id.button_delete_last);
+        delButton.setVisibility(View.INVISIBLE);
+        delButton.setOnClickListener(v -> {
+            if(! isLongPressing){
+                String currentText = enteredText.getText().toString();
+                String newText = currentText.substring(0, currentText.length() - 1);
+                enteredText.setText(newText);
+            }
+        });
+        delButton.setOnTouchListener(changeCarrouselHandler);
+
         Button deleteAllButton = findViewById(R.id.delete_all);
         deleteAllButton.setVisibility(View.INVISIBLE);
         deleteAllButton.setOnClickListener(view -> {
@@ -72,6 +83,7 @@ public class LoopActivity extends AppCompatActivity {
         deleteAllButton.setOnTouchListener(changeCarrouselHandler);
         this.configButtons[0] = backButton;
         this.configButtons[1] = deleteAllButton;
+        this.configButtons[2] =delButton;
 
     }
 
