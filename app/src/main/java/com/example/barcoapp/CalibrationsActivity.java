@@ -43,21 +43,21 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(2000); // Set frequency to 750
+                FrequencyHolder.setFrequency(3000); // Set frequency to 750
             }
         });
 
         buttons_calibrations[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(1500); // Set frequency to 500
+                FrequencyHolder.setFrequency(2500); // Set frequency to 500
             }
         });
 
         buttons_calibrations[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(1000); // Set frequency to 250
+                FrequencyHolder.setFrequency(2000); // Set frequency to 250
             }
         });
 

@@ -60,6 +60,7 @@ public class BluetoothActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Move to adapter list
                 Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -233,7 +234,7 @@ public class BluetoothActivity extends AppCompatActivity {
                     if (byteRead == 0) {
                         count ++;
                     }else {
-                        if(count > 300){
+                        if(count > 500){
                             sensorSignal = 2;
                             Log.d("PRESS", "Long press");
                         }

@@ -1,7 +1,7 @@
 package com.example.barcoapp;
 
 public class FrequencyHolder {
-    private static int frequency = 1000; // Default frequency
+    private static int frequency = 2000; // Default frequency
 
     public static int getFrequency() {
         return frequency;
