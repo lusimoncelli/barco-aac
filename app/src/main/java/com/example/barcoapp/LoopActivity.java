@@ -12,24 +12,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoopActivity extends AppCompatActivity {
     private boolean configCarrouselActivated = false;
-    private int layoutId;
+    private final int layoutId;
     private EditText enteredText;
-    private Handler handler = new Handler();
-    private Handler longPressHandler = new Handler();
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 50; // milliseconds
+    private final Handler handler = new Handler();
+    private final Handler longPressHandler = new Handler();
+    private final Handler checkSensorDataHandler = new Handler();
+    private final int CHECK_INTERVAL = 50; // milliseconds
 
     // Button initialization
-    private Integer[] buttonsId;
+    private final Integer[] buttonsId;
     private Button[] buttons;
     private Button[] configButtons;
-    private String[] initialButtonTexts;
+    private final String[] initialButtonTexts;
     private int currentButtonIndex = 0;
     private boolean loopRunning = false;
 
     private boolean isLongPressing = false;
 
-    private View.OnTouchListener changeCarrouselHandler = new View.OnTouchListener() {
+    private final View.OnTouchListener changeCarrouselHandler = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -231,7 +231,7 @@ public class LoopActivity extends AppCompatActivity {
             this.buttons[index++].setText(initialText);
         }
     }
-    private Runnable longPressRunnable = () -> {
+    private final Runnable longPressRunnable = () -> {
         loopRunning = false;
         if(!configCarrouselActivated){
             for (Button button : buttons) {

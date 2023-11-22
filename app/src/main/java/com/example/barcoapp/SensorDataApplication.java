@@ -11,14 +11,14 @@ public class SensorDataApplication extends Application {
         tmp = sensorData;
         if (!tmp.equals("1")){
             Log.d("Sensor data", tmp);}
-        sensorData = "1"; // refractary period
+        sensorData = "1"; // refractory period
 
         return tmp;
     }
 
     public void setSensorData(String sensorData) {
-        if(this.sensorData.equals("1")){
-            this.sensorData = sensorData;
+        if(SensorDataApplication.sensorData.equals("1")){
+            SensorDataApplication.sensorData = sensorData;
         }
     }
 }
