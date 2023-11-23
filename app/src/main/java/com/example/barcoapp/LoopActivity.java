@@ -3,7 +3,6 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,6 @@ public class LoopActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
     private final Handler longPressHandler = new Handler();
     private final Handler checkSensorDataHandler = new Handler();
-    private final int CHECK_INTERVAL = 50; // milliseconds
 
     // Button initialization
     private final Integer[] buttonsId;
@@ -94,9 +92,9 @@ public class LoopActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {

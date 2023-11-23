@@ -16,7 +16,6 @@ public class CalibrationsActivity extends AppCompatActivity {
     private boolean loopRunning = false; // Flag to control the loop
     private final Handler handler = new Handler(); // Handler instance to manage button visibility
     private final Handler checkSensorDataHandler = new Handler();
-    private final int CHECK_INTERVAL = 50; // milliseconds
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -89,9 +88,9 @@ public class CalibrationsActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {
