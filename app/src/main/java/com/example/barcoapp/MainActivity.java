@@ -18,9 +18,7 @@ public class MainActivity extends AppCompatActivity {
     // Flag to control the button loop
     private boolean loopRunning = false;
     private int currentButtonIndex = 0; // Current index for the button visibility loop
-
     private final Handler checkSensorDataHandler = new Handler();
-    private final int CHECK_INTERVAL = 50; // milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -102,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {

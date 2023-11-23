@@ -3,7 +3,6 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,7 +14,6 @@ public class LogInActivity extends AppCompatActivity {
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
     private final Handler checkSensorDataHandler = new Handler();
-    private final int CHECK_INTERVAL = 50; // milliseconds
     private final Handler handler = new Handler(); // Handler instance to manage button visibility
 
     @Override
@@ -83,9 +81,9 @@ public class LogInActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {
