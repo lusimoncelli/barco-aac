@@ -40,8 +40,8 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the main activity
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -50,8 +50,8 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the calibrations activity
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -60,8 +60,8 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the bluetooth activity
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 Intent intent = new Intent(LogInActivity.this, BluetoothActivity.class);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });

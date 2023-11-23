@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 loopRunning = false;
                 Intent intent = new Intent(MainActivity.this, LogInActivity.class);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 loopRunning = false;
                 Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 loopRunning = false;
                 Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 loopRunning = false;
                 Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
 
@@ -157,13 +161,6 @@ public class MainActivity extends AppCompatActivity {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         handler.removeCallbacksAndMessages(null); // Remove any pending posts
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        checkSensorDataHandler.removeCallbacksAndMessages(null);
-        Log.d("onDestroy", "holisisiwsisidaoifhajksdkjuhf");
     }
 
 

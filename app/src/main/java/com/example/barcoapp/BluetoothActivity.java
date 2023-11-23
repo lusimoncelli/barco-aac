@@ -71,6 +71,7 @@ public class BluetoothActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Navigate to main menu
                 Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -276,6 +277,7 @@ public class BluetoothActivity extends AppCompatActivity {
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        handler.removeCallbacksAndMessages(null);
         startActivity(a);
     }
 }

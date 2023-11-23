@@ -66,6 +66,8 @@ public class CalibrationsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
                 Intent intent = new Intent(CalibrationsActivity.this, LogInActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
