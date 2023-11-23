@@ -1,6 +1,7 @@
 package com.example.barcoapp;
 
 import android.app.Application;
+import android.util.Log;
 
 public class SensorDataApplication extends Application {
     private static String sensorData = "1";
@@ -8,11 +9,16 @@ public class SensorDataApplication extends Application {
 
     public static String getSensorData() {
         tmp = sensorData;
-        sensorData = "1"; // refractary period
+        if (!tmp.equals("1")){
+            Log.d("Sensor data", tmp);}
+        sensorData = "1"; // refractory period
+
         return tmp;
     }
 
     public void setSensorData(String sensorData) {
-        this.sensorData = sensorData;
+        if(SensorDataApplication.sensorData.equals("1")){
+            SensorDataApplication.sensorData = sensorData;
+        }
     }
 }

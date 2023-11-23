@@ -11,7 +11,7 @@
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_abcde"
-        android:text="ABCDE"
+        android:text="Alfabético"
         android:onClick="buttonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_newkeyboard"
-        android:text="Nuevo Teclado"
+        android:text="Palabras predeterminadas"
         android:onClick="buttonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

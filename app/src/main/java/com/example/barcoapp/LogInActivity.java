@@ -1,9 +1,6 @@
 package com.example.barcoapp;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,12 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private Button[] buttons = new Button[3]; // Array to hold the buttons
+    private final Button[] buttons = new Button[3]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 50; // milliseconds
-    private Handler handler = new Handler(); // Handler instance to manage button visibility
+    private final Handler checkSensorDataHandler = new Handler();
+    private final Handler handler = new Handler(); // Handler instance to manage button visibility
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +38,9 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the main activity
-                startActivity(new Intent(LogInActivity.this, MainActivity.class));
+                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
             }
         });
 
@@ -50,7 +48,10 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the calibrations activity
-                startActivity(new Intent(LogInActivity.this, CalibrationsActivity.class));
+                Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
             }
         });
 
@@ -58,7 +59,10 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Move to the bluetooth activity
-                startActivity(new Intent(LogInActivity.this, BluetoothActivity.class));
+                Intent intent = new Intent(LogInActivity.this, BluetoothActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
             }
         });
 
@@ -79,9 +83,9 @@ public class LogInActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {
@@ -137,25 +141,5 @@ public class LogInActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null); // Remove any pending posts
     }
 
-    private final BroadcastReceiver sensorDataReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() != null && intent.getAction().equals("CUSTOM_INTENT_SENSOR_ZERO")) {
-                buttons[currentButtonIndex].performClick();
-            }
-        }
-    };
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("CUSTOM_INTENT_SENSOR_ZERO");
-        registerReceiver(sensorDataReceiver, intentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(sensorDataReceiver);
-    }
 }

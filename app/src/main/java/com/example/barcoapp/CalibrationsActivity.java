@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CalibrationsActivity extends AppCompatActivity {
 
-    private Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
+    private final Button[] buttons_calibrations = new Button[4]; // Array to hold the buttons
 
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
-    private Handler handler = new Handler(); // Handler instance to manage button visibility
-    private Handler checkSensorDataHandler = new Handler();
-    private int CHECK_INTERVAL = 50; // milliseconds
+    private final Handler handler = new Handler(); // Handler instance to manage button visibility
+    private final Handler checkSensorDataHandler = new Handler();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,21 +43,21 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(2000); // Set frequency to 750
+                FrequencyHolder.setFrequency(3000); // Set frequency to 750
             }
         });
 
         buttons_calibrations[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(1500); // Set frequency to 500
+                FrequencyHolder.setFrequency(2500); // Set frequency to 500
             }
         });
 
         buttons_calibrations[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(1000); // Set frequency to 250
+                FrequencyHolder.setFrequency(2000); // Set frequency to 250
             }
         });
 
@@ -67,6 +66,8 @@ public class CalibrationsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
                 Intent intent = new Intent(CalibrationsActivity.this, LogInActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -88,9 +89,9 @@ public class CalibrationsActivity extends AppCompatActivity {
                     performLongClick();
                 }
 
-                checkSensorDataHandler.postDelayed(this, CHECK_INTERVAL);
+                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
-        }, CHECK_INTERVAL);
+        }, Constants.CHECK_INTERVAL);
     }
 
     private void pressVisibleButton() {
