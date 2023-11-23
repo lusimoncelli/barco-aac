@@ -81,6 +81,7 @@ public class NewKeyboardActivity extends AppCompatActivity {
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
                 Intent intent = new Intent(NewKeyboardActivity.this, LogInActivity.class);
+                handler.removeCallbacksAndMessages(null);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }

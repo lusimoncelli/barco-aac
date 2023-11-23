@@ -49,6 +49,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Move to the calibrations activity
                 Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
+                handler.removeCallbacksAndMessages(null);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
@@ -59,6 +60,7 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Move to the bluetooth activity
                 Intent intent = new Intent(LogInActivity.this, BluetoothActivity.class);
+                handler.removeCallbacksAndMessages(null);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
