@@ -3,15 +3,15 @@
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <!-- Set the dark grey color for the enabled state -->
-            <solid android:color="#FF8800" />
-            <corners android:radius="8dp" /> <!-- You can adjust the radius as needed -->
+            <solid android:color="#FF00F2" />
+            <corners android:radius="1dp" /> <!-- You can adjust the radius as needed -->
         </shape>
     </item>
     <item android:state_enabled="false">
         <!-- You can define a different background for the disabled state if needed -->
         <shape android:shape="rectangle">
             <solid android:color="#CCCCCC" />
-            <corners android:radius="8dp" />
+            <corners android:radius="0dp" />
         </shape>
     </item>
 </selector>

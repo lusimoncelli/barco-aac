@@ -30,6 +30,7 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[3] = findViewById(R.id.button_settings);
 
 
+
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
         setButtonVisibility(1, View.INVISIBLE);

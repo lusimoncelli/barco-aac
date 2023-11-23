@@ -6,7 +6,7 @@
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">#F5F5F5</item>
+        <item name="android:windowBackground">#6A2121</item>
     </style>
 
     <style name="MyButtonStyle" parent="Widget.AppCompat.Button">
@@ -21,6 +21,5 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
-    
 
 </resources>
