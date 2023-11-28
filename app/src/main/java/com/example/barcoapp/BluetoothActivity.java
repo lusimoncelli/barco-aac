@@ -70,7 +70,7 @@ public class BluetoothActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Navigate to main menu
-                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                Intent intent = new Intent(BluetoothActivity.this, LogInActivity.class);
                 handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
@@ -235,11 +235,11 @@ public class BluetoothActivity extends AppCompatActivity {
                     if (byteRead == 0) {
                         count ++;
                     }else {
-                        if(count > 500){
+                        if(count > 400){
                             sensorSignal = 2;
                             Log.d("PRESS", "Long press");
                         }
-                        else if (count > 50) {
+                        else if (count > 25) {
                             Log.d("PRESS", "short press");
                             sensorSignal = 0;
                         } else {
@@ -267,7 +267,7 @@ public class BluetoothActivity extends AppCompatActivity {
         }
     }
 
-    /* ============================ Terminate Connection at BackPress ====================== */
+    /* ============================ Terminate Connection at BackPress ======================
     @Override
     public void onBackPressed() {
         // Terminate Bluetooth Connection and close app
@@ -279,5 +279,5 @@ public class BluetoothActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         handler.removeCallbacks(null);
         startActivity(a);
-    }
+    }*/
 }

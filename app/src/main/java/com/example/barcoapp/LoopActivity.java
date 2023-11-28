@@ -57,7 +57,6 @@ public class LoopActivity extends AppCompatActivity {
                 enteredText.setText(newText);
             }
         });
-        delButton.setOnTouchListener(changeCarrouselHandler);
 
         Button deleteAllButton = findViewById(R.id.delete_all);
         deleteAllButton.setVisibility(View.INVISIBLE);
