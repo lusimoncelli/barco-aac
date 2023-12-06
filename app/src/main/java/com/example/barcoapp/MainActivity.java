@@ -3,7 +3,6 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -159,6 +158,18 @@ public class MainActivity extends AppCompatActivity {
         loopRunning = false;
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         handler.removeCallbacksAndMessages(null); // Remove any pending posts
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        checkSensorDataHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startSensorDataCheck();
     }
 
 

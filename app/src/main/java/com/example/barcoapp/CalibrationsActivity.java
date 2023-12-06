@@ -146,4 +146,16 @@ public class CalibrationsActivity extends AppCompatActivity {
         setButtonVisibility(currentButtonIndex, View.INVISIBLE);
         handler.removeCallbacksAndMessages(null); // Remove any pending posts
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        checkSensorDataHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startSensorDataCheck();
+    }
 }

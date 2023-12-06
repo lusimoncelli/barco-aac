@@ -228,6 +228,18 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        checkSensorDataHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startSensorDataCheck();
+    }
+
 
 }
 
