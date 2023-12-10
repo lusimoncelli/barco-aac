@@ -78,10 +78,11 @@ public class LoopActivity extends AppCompatActivity {
         Button ReadAloud = findViewById(R.id.button_read_out_loud);
         ReadAloud.setVisibility(View.INVISIBLE);
 
-        this.configButtons[0] = backButton;
+        this.configButtons[0] = ReadAloud;
         this.configButtons[1] = deleteAllButton;
         this.configButtons[2] = delButton;
-        this.configButtons[3] = ReadAloud;
+        this.configButtons[3] = backButton;
+
 
     }
 
@@ -209,7 +210,9 @@ public class LoopActivity extends AppCompatActivity {
         loopRunning = true;
         if(!configCarrouselActivated){
             for (Button button : buttons) {
-                button.setVisibility(View.VISIBLE);}}
+                button.setVisibility(View.VISIBLE);
+            }
+        }
         else {setButtonVisibility(currentButtonIndex,View.VISIBLE);}
         }
 

@@ -39,9 +39,9 @@ public class NewKeyboardActivity extends AppCompatActivity {
         buttons_shortcuts[1] = findViewById(R.id.button_chau);
         buttons_shortcuts[2] = findViewById(R.id.button_si);
         buttons_shortcuts[3] = findViewById(R.id.button_no);
-        buttons_shortcuts[4] = findViewById(R.id.button_back_to_main);
+        buttons_shortcuts[4] = findViewById(R.id.read_out_loud);
         buttons_shortcuts[5] = findViewById(R.id.button_delete_all);
-        buttons_shortcuts[6] = findViewById(R.id.read_out_loud);
+        buttons_shortcuts[6] = findViewById(R.id.button_back_to_main);
 
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
