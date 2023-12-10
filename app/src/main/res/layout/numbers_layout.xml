@@ -58,6 +58,17 @@
 
     <Button
         style="@style/MyButtonStyle"
+        android:id="@+id/button_read_out_loud"
+        android:text="Read Aloud"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="onReadButtonClick"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        style="@style/MyButtonStyle"
         android:id="@+id/delete_all"
         android:text="Borrar todo"
         app:layout_constraintBottom_toBottomOf="parent"

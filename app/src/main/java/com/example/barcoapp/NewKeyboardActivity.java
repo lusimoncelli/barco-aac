@@ -8,11 +8,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.speech.tts.TextToSpeech;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 public class NewKeyboardActivity extends AppCompatActivity {
 
-    private final Button[] buttons_shortcuts = new Button[6]; // Array to hold the buttons
+    private TextToSpeech textToSpeech;
+
+    private final Button[] buttons_shortcuts = new Button[7]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
     private final Handler handler = new Handler(); // Handler instance to manage button visibility
@@ -33,6 +41,7 @@ public class NewKeyboardActivity extends AppCompatActivity {
         buttons_shortcuts[3] = findViewById(R.id.button_no);
         buttons_shortcuts[4] = findViewById(R.id.button_back_to_main);
         buttons_shortcuts[5] = findViewById(R.id.button_delete_all);
+        buttons_shortcuts[6] = findViewById(R.id.read_out_loud);
 
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
@@ -41,6 +50,7 @@ public class NewKeyboardActivity extends AppCompatActivity {
         setButtonVisibility(3, View.INVISIBLE);
         setButtonVisibility(4,View.INVISIBLE);
         setButtonVisibility(5,View.INVISIBLE);
+        setButtonVisibility(6,View.INVISIBLE);
 
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
@@ -94,13 +104,45 @@ public class NewKeyboardActivity extends AppCompatActivity {
             }
         });
 
+
         // Access sensorDataApplication to retrieve sensor data
         SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
         // Start variable check
         startSensorDataCheck();
 
+        // Initialize TextToSpeech
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    // Set language to Spanish (Spain)
+                    int result = textToSpeech.setLanguage(new Locale("es", "ES")); // Spanish (Spain)
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(NewKeyboardActivity.this, "Language is not supported.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(NewKeyboardActivity.this, "TextToSpeech initialization failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+    public void onReadButtonClick(View view) {
+        // Get the text entered in the EditText
+        String textToRead = enteredText.getText().toString().trim();
+
+        // Check if TextToSpeech is initialized and the specified text is not empty
+        if (textToSpeech != null && !textToRead.isEmpty()) {
+            // Set up a HashMap to specify the utterance ID
+            HashMap<String, String> params = new HashMap<>();
+            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
+
+            // Speak the entered text
+            textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
+        }}
     private void startSensorDataCheck() {
         checkSensorDataHandler.postDelayed(new Runnable() {
             @Override

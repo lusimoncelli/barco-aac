@@ -7,10 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.speech.tts.TextToSpeech;
+import android.widget.Toast;
+import java.util.HashMap;
+import java.util.Locale;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoopActivity extends AppCompatActivity {
+
+    private TextToSpeech textToSpeech;
     private boolean configCarrouselActivated = false;
     private final int layoutId;
     private EditText enteredText;
@@ -36,7 +43,9 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     private void initializeConfigCarrousel(){
-        this.configButtons = new Button[3];
+        this.configButtons = new Button[4];
+
+
         Button backButton = findViewById(R.id.button_back_to_main);
         backButton.setVisibility(View.INVISIBLE);
         backButton.setOnClickListener(v -> {
@@ -65,9 +74,14 @@ public class LoopActivity extends AppCompatActivity {
                 enteredText.setText("");
             });
 
+
+        Button ReadAloud = findViewById(R.id.button_read_out_loud);
+        ReadAloud.setVisibility(View.INVISIBLE);
+
         this.configButtons[0] = backButton;
         this.configButtons[1] = deleteAllButton;
-        this.configButtons[2] =delButton;
+        this.configButtons[2] = delButton;
+        this.configButtons[3] = ReadAloud;
 
     }
 
@@ -85,6 +99,24 @@ public class LoopActivity extends AppCompatActivity {
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
 
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+
+                    // Set language to Spanish (Spain)
+                    int result = textToSpeech.setLanguage(new Locale("es", "ES")); // Spanish (Spain)
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(LoopActivity.this, "Language is not supported.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(LoopActivity.this, "TextToSpeech initialization failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         int index = 0;
         for (Integer buttonId : buttonsId)
             this.buttons[index++] = findViewById(buttonId);
@@ -92,6 +124,20 @@ public class LoopActivity extends AppCompatActivity {
         setInitialButtonAsVisible();
         startLoop();
     }
+
+    public void onReadButtonClick(View view) {
+        // Get the text entered in the EditText
+        String textToRead = enteredText.getText().toString().trim();
+
+        // Check if TextToSpeech is initialized and the specified text is not empty
+        if (textToSpeech != null && !textToRead.isEmpty()) {
+            // Set up a HashMap to specify the utterance ID
+            HashMap<String, String> params = new HashMap<>();
+            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
+
+            // Speak the entered text
+            textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
+        }}
 
     private void startSensorDataCheck() {
         checkSensorDataHandler.postDelayed(new Runnable() {
