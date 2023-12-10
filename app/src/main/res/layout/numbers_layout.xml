@@ -8,13 +8,11 @@
 
     <!-- Buttons -->
 
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_01234"
         style="@style/MyButtonStyle"
         android:layout_marginStart="68dp"
         android:layout_marginLeft="68dp"
-        android:enabled='true'
         android:text="01234"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,14 +20,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_56789"
         style="@style/MyButtonStyle"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
-        android:enabled='true'
         android:text="56789"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +39,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
     <Button
