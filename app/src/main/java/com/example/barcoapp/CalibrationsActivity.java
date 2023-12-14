@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CalibrationsActivity extends AppCompatActivity {
@@ -44,20 +46,29 @@ public class CalibrationsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FrequencyHolder.setFrequency(3000); // Set frequency to 750
+
+                // Display a pop-up notification
+                Toast.makeText(getApplicationContext(), "La velocidad de rotación fue modificada a: BAJA", Toast.LENGTH_SHORT).show();
             }
         });
 
         buttons_calibrations[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FrequencyHolder.setFrequency(2000); // Set frequency to 500
+                FrequencyHolder.setFrequency(2000); // Set frequency to 2000
+
+                // Display a pop-up notification
+                Toast.makeText(getApplicationContext(), "La velocidad de rotación fue modificada a: MEDIA", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         buttons_calibrations[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FrequencyHolder.setFrequency(1000); // Set frequency to 250
+                // Display a pop-up notification
+                Toast.makeText(getApplicationContext(), "La velocidad de rotación fue modificada a: ALTA", Toast.LENGTH_SHORT).show();
             }
         });
 
