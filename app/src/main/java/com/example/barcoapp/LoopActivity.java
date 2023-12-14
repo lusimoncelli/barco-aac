@@ -3,17 +3,16 @@ package com.example.barcoapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import android.speech.tts.TextToSpeech;
 import android.widget.Toast;
-import java.util.HashMap;
-import java.util.Locale;
-
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 public class LoopActivity extends AppCompatActivity {
 
@@ -21,9 +20,6 @@ public class LoopActivity extends AppCompatActivity {
     private boolean configCarrouselActivated = false;
     private final int layoutId;
     private EditText enteredText;
-    private final Handler handler = new Handler();
-    private final Handler longPressHandler = new Handler();
-    private final Handler checkSensorDataHandler = new Handler();
 
     // Button initialization
     private final Integer[] buttonsId;
@@ -32,8 +28,19 @@ public class LoopActivity extends AppCompatActivity {
     private final String[] initialButtonTexts;
     private int currentButtonIndex = 0;
     private boolean loopRunning = false;
-
     private boolean isLongPressing = false;
+    private final Handler mainHandler = new Handler(msg -> {
+        switch (msg.what) {
+            case Constants.CHECK_SENSOR_DATA:
+                handleSensorData();
+                return true;
+            case Constants.BUTTON_LOOP:
+                handleButtonLoop();
+                return true;
+            default:
+                return false;
+        }
+    });
 
     protected LoopActivity(Integer[] buttonsId, int layoutId, String[] initialButtonTexts) {
         this.buttonsId = buttonsId;
@@ -51,8 +58,7 @@ public class LoopActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             if(! isLongPressing){
                 Intent intent = new Intent(LoopActivity.this, MainActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                handler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -91,39 +97,57 @@ public class LoopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(this.layoutId);
 
-        // Start variable check
+        // Initialize components
+        initializeComponents();
+        setInitialButtonAsVisible();
+        initializeConfigCarrousel();
+
+        // Initialize sensor data check
         startSensorDataCheck();
 
+        startLoop();
+    }
+
+    private void startSensorDataCheck(){
+        mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
+    }
+
+
+    private void initializeComponents() {
         initializeConfigCarrousel();
 
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
+        textToSpeechInitialization();
+        initializeButtons();
+    }
 
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
+    private void textToSpeechInitialization() {
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = textToSpeech.setLanguage(new Locale("es", "ES")); // Spanish (Spain)
 
-                    // Set language to Spanish (Spain)
-                    int result = textToSpeech.setLanguage(new Locale("es", "ES")); // Spanish (Spain)
-
-                    if (result == TextToSpeech.LANG_MISSING_DATA ||
-                            result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(LoopActivity.this, "Language is not supported.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(LoopActivity.this, "TextToSpeech initialization failed.", Toast.LENGTH_SHORT).show();
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    showToast("Language is not supported.");
                 }
+            } else {
+                showToast("TextToSpeech initialization failed.");
             }
         });
+    }
 
+    private void showToast(String message) {
+        Toast.makeText(LoopActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void initializeButtons() {
         int index = 0;
-        for (Integer buttonId : buttonsId)
-            this.buttons[index++] = findViewById(buttonId);
+        for (Integer buttonId : buttonsId) {
+            buttons[index++] = findViewById(buttonId);
+        }
 
         setInitialButtonAsVisible();
-        startLoop();
     }
 
     public void onReadButtonClick(View view) {
@@ -140,20 +164,37 @@ public class LoopActivity extends AppCompatActivity {
             textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
         }}
 
-    private void startSensorDataCheck() {
-        checkSensorDataHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String receivedData = SensorDataApplication.getSensorData();
-                if ("0".equals(receivedData)) {
-                    pressVisibleButton();
-                } else if ("2".equals(receivedData)) {
-                    performLongClick();
-                }
+    private void handleSensorData() {
+        String receivedData = SensorDataApplication.getSensorData();
+        if ("0".equals(receivedData)) {
+            pressVisibleButton();
+        } else if ("2".equals(receivedData)) {
+            performLongClick();
+        }
 
-                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
+        startSensorDataCheck(); // Reschedule the check
+    }
+
+    private void startLoop() {
+        mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
+    }
+
+    private void handleButtonLoop() {
+        runOnUiThread(() -> {
+            if (!configCarrouselActivated) {
+                setButtonEnable(currentButtonIndex, false);
+                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
+                setButtonEnable(currentButtonIndex, true);
+            } else {
+                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+                currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
+                setButtonVisibility(currentButtonIndex, View.VISIBLE);
             }
-        }, Constants.CHECK_INTERVAL);
+
+            if (loopRunning) {
+                mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
+            }
+        });
     }
 
     private void pressVisibleButton() {
@@ -177,7 +218,7 @@ public class LoopActivity extends AppCompatActivity {
             restartButtons();}
 
         setInitialButtonAsVisible();
-        handler.removeCallbacksAndMessages(null);
+        mainHandler.removeCallbacksAndMessages(null);
         startLoop();
 
     }
@@ -217,27 +258,6 @@ public class LoopActivity extends AppCompatActivity {
         }
 
 
-    private void startLoop() {
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!configCarrouselActivated){
-                    setButtonEnable(currentButtonIndex, false);
-                    currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
-                    setButtonEnable(currentButtonIndex, true);}
-
-                else{
-                    setButtonVisibility(currentButtonIndex,View.INVISIBLE);
-                    currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                    setButtonVisibility(currentButtonIndex,View.VISIBLE);
-                }
-
-                if (loopRunning) {
-                    handler.postDelayed(this, FrequencyHolder.getFrequency());
-                }
-            }
-        },FrequencyHolder.getFrequency());
-    }
 
     private void stopButtonLoop() {
         loopRunning = false;
@@ -280,13 +300,14 @@ public class LoopActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
-        checkSensorDataHandler.removeCallbacksAndMessages(null);
+        mainHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         startSensorDataCheck();
+        startLoop();
     }
 
 
