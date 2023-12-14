@@ -58,7 +58,6 @@ public class LoopActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             if(! isLongPressing){
                 Intent intent = new Intent(LoopActivity.this, MainActivity.class);
-                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
@@ -218,7 +217,6 @@ public class LoopActivity extends AppCompatActivity {
             restartButtons();}
 
         setInitialButtonAsVisible();
-        mainHandler.removeCallbacksAndMessages(null);
         startLoop();
 
     }
