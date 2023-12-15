@@ -49,6 +49,24 @@ public class LoopActivity extends AppCompatActivity {
         this.initialButtonTexts = initialButtonTexts;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(this.layoutId);
+
+        // Initialize components
+        initializeComponents();
+
+        // Initialize sensor data check
+        startSensorDataCheck();
+
+        startLoop();
+    }
+
+    private void startSensorDataCheck(){
+        mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
+    }
+
     private void initializeConfigCarrousel(){
         this.configButtons = new Button[4];
 
@@ -77,7 +95,7 @@ public class LoopActivity extends AppCompatActivity {
         deleteAllButton.setOnClickListener(view -> {
             if(! isLongPressing)
                 enteredText.setText("");
-            });
+        });
 
 
         Button ReadAloud = findViewById(R.id.button_read_out_loud);
@@ -89,26 +107,6 @@ public class LoopActivity extends AppCompatActivity {
         this.configButtons[3] = backButton;
 
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(this.layoutId);
-
-        // Initialize components
-        initializeComponents();
-        setInitialButtonAsVisible();
-        initializeConfigCarrousel();
-
-        // Initialize sensor data check
-        startSensorDataCheck();
-
-        startLoop();
-    }
-
-    private void startSensorDataCheck(){
-        mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
     }
 
 
@@ -143,11 +141,14 @@ public class LoopActivity extends AppCompatActivity {
     private void initializeButtons() {
         int index = 0;
         for (Integer buttonId : buttonsId) {
-            buttons[index++] = findViewById(buttonId);
+            buttons[index] = findViewById(buttonId);
+            setButtonEnable(index, loopRunning); // Set the initial state
+            index++;
         }
 
         setInitialButtonAsVisible();
     }
+
 
     public void onReadButtonClick(View view) {
         // Get the text entered in the EditText
@@ -190,7 +191,7 @@ public class LoopActivity extends AppCompatActivity {
                 setButtonVisibility(currentButtonIndex, View.VISIBLE);
             }
 
-            if (loopRunning) {
+            if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
                 mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
             }
         });
@@ -206,20 +207,26 @@ public class LoopActivity extends AppCompatActivity {
 
     private void performLongClick() {
         loopRunning = false;
-        if(!configCarrouselActivated){
+
+        if (!configCarrouselActivated) {
             for (Button button : buttons) {
-                button.setVisibility(View.INVISIBLE);}}
-        else {setButtonVisibility(currentButtonIndex, View.INVISIBLE);}
-        currentButtonIndex = 0 ;
+                button.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+        }
+
+        currentButtonIndex = 0;
         configCarrouselActivated = !configCarrouselActivated;
 
-        if(!configCarrouselActivated){
-            restartButtons();}
+        if (!configCarrouselActivated && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
+            restartButtons();
+            startLoop();  // Start the loop only if not in config mode
+        }
 
         setInitialButtonAsVisible();
-        startLoop();
-
     }
+
 
     private void setButtonVisibility(int index, int visibility) {
         if(!configCarrouselActivated){
