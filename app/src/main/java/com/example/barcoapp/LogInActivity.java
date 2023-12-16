@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private final Button[] buttons = new Button[3]; // Array to hold the buttons
+    private final Button[] buttons = new Button[2]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
     private boolean loopRunning = false; // Flag to control the loop
     private final Handler checkSensorDataHandler = new Handler();
@@ -24,12 +24,10 @@ public class LogInActivity extends AppCompatActivity {
         // Initialize the buttons using their IDs
         buttons[0] = findViewById(R.id.button_keyboards);
         buttons[1] = findViewById(R.id.button_calibrations);
-        buttons[2] = findViewById(R.id.button_BT);
 
         // Set buttons initially invisible
         setButtonVisibility(0, View.INVISIBLE);
         setButtonVisibility(1, View.INVISIBLE);
-        setButtonVisibility(2, View.INVISIBLE);
 
         startButtonLoop(); // Start the button visibility loop
 
@@ -49,17 +47,6 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Move to the calibrations activity
                 Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
-        });
-
-        buttons[2].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Move to the bluetooth activity
-                Intent intent = new Intent(LogInActivity.this, BluetoothActivity.class);
                 handler.removeCallbacksAndMessages(null);
                 checkSensorDataHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);

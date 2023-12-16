@@ -27,7 +27,7 @@
 
         <!-- Activities declaration -->
         <activity
-            android:name=".LogInActivity"
+            android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".LogInActivity"></activity>
         <activity android:name=".BluetoothActivity"></activity>
         <activity android:name=".SelectDeviceActivity"></activity>
         <activity android:name=".NumbersKeyboardActivity"></activity>
