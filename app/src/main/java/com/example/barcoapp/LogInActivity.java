@@ -25,9 +25,6 @@ public class LogInActivity extends AppCompatActivity {
         buttons[0] = findViewById(R.id.button_keyboards);
         buttons[1] = findViewById(R.id.button_calibrations);
 
-        // Set buttons initially invisible
-        setButtonVisibility(0, View.INVISIBLE);
-        setButtonVisibility(1, View.INVISIBLE);
 
         startButtonLoop(); // Start the button visibility loop
 
@@ -66,8 +63,6 @@ public class LogInActivity extends AppCompatActivity {
                 String receivedData = SensorDataApplication.getSensorData();
                 if ("0".equals(receivedData)) {
                     pressVisibleButton();
-                } else if ("2".equals(receivedData)) {
-                    performLongClick();
                 }
 
                 checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
@@ -86,15 +81,6 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
-    private void performLongClick() {
-        Button visibleButton = buttons[currentButtonIndex];
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                visibleButton.performLongClick();
-            }
-        });
-    }
 
     private void setButtonVisibility(int index, int visibility) {
         if (index >= 0 && index < buttons.length) {
@@ -107,13 +93,18 @@ public class LogInActivity extends AppCompatActivity {
         startLoop();
     }
 
+    private void setButtonEnable(int index, boolean isEnabled) {
+        if (index >= 0 && index < buttons.length) {
+            buttons[index].setEnabled(isEnabled);
+            }
+        }
     private void startLoop() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+                setButtonEnable(currentButtonIndex, false);
                 currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
+                setButtonEnable(currentButtonIndex, true);
 
                 if (loopRunning) {
                     handler.postDelayed(this, FrequencyHolder.getFrequency());

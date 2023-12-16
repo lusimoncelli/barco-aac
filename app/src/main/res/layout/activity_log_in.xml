@@ -20,35 +20,44 @@
         app:layout_constraintHorizontal_bias="0.5"
         android:layout_marginTop="100dp"/>
 
-    <Button
-        style="@style/MyButtonStyle"
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_keyboards"
+        style="@style/MyButtonStyle"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
         android:text="Teclados"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_BT"
-        android:text="Bluetooth"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_calibrations"
+        style="@style/MyButtonStyle"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
         android:text="Configuración"
+        android:enabled='false'
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
+
 
     <ImageView
         android:id="@+id/imageView"
