@@ -55,12 +55,16 @@ public class LoopActivity extends AppCompatActivity {
         setContentView(this.layoutId);
 
         // Initialize components
-        initializeComponents();
+        initializeConfigCarrousel();
+        initializeText();
+        textToSpeechInitialization();
+        initializeButtons();
+        setInitialButtonAsVisible();
 
         // Initialize sensor data check
         startSensorDataCheck();
 
-        startLoop();
+        handleButtonLoop();
     }
 
     private void startSensorDataCheck(){
@@ -69,7 +73,6 @@ public class LoopActivity extends AppCompatActivity {
 
     private void initializeConfigCarrousel(){
         this.configButtons = new Button[4];
-
 
         Button backButton = findViewById(R.id.button_back_to_main);
         backButton.setVisibility(View.INVISIBLE);
@@ -110,14 +113,11 @@ public class LoopActivity extends AppCompatActivity {
     }
 
 
-    private void initializeComponents() {
-        initializeConfigCarrousel();
+    private void initializeText() {
 
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
-        textToSpeechInitialization();
-        initializeButtons();
     }
 
     private void textToSpeechInitialization() {
@@ -145,8 +145,6 @@ public class LoopActivity extends AppCompatActivity {
             setButtonEnable(index, loopRunning); // Set the initial state
             index++;
         }
-
-        setInitialButtonAsVisible();
     }
 
 
@@ -171,13 +169,9 @@ public class LoopActivity extends AppCompatActivity {
         } else if ("2".equals(receivedData)) {
             performLongClick();
         }
-
         startSensorDataCheck(); // Reschedule the check
     }
 
-    private void startLoop() {
-        mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
-    }
 
     private void handleButtonLoop() {
         runOnUiThread(() -> {
@@ -221,7 +215,7 @@ public class LoopActivity extends AppCompatActivity {
 
         if (!configCarrouselActivated && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
             restartButtons();
-            startLoop();  // Start the loop only if not in config mode
+            handleButtonLoop();  // Start the loop only if not in config mode
         }
 
         setInitialButtonAsVisible();
@@ -312,9 +306,8 @@ public class LoopActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startSensorDataCheck();
-        startLoop();
+        handleButtonLoop();
     }
-
 
 }
 

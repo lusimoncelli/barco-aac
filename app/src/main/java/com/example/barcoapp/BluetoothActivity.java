@@ -22,16 +22,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
 
     private SensorDataApplication sensorDataApplication;
     private String deviceName = null;
-    private String deviceAddress;
     public String sensorValue;
-    public static boolean buttonClick;
-    private TextView textView;
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -40,6 +36,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
     private Button buttonConnect;
+    @SuppressLint("StaticFieldLeak")
     private static Button buttonNavigate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,7 @@ public class BluetoothActivity extends AppCompatActivity {
         // UI Initialization
         buttonConnect = findViewById(R.id.buttonConnect);
         buttonNavigate = findViewById(R.id.button_inicio);
-        textView = findViewById(R.id.textViewBT);
+        TextView textView = findViewById(R.id.textViewBT);
 
         // Sensor Data application to send data over other activities
         sensorDataApplication = (SensorDataApplication) getApplication();
@@ -85,7 +82,7 @@ public class BluetoothActivity extends AppCompatActivity {
         deviceName = getIntent().getStringExtra("deviceName");
         if (deviceName != null) {
             // Get the device address to make BT Connection
-            deviceAddress = getIntent().getStringExtra("deviceAddress");
+            String deviceAddress = getIntent().getStringExtra("deviceAddress");
             // Show progress and connection status
             toolbar.setSubtitle("Connecting to " + deviceName + "...");
             progressBar.setVisibility(View.VISIBLE);
@@ -192,7 +189,7 @@ public class BluetoothActivity extends AppCompatActivity {
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
             connectedThread = new ConnectedThread(mmSocket);
-            connectedThread.run();
+            connectedThread.start();
         }
         // Closes the client socket and causes the thread to finish.
         public void cancel() {
@@ -239,7 +236,7 @@ public class BluetoothActivity extends AppCompatActivity {
                             sensorSignal = 2;
                             Log.d("PRESS", "Long press");
                         }
-                        else if (count > 25) {
+                        else if (count > 10) {
                             Log.d("PRESS", "short press");
                             sensorSignal = 0;
                         } else {
@@ -258,26 +255,6 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         }
 
-        /* Call this from the main activity to shutdown the connection */
-        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-            }
-        }
     }
 
-    /* ============================ Terminate Connection at BackPress ======================
-    @Override
-    public void onBackPressed() {
-        // Terminate Bluetooth Connection and close app
-        if (createConnectThread != null) {
-            createConnectThread.cancel();
-        }
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        handler.removeCallbacks(null);
-        startActivity(a);
-    }*/
 }
