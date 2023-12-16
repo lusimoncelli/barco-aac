@@ -86,7 +86,14 @@ public class NewKeyboardActivity extends AppCompatActivity {
             }
         });
 
-        buttons_shortcuts[4].setOnClickListener(new View.OnClickListener() {
+        buttons_shortcuts[5].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enteredText.setText("");
+            }
+        });
+
+        buttons_shortcuts[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean buttonSequenceRunning = false;
@@ -96,14 +103,6 @@ public class NewKeyboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        buttons_shortcuts[5].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                enteredText.setText("");
-            }
-        });
-
 
         // Access sensorDataApplication to retrieve sensor data
         SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
