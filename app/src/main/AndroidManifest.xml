@@ -42,6 +42,7 @@
         <activity android:name=".AlphanumericKeyboardActivity"></activity>
         <activity android:name=".NewKeyboardActivity"></activity>
         <activity android:name=".CalibrationsActivity"></activity>
+        <activity android:name=".PictogramActivity"></activity>
 
     </application>
 

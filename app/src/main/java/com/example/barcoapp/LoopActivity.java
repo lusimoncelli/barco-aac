@@ -23,12 +23,12 @@ public class LoopActivity extends AppCompatActivity {
 
     // Button initialization
     private final Integer[] buttonsId;
-    private Button[] buttons;
+    protected Button[] buttons;
     private Button[] configButtons;
     private final String[] initialButtonTexts;
     private int currentButtonIndex = 0;
-    private boolean loopRunning = false;
-    private boolean isLongPressing = false;
+    protected boolean loopRunning = false;
+    protected boolean isLongPressing = false;
     private final Handler mainHandler = new Handler(msg -> {
         switch (msg.what) {
             case Constants.CHECK_SENSOR_DATA:
@@ -264,7 +264,7 @@ public class LoopActivity extends AppCompatActivity {
             button.setVisibility(View.INVISIBLE);}
     }
 
-    private void appendText(String text) {
+    protected void appendText(String text) {
         enteredText.append(text);
         stopButtonLoop();
         setInitialButtonAsVisible();
@@ -279,6 +279,7 @@ public class LoopActivity extends AppCompatActivity {
 
         Button clickedButton = (Button) view;
         String buttonText = clickedButton.getText().toString();
+        String[] palabras = clickedButton.getText().toString().split("-");
         int buttonTextLength = buttonText.length();
         if( buttonTextLength == 1){
             appendText(buttonText);
@@ -289,7 +290,8 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
-    private void restartButtons(){
+
+    protected void restartButtons(){
         int index = 0;
         for(String initialText: this.initialButtonTexts){
             this.buttons[index++].setText(initialText);

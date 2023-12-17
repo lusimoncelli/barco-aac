@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler = new Handler();
 
     // Buttons Initialization
-    private final Button[] buttons = new Button[4];
+    private final Button[] buttons = new Button[5];
 
     // Flag to control the button loop
     private boolean loopRunning = false;
@@ -28,66 +28,65 @@ public class MainActivity extends AppCompatActivity {
         buttons[1] = findViewById(R.id.button_settings);
         buttons[2] = findViewById(R.id.button_abcde);
         buttons[3] = findViewById(R.id.button_newkeyboard);
+        buttons[4] = findViewById(R.id.button_pictograms);
 
         // Set buttons as invisible
         buttons[0].setVisibility(View.INVISIBLE);
         buttons[1].setVisibility(View.INVISIBLE);
         buttons[2].setVisibility(View.INVISIBLE);
         buttons[3].setVisibility(View.INVISIBLE);
+        buttons[4].setVisibility(View.INVISIBLE);
 
         startButtonLoop();
 
         // Go to Settings
-        buttons[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loopRunning = false;
-                Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[1].setOnClickListener(view -> {
+            loopRunning = false;
+            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         // Go to numbers keyboard
-        buttons[0].setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                loopRunning = false;
-                Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[0].setOnClickListener(view -> {
+            loopRunning = false;
+            Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         // Go to alphanumeric keyboard
-        buttons[2].setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                loopRunning = false;
-                Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[2].setOnClickListener(view -> {
+            loopRunning = false;
+            Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         // Go to create keyboard
-        buttons[3].setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                loopRunning = false;
-                Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[3].setOnClickListener(view -> {
+            loopRunning = false;
+            Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
+        });
 
+        buttons[4].setOnClickListener(view -> {
+            loopRunning = false;
+            Intent intent = new Intent(MainActivity.this, PictogramActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         startSensorDataCheck();
     }
+
+
 
     private void startSensorDataCheck() {
         checkSensorDataHandler.postDelayed(new Runnable() {

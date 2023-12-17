@@ -69,6 +69,8 @@ public class BluetoothActivity extends AppCompatActivity {
             String deviceAddress = getIntent().getStringExtra("deviceAddress");
             // Show progress and connection status
             toolbar.setSubtitle("Connecting to " + deviceName + "...");
+            TextView text = findViewById(R.id.textViewBT);
+            text.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             buttonConnect.setEnabled(false);
 
