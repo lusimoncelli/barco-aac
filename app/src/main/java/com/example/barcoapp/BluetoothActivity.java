@@ -25,9 +25,8 @@ import java.io.InputStream;
 import java.util.UUID;
 public class BluetoothActivity extends AppCompatActivity {
 
-    private SensorDataApplication sensorDataApplication;
+    private SensorDataApplication sensorDataApplication  = new SensorDataApplication();
     private String deviceName = null;
-    public String sensorValue;
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -36,8 +35,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
     private Button buttonConnect;
-    @SuppressLint("StaticFieldLeak")
-    private static Button buttonNavigate;
+    private Button buttonNavigate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,32 +43,18 @@ public class BluetoothActivity extends AppCompatActivity {
 
         // UI Initialization
         buttonConnect = findViewById(R.id.buttonConnect);
-        buttonNavigate = findViewById(R.id.button_inicio);
-        TextView textView = findViewById(R.id.textViewBT);
-
-        // Sensor Data application to send data over other activities
-        sensorDataApplication = (SensorDataApplication) getApplication();
-
-        // Select Bluetooth Device
-        buttonConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Move to adapter list
-                Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttonConnect.setOnClickListener(view -> {
+            Intent intent = new Intent(BluetoothActivity.this, SelectDeviceActivity.class);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
-        // Button Navigate to main menu
-        buttonNavigate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Navigate to main menu
-                Intent intent = new Intent(BluetoothActivity.this, LogInActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+
+        buttonNavigate = findViewById(R.id.button_inicio);
+        buttonNavigate.setOnClickListener(view -> {
+            Intent intent = new Intent(BluetoothActivity.this, LogInActivity.class);
+            handler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
@@ -87,55 +71,24 @@ public class BluetoothActivity extends AppCompatActivity {
             toolbar.setSubtitle("Connecting to " + deviceName + "...");
             progressBar.setVisibility(View.VISIBLE);
             buttonConnect.setEnabled(false);
-            /*
-            This is the most important piece of code. When "deviceName" is found
-            the code will call a new thread to create a bluetooth connection to the
-            selected device (see the thread code below)
-             */
+
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             createConnectThread = new CreateConnectThread(bluetoothAdapter, deviceAddress);
             createConnectThread.start();
         }
 
-        /*
-        Second most important piece of Code. GUI Handler
-         */
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case CONNECTING_STATUS:
-                        switch (msg.arg1) {
-                            case 1:
-                                toolbar.setSubtitle("Connected to " + deviceName);
-                                progressBar.setVisibility(View.GONE);
-                                buttonConnect.setEnabled(true);
-
-                                break;
-                            case -1:
-                                toolbar.setSubtitle("Device fails to connect");
-                                progressBar.setVisibility(View.GONE);
-                                buttonConnect.setEnabled(true);
-                                break;
-                        }
-                        break;
-                    case MESSAGE_READ:
-                        String arduinoMsg = msg.obj.toString();
-                        switch (arduinoMsg){
-                            case "0":
-                                sensorValue = "0";
-                                sensorDataApplication.setSensorData(sensorValue);
-                                break;
-                            case "1":
-                                sensorValue = "1";
-                                //sensorDataApplication.setSensorData(sensorValue);
-                                break;
-                            case "2":
-                                sensorValue = "2";
-                                sensorDataApplication.setSensorData(sensorValue);
-                                break;
-                        }
-                }
+                if(msg.what == CONNECTING_STATUS){
+                    if(msg.arg1 == 1)
+                        toolbar.setSubtitle("Connected to " + deviceName);
+                    else
+                        toolbar.setSubtitle("Device fails to connect");
+                    progressBar.setVisibility(View.GONE);
+                    buttonConnect.setEnabled(true);
+                } else if (msg.what == MESSAGE_READ)
+                    sensorDataApplication.setSensorData(msg.obj.toString());
             }
         };
 
@@ -215,6 +168,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 tmpIn = socket.getInputStream();
 
             } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating input stream", e);
             }
             mmInStream = tmpIn;
 
@@ -223,31 +177,36 @@ public class BluetoothActivity extends AppCompatActivity {
             int sensorSignal;
             int count = 0;
             int byteRead;
+            int bufferSize = 1024;
 
             while (true) {
+                byte[] mmBuffer = new byte[bufferSize];
                 try {
-                    byteRead = ((byte) mmInStream.read() & 0xFF); // Transform it to int
-                    Log.d("BYTE_READ", String.valueOf(byteRead));
+                    int a = mmInStream.read(mmBuffer);
+                    Log.d("BYTEs_READ", String.valueOf(a));
 
-                    if (byteRead == 0) {
-                        count ++;
-                    }else {
-                        if(count > 400){
-                            sensorSignal = 2;
-                            Log.d("PRESS", "Long press");
-                        }
-                        else if (count > 10) {
-                            Log.d("PRESS", "short press");
-                            sensorSignal = 0;
+                    for (int i = 0; i <  a ; i++) {
+                        byteRead = (mmBuffer[i] & 0xFF); // Transform it to int
+                        Log.d("BYTE_READ", String.valueOf(byteRead));
+
+                        if (byteRead == 0) {
+                            count++;
                         } else {
-                            sensorSignal = 1;
+                            if (count > 400) {
+                                sensorSignal = 2;
+                                Log.d("PRESS", "Long press");
+                            } else if (count > 10) {
+                                Log.d("PRESS", "short press");
+                                sensorSignal = 0;
+                            } else {
+                                sensorSignal = 1;
+                            }
+                            Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
+                            handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
+                            count = 0;
                         }
-                        Log.d("SENSOR_SIGNAL", String.valueOf(sensorSignal));
-                        handler.obtainMessage(MESSAGE_READ, sensorSignal).sendToTarget();
-                        count = 0 ;
+
                     }
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                     break;

@@ -16,7 +16,7 @@ public class SensorDataApplication extends Application {
         return tmp;
     }
 
-    public void setSensorData(String sensorData) {
+    public static void setSensorData(String sensorData) {
         if(SensorDataApplication.sensorData.equals("1")){
             SensorDataApplication.sensorData = sensorData;
         }

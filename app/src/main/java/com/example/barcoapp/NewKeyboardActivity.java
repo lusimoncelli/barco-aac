@@ -104,9 +104,6 @@ public class NewKeyboardActivity extends AppCompatActivity {
             }
         });
 
-        // Access sensorDataApplication to retrieve sensor data
-        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
-        // Start variable check
         startSensorDataCheck();
 
         // Initialize TextToSpeech

@@ -12,19 +12,10 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        // Delayed transition to the main activity
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Start the main activity
-                Intent mainIntent = new Intent(WelcomeActivity.this, BluetoothActivity.class);
-                startActivity(mainIntent);
-
-                // Finish the welcome activity
-                finish();
-            }
-        }, 5000); // 5000 milliseconds (5 seconds) delay
+         new Handler().postDelayed(() -> {
+            Intent mainIntent = new Intent(WelcomeActivity.this, BluetoothActivity.class);
+            startActivity(mainIntent);
+        }, 1000);
     }
 }
 

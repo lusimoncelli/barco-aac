@@ -86,9 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        // Access sensorDataApplication to retrieve sensor data
-        SensorDataApplication sensorDataApplication = (SensorDataApplication) getApplication();
-        // Start variable check
         startSensorDataCheck();
     }
 
