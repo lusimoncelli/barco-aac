@@ -21,16 +21,16 @@
 
         <Button
             android:id="@+id/button_inicio"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
+            android:layout_width="164dp"
+            android:layout_height="111dp"
+            android:drawableLeft="@drawable/home_icon"
+            android:fontFamily="@font/montserrat_bold"
             android:text="Inicio"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -46,11 +46,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Conexión Bluetooth"
-        app:titleTextColor="@android:color/black" />
+        app:titleTextAppearance="@font/montserrat"
+        app:titleTextColor="@android:color/white" />
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -58,10 +58,11 @@
             android:id="@+id/textViewBT"
             android:layout_width="match_parent"
             android:layout_height="135dp"
-            android:textSize="30sp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="En la lista de dispositivos seleccionar APP BARCO" />
+            android:fontFamily="@font/montserrat_regular"
+            android:text="En la lista de dispositivos seleccionar APP BARCO"
+            android:textSize="26sp" />
     </RelativeLayout>
 
 
@@ -70,8 +71,9 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Conectar"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />

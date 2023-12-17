@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/appIcon"
         android:text="Bienvenido a BARCO APP"
+        android:fontFamily="@font/montserrat_bold"
         android:textSize="24sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/appIcon"
@@ -36,37 +37,36 @@
 
     <TextView
         android:id="@+id/ChamuyoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="La última generación en tecnología de Comunicación Aumentada Alternativa"
-        android:textSize="16sp"
-        android:textColor="@color/black"
+        android:layout_width="432dp"
+        android:layout_height="72dp"
         android:layout_below="@id/welcomeText"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        />
+        android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="La última generación en tecnología de Comunicación Aumentada Alternativa"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
     <TextView
         android:id="@+id/instructionsText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="A continuación, asegúrese de tener los lentes encendidos y conecte el dispositivo por Bluetooth"
-        android:textSize="20sp"
-        android:textColor="@color/black"
         android:layout_below="@id/ChamuyoText"
-        app:layout_constraintTop_toBottomOf="@+id/ChamuyoText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
-    />
+        android:text="A continuación, asegúrese de tener los lentes encendidos y conecte el dispositivo por Bluetooth"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ChamuyoText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

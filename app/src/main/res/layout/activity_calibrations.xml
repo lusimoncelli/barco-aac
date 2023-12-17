@@ -5,14 +5,27 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo_barco_app"
+        app:layout_constraintBottom_toTopOf="@id/enteredText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.835" />
+
     <TextView
         android:id="@+id/enteredText"
         android:layout_width="331dp"
         android:layout_height="80dp"
         android:text="Velocidad de botones:"
+        android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/button_slow"
         app:layout_constraintStart_toStartOf="parent"
