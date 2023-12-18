@@ -46,8 +46,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Conexión Bluetooth"
+
         app:titleTextAppearance="@style/Toolbar.TitleText"
         app:titleTextColor="@android:color/white" />
+
+
 
 
     <RelativeLayout
@@ -74,6 +77,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:text="Conectar"
         android:textColor="@color/white"
+        android:drawableLeft="@drawable/bluetooth_icon"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
