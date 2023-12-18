@@ -8,7 +8,7 @@ public class PictogramActivity extends LoopActivity {
         super(new Integer[]{
                         R.id.button_A,
                         R.id.button_B
-                }, R.layout.pictogram_layout, new String[]{"CASA-PERRO", "ARBOL-PAPEL"}
+                }, R.layout.pictogram_layout, new String[]{"CASA PERRO", "ARBOL PAPEL"}
         );
     }
 
@@ -17,7 +17,7 @@ public class PictogramActivity extends LoopActivity {
         if(!loopRunning || isLongPressing) return;
 
         Button clickedButton = (Button) view;
-        String[] words = clickedButton.getText().toString().split("-");
+        String[] words = clickedButton.getText().toString().split(" ");
         if( words.length == 1){
             appendText(words[0]+" ");
             restartButtons();

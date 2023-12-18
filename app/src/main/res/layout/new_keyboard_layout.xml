@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".MainActivity">
+
+    <!-- Buttons -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_A"
+        style="@style/MyButtonStyle"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:text="HOLA CHAU"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_B"
+        style="@style/MyButtonStyle"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
+        android:text="SI NO"
+        android:enabled='false'
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_back_to_main"
+        style="@style/MyButtonStyle"
+        android:text="Teclados"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button_read_out_loud"
+        style="@style/MyButtonStyle"
+        android:text="Read Aloud"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        android:onClick="onReadButtonClick"
+        tools:ignore="MissingConstraints" />
+
+
+    <!-- Button 2 (Overlapping) -->
+    <Button
+        android:id="@+id/delete_all"
+        style="@style/MyButtonStyle"
+        android:text="Borrar todo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="MissingConstraints" />
+
 
     <EditText
         android:id="@+id/enteredText"
@@ -15,81 +94,22 @@
         android:inputType="text"
         android:textColor="#000000"
         android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.666" />
 
     <Button
-        android:id="@+id/button_hola"
+        android:id="@+id/button_delete_last"
         style="@style/MyButtonStyle"
-        android:text="HOLA"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Borrar último caracter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_chau"
-        android:text="CHAU"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_si"
-        android:text="SI"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_no"
-        android:text="NO"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_back_to_main"
-        android:text="Teclados"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_delete_all"
-        android:text="Borrar todo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/read_out_loud"
-        android:text="Leer en voz alta"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/enteredText"
-        android:onClick="onReadButtonClick"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
         tools:ignore="MissingConstraints" />
 
 
