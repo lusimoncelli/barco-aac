@@ -15,6 +15,7 @@
         android:layout_marginLeft="68dp"
         android:text="01234"
         android:enabled='true'
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -34,6 +35,7 @@
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         android:text="56789"
+        android:textSize="35sp"
         android:enabled='false'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
