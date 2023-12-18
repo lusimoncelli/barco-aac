@@ -8,7 +8,7 @@ public class PictogramActivity extends LoopActivity {
         super(new Integer[]{
                         R.id.button_A,
                         R.id.button_B
-                }, R.layout.pictogram_layout, new String[]{"CASA PERRO", "ARBOL PAPEL"}
+                }, R.layout.pictogram_layout, new String[]{"CASA PERRO", "ARBOL PAPEL"},new String[] {"BORRAR LEER", "INICIO REINICIAR"}
         );
     }
 

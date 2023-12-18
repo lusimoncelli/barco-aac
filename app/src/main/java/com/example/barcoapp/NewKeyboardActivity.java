@@ -8,7 +8,7 @@ public class NewKeyboardActivity extends LoopActivity {
         super(new Integer[]{
                         R.id.button_A,
                         R.id.button_B
-                }, R.layout.new_keyboard_layout, new String[]{"HOLA CHAU", "SI NO"}
+                }, R.layout.new_keyboard_layout, new String[]{"HOLA CHAU", "SI NO"}, new String[] {"BORRAR LEER", "INICIO REINICIAR"}
         );
     }
 

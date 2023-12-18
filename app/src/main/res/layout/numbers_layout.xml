@@ -16,7 +16,7 @@
         android:text="Teclado números"
         android:textColor="@color/black"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_delete_last"
+        app:layout_constraintBottom_toTopOf="@+id/button_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,37 +66,41 @@
         android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/button_back_to_main"
-        android:text="Teclados"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_delete"
+        style="@style/MyButtonStyle2"
+        android:layout_marginEnd="88dp"
+        android:layout_marginRight="88dp"
+        android:text="BORRAR LEER"
+        android:enabled='false'
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        style="@style/MyButtonStyle"
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_read_out_loud"
-        android:text="Leer en voz alta"
-        android:drawableLeft="@drawable/speech_icon"
+        style="@style/MyButtonStyle2"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:text="INICIO REINICIAR"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onReadButtonClick"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        style="@style/MyButtonStyle"
-        android:id="@+id/delete_all"
-        android:text="Borrar todo"
-        android:drawableLeft="@drawable/delete_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -108,24 +112,11 @@
         android:text=""
         android:textColor="#000000"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_back_to_main"
+        app:layout_constraintBottom_toTopOf="@+id/button_read_out_loud"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.666" />
-
-    <Button
-        android:id="@+id/button_delete_last"
-        style="@style/MyButtonStyle"
-        android:text="Borrar último caracter"
-        android:drawableLeft="@drawable/backspace_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.5"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
