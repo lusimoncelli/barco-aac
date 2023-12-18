@@ -59,7 +59,7 @@
     <Button
         android:id="@+id/button_read_out_loud"
         style="@style/MyButtonStyle"
-        android:text="Read Aloud"
+        android:text="Leer en voz alta"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
