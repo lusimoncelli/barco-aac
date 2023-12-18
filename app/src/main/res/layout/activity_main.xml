@@ -8,6 +8,22 @@
 
     <!-- Custom Bottom Navigation -->
 
+    <TextView
+        android:id="@+id/title_screen"
+        android:layout_width="331dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="Teclados"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_abcde"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.105" />
+
     <Button
         style="@style/MyButtonStyle"
         android:id="@+id/button_abcde"

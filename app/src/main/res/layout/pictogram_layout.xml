@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/title_screen"
+        android:layout_width="331dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="Pictogramas"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_delete_last"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.105" />
+
     <!-- Buttons -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_A"
@@ -59,7 +75,8 @@
     <Button
         android:id="@+id/button_read_out_loud"
         style="@style/MyButtonStyle"
-        android:text="Read Aloud"
+        android:text="Leer en voz alta"
+        android:drawableLeft="@drawable/speech_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -75,6 +92,7 @@
         android:id="@+id/delete_all"
         style="@style/MyButtonStyle"
         android:text="Borrar todo"
+        android:drawableLeft="@drawable/delete_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -104,6 +122,7 @@
         android:id="@+id/button_delete_last"
         style="@style/MyButtonStyle"
         android:text="Borrar último caracter"
+        android:drawableLeft="@drawable/backspace_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
