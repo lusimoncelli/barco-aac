@@ -279,7 +279,6 @@ public class LoopActivity extends AppCompatActivity {
 
         Button clickedButton = (Button) view;
         String buttonText = clickedButton.getText().toString();
-        String[] palabras = clickedButton.getText().toString().split("-");
         int buttonTextLength = buttonText.length();
         if( buttonTextLength == 1){
             appendText(buttonText);
