@@ -1,92 +1,89 @@
 package com.example.barcoapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
 
-    private final Handler handler = new Handler();
-
-    // Buttons Initialization
-    private final Button[] buttons = new Button[5];
-
-    // Flag to control the button loop
-    private boolean loopRunning = false;
+    private final Button[] buttons_main = new Button[2]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
+    private boolean loopRunning = false; // Flag to control the loop
+    private final Handler handler = new Handler(); // Handler instance to manage button visibility
     private final Handler checkSensorDataHandler = new Handler();
+    private final String[] initialButtonTexts = {"ALFABÉTICO NÚMEROS", "PALABRAS PICTOGRAMAS INICIO"};
 
+    @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttons[0] = findViewById(R.id.button_numbers);
-        buttons[1] = findViewById(R.id.button_settings);
-        buttons[2] = findViewById(R.id.button_abcde);
-        buttons[3] = findViewById(R.id.button_newkeyboard);
-        buttons[4] = findViewById(R.id.button_pictograms);
+        // Initialize the buttons using their IDs from the activity_calibrations layout
+        buttons_main[0] = findViewById(R.id.button_abcde);
+        buttons_main[1] = findViewById(R.id.button_numbers);
 
-        // Set buttons as invisible
-        buttons[0].setVisibility(View.INVISIBLE);
-        buttons[1].setVisibility(View.INVISIBLE);
-        buttons[2].setVisibility(View.INVISIBLE);
-        buttons[3].setVisibility(View.INVISIBLE);
-        buttons[4].setVisibility(View.INVISIBLE);
-
-        startButtonLoop();
-
-        // Go to Settings
-        buttons[1].setOnClickListener(view -> {
-            loopRunning = false;
-            Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-            checkSensorDataHandler.removeCallbacksAndMessages(null);
-            handler.removeCallbacksAndMessages(null);
-            startActivity(intent);
-        });
-
-        // Go to numbers keyboard
-        buttons[0].setOnClickListener(view -> {
-            loopRunning = false;
-            Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
-            checkSensorDataHandler.removeCallbacksAndMessages(null);
-            handler.removeCallbacksAndMessages(null);
-            startActivity(intent);
-        });
-
-        // Go to alphanumeric keyboard
-        buttons[2].setOnClickListener(view -> {
-            loopRunning = false;
-            Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
-            checkSensorDataHandler.removeCallbacksAndMessages(null);
-            handler.removeCallbacksAndMessages(null);
-            startActivity(intent);
-        });
-
-        // Go to create keyboard
-        buttons[3].setOnClickListener(view -> {
-            loopRunning = false;
-            Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
-            checkSensorDataHandler.removeCallbacksAndMessages(null);
-            handler.removeCallbacksAndMessages(null);
-            startActivity(intent);
-        });
-
-        buttons[4].setOnClickListener(view -> {
-            loopRunning = false;
-            Intent intent = new Intent(MainActivity.this, PictogramActivity.class);
-            checkSensorDataHandler.removeCallbacksAndMessages(null);
-            handler.removeCallbacksAndMessages(null);
-            startActivity(intent);
-        });
-
+        startLoop(); // Start the button visibility loop
         startSensorDataCheck();
     }
 
+    public void onButtonClick(View view) {
+        Button clickedButton = (Button) view;
+        String[] words = clickedButton.getText().toString().split(" ");
+        if (words.length == 1) {
+            if ("ALFABÉTICO".equals(words[0])) {
+                Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);}
+            else if ("NÚMEROS".equals(words[0])){
+                Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);}
+            else if ("PALABRAS".equals(words[0])){
+                Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);}
+            else if ("PICTOGRAMAS".equals(words[0])){
+                Intent intent = new Intent(MainActivity.this, PictogramActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);}
+            else if ("INICIO".equals(words[0])){
+                Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                handler.removeCallbacksAndMessages(null);
+                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
+            }
+            restartButtons();
+        }
+        else{
+            String firstButton = "", secondButton="";
+            for(int i = 0 ; i < words.length  ; i++){
+                if ( i < words.length / 2)
+                    firstButton += words[i] + " ";
+                else
+                    secondButton += words[i] + " ";
+            }
+            this.buttons_main[0].setText(firstButton);
+            this.buttons_main[1].setText(secondButton);
+        }
+    }
 
+    protected void restartButtons(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts){
+            this.buttons_main[index++].setText(initialText);
+        }
+    }
 
     private void startSensorDataCheck() {
         checkSensorDataHandler.postDelayed(new Runnable() {
@@ -95,10 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 String receivedData = SensorDataApplication.getSensorData();
                 if ("0".equals(receivedData)) {
                     pressVisibleButton();
-                } else if ("2".equals(receivedData)) {
-                    performLongClick();
                 }
-
                 checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
             }
         }, Constants.CHECK_INTERVAL);
@@ -106,54 +100,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void pressVisibleButton() {
 
-        Button visibleButton = buttons[currentButtonIndex];
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                visibleButton.performClick();
-            }
-        });
+        Button visibleButton = buttons_main[currentButtonIndex];
+        runOnUiThread(() -> visibleButton.performClick());
     }
 
-    private void performLongClick() {
-        Button visibleButton = buttons[currentButtonIndex];
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                visibleButton.performLongClick();
-            }
-        });
-    }
-
-    private void setButtonVisibility(int index, int visibility) {
-        if (index >= 0 && index < buttons.length) {
-            buttons[index].setVisibility(visibility);
-        }
-    }
-
-    private void startButtonLoop() {
-        loopRunning = true;
-        startLoop();
-    }
+    private void setButtonEnable(int index, boolean isEnabled) {
+        if (index >= 0 && index < buttons_main.length) {
+            buttons_main[index].setEnabled(isEnabled);
+        }}
 
     private void startLoop() {
+        loopRunning = true;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
+                setButtonEnable(currentButtonIndex, true);
+                currentButtonIndex = (currentButtonIndex + 1) % buttons_main.length;
+                setButtonEnable(currentButtonIndex, false);
+
                 if (loopRunning) {
                     handler.postDelayed(this, FrequencyHolder.getFrequency());
                 }
             }
         }, 0); // Start the loop immediately
-    }
-
-    private void stopButtonLoop() {
-        loopRunning = false;
-        setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-        handler.removeCallbacksAndMessages(null); // Remove any pending posts
     }
 
     @Override
@@ -167,6 +136,4 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         startSensorDataCheck();
     }
-
-
 }
