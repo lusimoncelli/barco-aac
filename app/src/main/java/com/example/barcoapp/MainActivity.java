@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -73,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 else
                     secondButton += words[i] + " ";
             }
-            this.buttons_main[0].setText(firstButton);
-            this.buttons_main[1].setText(secondButton);
+            this.buttons_main[1].setText(firstButton);
+            this.buttons_main[0].setText(secondButton);
         }
     }
 
