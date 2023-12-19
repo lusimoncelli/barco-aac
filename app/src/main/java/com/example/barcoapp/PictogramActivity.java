@@ -24,10 +24,13 @@ public class PictogramActivity extends AppCompatActivity {
     // Button initialization
     private Button[] configButtons;
     private final ImageButton[] imgButtons = new ImageButton[2];
-    private final ImageButton[] secondary_imgButtons = new ImageButton[4];
+    private final ImageButton[] imgButtons_when = new ImageButton[2];
+    private final ImageButton[] imgButtons_drink = new ImageButton[2];
     private int currentButtonIndex = 0;
+    // Booleans
     protected boolean loopRunning = false;
-    protected boolean secondary = false;
+    protected boolean secondary_when = false;
+    protected boolean secondary_drink = false;
     protected boolean isLongPressing = false;
     private final Handler mainHandler = new Handler(msg -> {
         switch (msg.what) {
@@ -48,7 +51,6 @@ public class PictogramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pictogram_layout);
 
-
         initializeText();
         initializeConfigCarrousel();
         initializeText();
@@ -66,12 +68,18 @@ public class PictogramActivity extends AppCompatActivity {
         imgButtons[0] = findViewById(R.id.button_A);
         imgButtons[1] = findViewById(R.id.button_B);
 
-        secondary_imgButtons[0] = findViewById(R.id.button_A1);
-        secondary_imgButtons[1] = findViewById(R.id.button_B1);
-        secondary_imgButtons[2] = findViewById(R.id.button_A2);
-        secondary_imgButtons[3] = findViewById(R.id.button_B2);
+        // Buttons when and what
+        imgButtons_when[0] = findViewById(R.id.button_A1);
+        imgButtons_when[1] = findViewById(R.id.button_B1);
+        // Buttons eat and drink
+        imgButtons_drink[0] = findViewById(R.id.button_A2);
+        imgButtons_drink[1] = findViewById(R.id.button_B2);
 
-        for (ImageButton button : secondary_imgButtons) {
+        for (ImageButton button : imgButtons_when) {
+            button.setVisibility(View.INVISIBLE);
+        }
+
+        for (ImageButton button : imgButtons_drink) {
             button.setVisibility(View.INVISIBLE);
         }
     }
@@ -94,24 +102,24 @@ public class PictogramActivity extends AppCompatActivity {
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
             }
-            secondary_imgButtons[2].setVisibility(View.VISIBLE);
-            secondary_imgButtons[3].setVisibility(View.VISIBLE);
-            secondary = true;
-            handleButtonLoop();
+            imgButtons_drink[0].setVisibility(View.VISIBLE);
+            imgButtons_drink[1].setVisibility(View.VISIBLE);
+            secondary_drink = true;
         }
         else if (buttonId == R.id.button_B){
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
             }
-            secondary_imgButtons[0].setVisibility(View.VISIBLE);
-            secondary_imgButtons[1].setVisibility(View.VISIBLE);
-            secondary = true;
-            handleButtonLoop();
+            imgButtons_when[0].setVisibility(View.VISIBLE);
+            imgButtons_when[1].setVisibility(View.VISIBLE);
+            secondary_when = true;
         }
         else {
             appendText(buttonTextMap.get(buttonId));
+            secondary_drink = false;
+            secondary_when = false;
             restartButtons();
-            secondary = false;
+
         }
     }
 
@@ -160,7 +168,10 @@ public class PictogramActivity extends AppCompatActivity {
         for (ImageButton button : imgButtons) {
             button.setVisibility(View.VISIBLE);
         }
-        for (ImageButton button : secondary_imgButtons) {
+        for (ImageButton button : imgButtons_when) {
+            button.setVisibility(View.INVISIBLE);
+        }
+        for (ImageButton button : imgButtons_drink) {
             button.setVisibility(View.INVISIBLE);
         }
     }
@@ -194,7 +205,10 @@ public class PictogramActivity extends AppCompatActivity {
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
             }
-            for (ImageButton button : secondary_imgButtons) {
+            for (ImageButton button : imgButtons_drink) {
+                button.setVisibility(View.INVISIBLE);
+            }
+            for (ImageButton button : imgButtons_when) {
                 button.setVisibility(View.INVISIBLE);
             }
         } else {
@@ -214,33 +228,26 @@ public class PictogramActivity extends AppCompatActivity {
 
     private void handleButtonLoop() {
         runOnUiThread(() -> {
-            if (!configCarrouselActivated && !secondary) {
-                setButtonEnable(currentButtonIndex, false);
-                currentButtonIndex = (currentButtonIndex + 1) % imgButtons.length;
-                setButtonEnable(currentButtonIndex, true);
-            } else if (!configCarrouselActivated && secondary) {
-                // Check if it's A1 or B1 button and adjust visibility accordingly
-                if (currentButtonIndex == 0 || currentButtonIndex == 1) {
+            if(!configCarrouselActivated){
+                if(!secondary_when && !secondary_drink) {
                     setButtonEnable(currentButtonIndex, false);
-                    currentButtonIndex = (currentButtonIndex + 2) % secondary_imgButtons.length;
+                    currentButtonIndex = (currentButtonIndex + 1) % imgButtons.length;
                     setButtonEnable(currentButtonIndex, true);
-                } else {
+                } else if(secondary_when){
                     setButtonEnable(currentButtonIndex, false);
-                    currentButtonIndex = (currentButtonIndex + 1) % secondary_imgButtons.length;
+                    currentButtonIndex = (currentButtonIndex + 1) % imgButtons_when.length;
+                    setButtonEnable(currentButtonIndex, true);
+                } else if(secondary_drink){
+                    setButtonEnable(currentButtonIndex, false);
+                    currentButtonIndex = (currentButtonIndex + 1) % imgButtons_drink.length;
                     setButtonEnable(currentButtonIndex, true);
                 }
             } else {
-                // Check if it's A2 or B2 button and adjust visibility accordingly
-                if (currentButtonIndex == 2 || currentButtonIndex == 3) {
-                    setButtonEnable(currentButtonIndex, false);
-                    currentButtonIndex = (currentButtonIndex + 2) % secondary_imgButtons.length;
-                    setButtonEnable(currentButtonIndex, true);
-                } else {
-                    setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                    currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                    setButtonVisibility(currentButtonIndex, View.VISIBLE);
-                }
+                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+                currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
+                setButtonVisibility(currentButtonIndex, View.VISIBLE);
             }
+
             if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
                 mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
             }
@@ -300,12 +307,17 @@ public class PictogramActivity extends AppCompatActivity {
         ImageButton visibleButton;
         Button visibleConfigButton;
 
-        if(!configCarrouselActivated && !secondary) {
-            visibleButton = imgButtons[currentButtonIndex];
-            runOnUiThread(() -> visibleButton.performClick());
-        } else if(!configCarrouselActivated && secondary){
-            visibleButton = imgButtons[currentButtonIndex];
-            runOnUiThread(() -> visibleButton.performClick());
+        if(!configCarrouselActivated) {
+            if (!secondary_when && !secondary_drink) {
+                visibleButton = imgButtons[currentButtonIndex];
+                runOnUiThread(() -> visibleButton.performClick());
+            } else if (secondary_when) {
+                visibleButton = imgButtons_when[currentButtonIndex];
+                runOnUiThread(() -> visibleButton.performClick());
+            } else if (secondary_drink) {
+                visibleButton = imgButtons_drink[currentButtonIndex];
+                runOnUiThread(() -> visibleButton.performClick());
+            }
         } else {
             visibleConfigButton = configButtons[currentButtonIndex];
             runOnUiThread(() -> visibleConfigButton.performClick());
@@ -313,7 +325,7 @@ public class PictogramActivity extends AppCompatActivity {
     }
 
     private void setButtonVisibility(int index, int visibility) {
-        if(!configCarrouselActivated && !secondary){
+        if(!configCarrouselActivated && !secondary_when && !secondary_drink){
             if (index >= 0 && index < imgButtons.length){
                 imgButtons[index].setVisibility(visibility);
             }
@@ -325,20 +337,27 @@ public class PictogramActivity extends AppCompatActivity {
     }
 
     private void setButtonEnable(int index, boolean isEnabled) {
-        if (!configCarrouselActivated && !secondary) {
-            if (index >= 0 && index < imgButtons.length) {
-                imgButtons[index].setEnabled(isEnabled);
-            }
-        } else if (!configCarrouselActivated && secondary) {
-            if (index >= 0 && index < secondary_imgButtons.length) {
-                secondary_imgButtons[index].setEnabled(isEnabled);
-            } else {
-                if (index >= 0 && index < configButtons.length) {
-                    configButtons[index].setEnabled(isEnabled);
+        if (!configCarrouselActivated) {
+            if (!secondary_drink && !secondary_when) {
+                if (index >= 0 && index < imgButtons.length) {
+                    imgButtons[index].setEnabled(isEnabled);
                 }
+            } else if (secondary_when) {
+                if (index >= 0 && index < imgButtons_when.length) {
+                    imgButtons_when[index].setEnabled(isEnabled);
+                }
+            } else if (secondary_drink) {
+                if (index >= 0 && index < imgButtons_drink.length) {
+                    imgButtons_drink[index].setEnabled(isEnabled);
+                }
+            }
+        } else {
+            if (index >= 0 && index < configButtons.length) {
+                configButtons[index].setEnabled(isEnabled);
             }
         }
     }
+
 
     public ImageButton getButton() {
         return imgButtons[currentButtonIndex];
