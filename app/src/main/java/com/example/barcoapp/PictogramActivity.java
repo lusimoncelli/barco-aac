@@ -96,7 +96,9 @@ public class PictogramActivity extends AppCompatActivity {
             }
             secondary_imgButtons[2].setVisibility(View.VISIBLE);
             secondary_imgButtons[3].setVisibility(View.VISIBLE);
-            secondary = true;}
+            secondary = true;
+            handleButtonLoop();
+        }
         else if (buttonId == R.id.button_B){
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
@@ -104,6 +106,7 @@ public class PictogramActivity extends AppCompatActivity {
             secondary_imgButtons[0].setVisibility(View.VISIBLE);
             secondary_imgButtons[1].setVisibility(View.VISIBLE);
             secondary = true;
+            handleButtonLoop();
         }
         else {
             appendText(buttonTextMap.get(buttonId));
