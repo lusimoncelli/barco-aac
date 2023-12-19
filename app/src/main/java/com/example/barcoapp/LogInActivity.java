@@ -29,25 +29,21 @@ public class LogInActivity extends AppCompatActivity {
         startButtonLoop(); // Start the button visibility loop
 
         // Set click listeners for each button
-        buttons[0].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Move to the main activity
-                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[0].setOnClickListener(v -> {
+            // Move to the main activity
+            stopButtonLoop();
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
-        buttons[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Move to the calibrations activity
-                Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
-                startActivity(intent);
-            }
+        buttons[1].setOnClickListener(v -> {
+            // Move to the calibrations activity
+            stopButtonLoop();
+            Intent intent = new Intent(LogInActivity.this, CalibrationsActivity.class);
+            handler.removeCallbacksAndMessages(null);
+            checkSensorDataHandler.removeCallbacksAndMessages(null);
+            startActivity(intent);
         });
 
         startSensorDataCheck();

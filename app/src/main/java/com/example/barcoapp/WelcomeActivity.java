@@ -15,7 +15,7 @@ public class WelcomeActivity extends AppCompatActivity {
          new Handler().postDelayed(() -> {
             Intent mainIntent = new Intent(WelcomeActivity.this, BluetoothActivity.class);
             startActivity(mainIntent);
-        }, 1000);
+        }, 5000);
     }
 }
 

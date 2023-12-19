@@ -14,7 +14,7 @@ public class AlphanumericKeyboardActivity extends LoopActivity {
         super(new Integer[]{
                         R.id.button_A,
                         R.id.button_B
-                }, R.layout.alphanumeric_layout, new String[] {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"}
+                }, R.layout.alphanumeric_layout, new String[] {"ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"}, new String[] {"BORRAR TODO - BORRAR ÚLTIMO", "LEER - INICIO - REINICIAR"}
         );
     }
 

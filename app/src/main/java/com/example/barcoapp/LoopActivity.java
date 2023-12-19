@@ -25,7 +25,8 @@ public class LoopActivity extends AppCompatActivity {
     private final Integer[] buttonsId;
     protected Button[] buttons;
     private Button[] configButtons;
-    private final String[] initialButtonTexts;
+    private final String[] initialButtonTexts1;
+    private final String[] initialButtonTexts2;
     private int currentButtonIndex = 0;
     protected boolean loopRunning = false;
     protected boolean isLongPressing = false;
@@ -42,11 +43,12 @@ public class LoopActivity extends AppCompatActivity {
         }
     });
 
-    protected LoopActivity(Integer[] buttonsId, int layoutId, String[] initialButtonTexts) {
+    protected LoopActivity(Integer[] buttonsId, int layoutId, String[] initialButtonTexts1, String [] initialButtonTexts2) {
         this.buttonsId = buttonsId;
         this.buttons = new Button[buttonsId.length];
         this.layoutId = layoutId;
-        this.initialButtonTexts = initialButtonTexts;
+        this.initialButtonTexts1 = initialButtonTexts1;
+        this.initialButtonTexts2 = initialButtonTexts2;
     }
 
     @Override
@@ -60,8 +62,6 @@ public class LoopActivity extends AppCompatActivity {
         textToSpeechInitialization();
         initializeButtons();
         setInitialButtonAsVisible();
-
-        // Initialize sensor data check
         startSensorDataCheck();
 
         handleButtonLoop();
@@ -72,49 +72,21 @@ public class LoopActivity extends AppCompatActivity {
     }
 
     private void initializeConfigCarrousel(){
-        this.configButtons = new Button[4];
+        this.configButtons = new Button[2];
 
-        Button backButton = findViewById(R.id.button_back_to_main);
-        backButton.setVisibility(View.INVISIBLE);
-        backButton.setOnClickListener(v -> {
-            if(! isLongPressing){
-                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button delButton=findViewById(R.id.button_delete_last);
-        delButton.setVisibility(View.INVISIBLE);
-        delButton.setOnClickListener(v -> {
-            if(! isLongPressing){
-                String currentText = enteredText.getText().toString();
-                String newText = currentText.substring(0, currentText.length() - 1);
-                enteredText.setText(newText);
-            }
-        });
-
-        Button deleteAllButton = findViewById(R.id.delete_all);
+        Button deleteAllButton = findViewById(R.id.button_delete);
         deleteAllButton.setVisibility(View.INVISIBLE);
-        deleteAllButton.setOnClickListener(view -> {
-            if(! isLongPressing)
-                enteredText.setText("");
-        });
-
 
         Button ReadAloud = findViewById(R.id.button_read_out_loud);
         ReadAloud.setVisibility(View.INVISIBLE);
 
         this.configButtons[0] = ReadAloud;
         this.configButtons[1] = deleteAllButton;
-        this.configButtons[2] = delButton;
-        this.configButtons[3] = backButton;
-
 
     }
 
 
     private void initializeText() {
-
         enteredText = findViewById(R.id.enteredText);
         enteredText.setTextColor(getResources().getColor(R.color.black));
         enteredText.setVisibility(View.VISIBLE);
@@ -147,21 +119,6 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
-
-    public void onReadButtonClick(View view) {
-        // Get the text entered in the EditText
-        String textToRead = enteredText.getText().toString().trim();
-
-        // Check if TextToSpeech is initialized and the specified text is not empty
-        if (textToSpeech != null && !textToRead.isEmpty()) {
-            // Set up a HashMap to specify the utterance ID
-            HashMap<String, String> params = new HashMap<>();
-            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
-
-            // Speak the entered text
-            textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
-        }}
-
     private void handleSensorData() {
         String receivedData = SensorDataApplication.getSensorData();
         if ("0".equals(receivedData)) {
@@ -175,16 +132,11 @@ public class LoopActivity extends AppCompatActivity {
 
     private void handleButtonLoop() {
         runOnUiThread(() -> {
-            if (!configCarrouselActivated) {
                 setButtonEnable(currentButtonIndex, false);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;
+                if (!configCarrouselActivated){
+                currentButtonIndex = (currentButtonIndex + 1) % buttons.length;}
+                else {currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;}
                 setButtonEnable(currentButtonIndex, true);
-            } else {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-                currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
-            }
-
             if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
                 mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
             }
@@ -207,9 +159,10 @@ public class LoopActivity extends AppCompatActivity {
                 button.setVisibility(View.INVISIBLE);
             }
         } else {
-            setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+            for (Button button : configButtons) {
+                button.setVisibility(View.INVISIBLE);
+            }
         }
-
         currentButtonIndex = 0;
         configCarrouselActivated = !configCarrouselActivated;
 
@@ -221,17 +174,6 @@ public class LoopActivity extends AppCompatActivity {
         setInitialButtonAsVisible();
     }
 
-
-    private void setButtonVisibility(int index, int visibility) {
-        if(!configCarrouselActivated){
-            if (index >= 0 && index < buttons.length){
-                buttons[index].setVisibility(visibility);
-            }
-        }else{
-            if (index >= 0 && index < configButtons.length)
-                configButtons[index].setVisibility(visibility);
-        }
-    }
 
     private void setButtonEnable(int index, boolean isEnabled) {
         if (!configCarrouselActivated) {
@@ -253,9 +195,10 @@ public class LoopActivity extends AppCompatActivity {
                 button.setVisibility(View.VISIBLE);
             }
         }
-        else {setButtonVisibility(currentButtonIndex,View.VISIBLE);}
-        }
-
+        else {
+            for (Button button : configButtons) {
+                button.setVisibility(View.VISIBLE);}
+        }}
 
 
     private void stopButtonLoop() {
@@ -289,13 +232,63 @@ public class LoopActivity extends AppCompatActivity {
         }
     }
 
+    public void onButtonClick2(View view) {
+        if(!loopRunning) return;
+
+        Button clickedButton = (Button) view;
+        String[] words = clickedButton.getText().toString().split(" ");
+
+        if(words.length == 1){
+            if("BORRAR".equals(words[0])){
+                String currentText = enteredText.getText().toString();
+                String newText = currentText.substring(0, currentText.length() - 1);
+                enteredText.setText(newText);
+            }
+            else if("LEER".equals(words[0])){
+                String textToRead = enteredText.getText().toString().trim();
+
+                // Check if TextToSpeech is initialized and the specified text is not empty
+                if (textToSpeech != null && !textToRead.isEmpty()) {
+                    // Set up a HashMap to specify the utterance ID
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
+
+                    // Speak the entered text
+                    textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
+            }}
+            else if("INICIO".equals(words[0])){
+                stopButtonLoop();
+                Intent intent = new Intent(LoopActivity.this, MainActivity.class);
+                mainHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
+            }
+            else if("REINICIAR".equals(words[0])){
+            restartButtons();}
+            restartButtonsConfigurations();
+        }else{
+            String firstButton = "", secondButton="";
+            for(int i = 0 ; i < words.length  ; i++){
+                if ( i < words.length / 2)
+                    firstButton += words[i] ;
+                else
+                    secondButton += words[i];
+            }
+            this.configButtons[0].setText(firstButton);
+            this.configButtons[1].setText(secondButton);
+        }
+    }
+
 
     protected void restartButtons(){
         int index = 0;
-        for(String initialText: this.initialButtonTexts){
-            this.buttons[index++].setText(initialText);
-        }
+        for(String initialText: this.initialButtonTexts1){
+            this.buttons[index++].setText(initialText);}
     }
+
+    protected void restartButtonsConfigurations(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts2){
+            this.configButtons[index++].setText(initialText);}}
 
     @Override
     protected void onPause(){
