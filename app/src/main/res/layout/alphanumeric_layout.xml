@@ -16,7 +16,7 @@
         android:text="Teclado alfabético"
         android:textColor="@color/black"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_delete_last"
+        app:layout_constraintBottom_toTopOf="@+id/button_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -76,40 +76,42 @@ public class PictogramActivity extends AppCompatActivity {
         }
     }
 
-    private void onButtonClick(View view) {
+    public void onImageClick(View view) {
         ImageButton clickedButton = (ImageButton) view;
-        if(clickedButton.getId() == R.id.button_A) {
-            secondary_imgButtons[0].setVisibility(View.VISIBLE);
-            secondary_imgButtons[1].setVisibility(View.VISIBLE);
+        int buttonId = clickedButton.getId();
+
+        // Map button IDs to corresponding texts
+        HashMap<Integer, String> buttonTextMap = new HashMap<>();
+        buttonTextMap.put(R.id.button_A, "");
+        buttonTextMap.put(R.id.button_B, "");
+        buttonTextMap.put(R.id.button_A1, "QUE");
+        buttonTextMap.put(R.id.button_B1, "CUANDO");
+        buttonTextMap.put(R.id.button_A2, "BEBER");
+        buttonTextMap.put(R.id.button_B2, "COMER");
+
+        // Set visibility based on button ID
+        if (buttonId == R.id.button_A) {
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
             }
-            secondary = true;
-        } else if(clickedButton.getId() == R.id.button_B) {
             secondary_imgButtons[2].setVisibility(View.VISIBLE);
             secondary_imgButtons[3].setVisibility(View.VISIBLE);
+            secondary = true;}
+        else if (buttonId == R.id.button_B){
             for (ImageButton button : imgButtons) {
                 button.setVisibility(View.INVISIBLE);
             }
+            secondary_imgButtons[0].setVisibility(View.VISIBLE);
+            secondary_imgButtons[1].setVisibility(View.VISIBLE);
             secondary = true;
-        } else if(clickedButton.getId() == R.id.button_A1) {
-            appendText("QUE");
-            restartButtons();
-            secondary = false;
-        } else if(clickedButton.getId() == R.id.button_B1) {
-            appendText("CUANDO");
-            restartButtons();
-            secondary = false;
-        }else if(clickedButton.getId() == R.id.button_A2) {
-            appendText("COMER");
-            restartButtons();
-            secondary = false;
-        } else if(clickedButton.getId() == R.id.button_B2) {
-            appendText("BEBER");
+        }
+        else {
+            appendText(buttonTextMap.get(buttonId));
             restartButtons();
             secondary = false;
         }
     }
+
 
     private void initializeConfigCarrousel(){
         this.configButtons = new Button[4];

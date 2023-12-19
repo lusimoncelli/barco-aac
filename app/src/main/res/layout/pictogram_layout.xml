@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".PictogramActivity">
 
     <TextView
         android:id="@+id/title_screen"
@@ -25,7 +25,7 @@
     <!-- Buttons -->
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_A"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         app:srcCompat="@drawable/bebercomer"
         android:scaleType="fitCenter"
         android:layout_marginStart="68dp"
@@ -43,7 +43,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_A1"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         app:srcCompat="@drawable/que"
         android:scaleType="fitCenter"
         android:layout_marginStart="68dp"
@@ -52,6 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:enabled='true'
+        android:onClick="onImageClick"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp"
@@ -61,7 +62,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_A2"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         app:srcCompat="@drawable/beber"
         android:scaleType="fitCenter"
         android:layout_marginStart="68dp"
@@ -80,7 +81,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_B"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         app:srcCompat="@drawable/cuandoque"
@@ -102,7 +103,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_B1"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         app:srcCompat="@drawable/cuando"
@@ -125,7 +126,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_B2"
-        style="@style/MyButtonStyle"
+        style="@style/MyImageStyle"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
         android:text="Comer"
