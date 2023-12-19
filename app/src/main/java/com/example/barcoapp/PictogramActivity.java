@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class PictogramActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
-    private boolean configCarrouselActivated = false;
+
     private EditText enteredText;
 
     // Button initialization
@@ -26,8 +26,10 @@ public class PictogramActivity extends AppCompatActivity {
     private final ImageButton[] imgButtons = new ImageButton[2];
     private final ImageButton[] imgButtons_when = new ImageButton[2];
     private final ImageButton[] imgButtons_drink = new ImageButton[2];
+    private final String[] initialButtonTexts2 = new String[] {"BORRAR LEER", "INICIO REINICIAR"};
     private int currentButtonIndex = 0;
     // Booleans
+    private boolean configCarrouselActivated = false;
     protected boolean loopRunning = false;
     protected boolean secondary_when = false;
     protected boolean secondary_drink = false;
@@ -85,6 +87,8 @@ public class PictogramActivity extends AppCompatActivity {
     }
 
     public void onImageClick(View view) {
+        if(!loopRunning || isLongPressing) return;
+
         ImageButton clickedButton = (ImageButton) view;
         int buttonId = clickedButton.getId();
 
@@ -123,44 +127,69 @@ public class PictogramActivity extends AppCompatActivity {
         }
     }
 
+    public void onButtonClick2(View view) {
+        if(!loopRunning) return;
 
-    private void initializeConfigCarrousel(){
-        this.configButtons = new Button[4];
+        Button clickedButton = (Button) view;
+        String[] words = clickedButton.getText().toString().split(" ");
 
-        Button backButton = findViewById(R.id.button_back_to_main);
-        backButton.setVisibility(View.INVISIBLE);
-        backButton.setOnClickListener(v -> {
-            if(! isLongPressing){
-                Intent intent = new Intent(PictogramActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        Button delButton=findViewById(R.id.button_delete_last);
-        delButton.setVisibility(View.INVISIBLE);
-        delButton.setOnClickListener(v -> {
-            if(! isLongPressing){
+        if(words.length == 1){
+            if("BORRAR".equals(words[0])){
                 String currentText = enteredText.getText().toString();
                 String newText = currentText.substring(0, currentText.length() - 1);
                 enteredText.setText(newText);
             }
-        });
+            else if("LEER".equals(words[0])){
+                String textToRead = enteredText.getText().toString().trim();
 
-        Button deleteAllButton = findViewById(R.id.delete_all);
+                // Check if TextToSpeech is initialized and the specified text is not empty
+                if (textToSpeech != null && !textToRead.isEmpty()) {
+                    // Set up a HashMap to specify the utterance ID
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
+
+                    // Speak the entered text
+                    textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
+                }}
+            else if("INICIO".equals(words[0])){
+                stopButtonLoop();
+                Intent intent = new Intent(PictogramActivity.this, MainActivity.class);
+                mainHandler.removeCallbacksAndMessages(null);
+                startActivity(intent);
+            }
+            else if("REINICIAR".equals(words[0])){
+                restartButtons();}
+            restartButtonsConfigurations();
+        }else{
+            String firstButton = "", secondButton="";
+            for(int i = 0 ; i < words.length  ; i++){
+                if ( i < words.length / 2)
+                    firstButton += words[i] ;
+                else
+                    secondButton += words[i];
+            }
+            this.configButtons[0].setText(firstButton);
+            this.configButtons[1].setText(secondButton);
+        }
+    }
+
+    protected void restartButtonsConfigurations(){
+        int index = 0;
+        for(String initialText: this.initialButtonTexts2){
+            this.configButtons[index++].setText(initialText);}}
+
+
+    private void initializeConfigCarrousel(){
+        this.configButtons = new Button[2];
+
+        Button deleteAllButton = findViewById(R.id.button_delete);
         deleteAllButton.setVisibility(View.INVISIBLE);
-        deleteAllButton.setOnClickListener(view -> {
-            if(! isLongPressing)
-                enteredText.setText("");
-        });
-
 
         Button ReadAloud = findViewById(R.id.button_read_out_loud);
         ReadAloud.setVisibility(View.INVISIBLE);
 
         this.configButtons[0] = ReadAloud;
         this.configButtons[1] = deleteAllButton;
-        this.configButtons[2] = delButton;
-        this.configButtons[3] = backButton;
 
     }
 
@@ -325,14 +354,24 @@ public class PictogramActivity extends AppCompatActivity {
     }
 
     private void setButtonVisibility(int index, int visibility) {
-        if(!configCarrouselActivated && !secondary_when && !secondary_drink){
-            if (index >= 0 && index < imgButtons.length){
-                imgButtons[index].setVisibility(visibility);
+        if (!configCarrouselActivated) {
+            if (!secondary_drink && !secondary_when) {
+                if (index >= 0 && index < imgButtons.length) {
+                    imgButtons[index].setVisibility(visibility);
+                }
+            } else if (secondary_when) {
+                if (index >= 0 && index < imgButtons_when.length) {
+                    imgButtons_when[index].setVisibility(visibility);
+                }
+            } else if (secondary_drink) {
+                if (index >= 0 && index < imgButtons_drink.length) {
+                    imgButtons_drink[index].setVisibility(visibility);
+                }
             }
-
         } else {
-            if (index >= 0 && index < configButtons.length)
+            if (index >= 0 && index < configButtons.length) {
                 configButtons[index].setVisibility(visibility);
+            }
         }
     }
 
@@ -358,10 +397,6 @@ public class PictogramActivity extends AppCompatActivity {
         }
     }
 
-
-    public ImageButton getButton() {
-        return imgButtons[currentButtonIndex];
-    }
 
     private void startSensorDataCheck(){
         mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
