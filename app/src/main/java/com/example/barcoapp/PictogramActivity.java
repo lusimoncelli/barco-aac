@@ -135,9 +135,7 @@ public class PictogramActivity extends AppCompatActivity {
 
         if(words.length == 1){
             if("BORRAR".equals(words[0])){
-                String currentText = enteredText.getText().toString();
-                String newText = currentText.substring(0, currentText.length() - 1);
-                enteredText.setText(newText);
+                enteredText.setText("");
             }
             else if("LEER".equals(words[0])){
                 String textToRead = enteredText.getText().toString().trim();
