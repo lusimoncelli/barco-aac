@@ -325,13 +325,17 @@ public class PictogramActivity extends AppCompatActivity {
     }
 
     private void setButtonEnable(int index, boolean isEnabled) {
-        if (!configCarrouselActivated) {
+        if (!configCarrouselActivated && !secondary) {
             if (index >= 0 && index < imgButtons.length) {
                 imgButtons[index].setEnabled(isEnabled);
             }
-        } else {
-            if (index >= 0 && index < configButtons.length) {
-                configButtons[index].setEnabled(isEnabled);
+        } else if (!configCarrouselActivated && secondary) {
+            if (index >= 0 && index < secondary_imgButtons.length) {
+                secondary_imgButtons[index].setEnabled(isEnabled);
+            } else {
+                if (index >= 0 && index < configButtons.length) {
+                    configButtons[index].setEnabled(isEnabled);
+                }
             }
         }
     }
