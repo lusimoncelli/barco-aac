@@ -23,13 +23,13 @@
         app:layout_constraintVertical_bias="0.105" />
 
     <!-- Buttons -->
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_A"
         style="@style/MyButtonStyle"
+        app:srcCompat="@drawable/bebercomer"
+        android:scaleType="fitCenter"
         android:layout_marginStart="68dp"
         android:layout_marginLeft="68dp"
-        android:text="CASA PERRO"
-        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,16 +41,56 @@
         android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/button_A1"
+        style="@style/MyButtonStyle"
+        app:srcCompat="@drawable/que"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/button_A2"
+        style="@style/MyButtonStyle"
+        app:srcCompat="@drawable/beber"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:enabled='true'
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/button_B"
         style="@style/MyButtonStyle"
-        android:layout_marginEnd="88dp"
-        android:layout_marginRight="88dp"
-        android:text="ARBOL PAPEL"
-        android:enabled='false'
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        app:srcCompat="@drawable/cuandoque"
+        android:scaleType="fitCenter"
         android:textSize="35sp"
+        android:enabled='false'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499"
         android:paddingLeft="16dp"
@@ -59,6 +99,53 @@
         android:paddingBottom="8dp"
         android:background="@drawable/button_border"
         tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/button_B1"
+        style="@style/MyButtonStyle"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        app:srcCompat="@drawable/cuando"
+        android:text="Cuando"
+        android:scaleType="fitCenter"
+        android:textSize="35sp"
+        android:enabled='false'
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/button_B2"
+        style="@style/MyButtonStyle"
+        android:layout_marginEnd="68dp"
+        android:layout_marginRight="68dp"
+        android:text="Comer"
+        app:srcCompat="@drawable/comer"
+        android:scaleType="fitCenter"
+        android:textSize="35sp"
+        android:enabled='false'
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/button_border"
+        tools:ignore="MissingConstraints" />
+
 
     <Button
         android:id="@+id/button_back_to_main"
@@ -130,6 +217,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintVertical_bias="0.5"
         tools:ignore="MissingConstraints" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
