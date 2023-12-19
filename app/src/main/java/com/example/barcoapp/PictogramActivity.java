@@ -119,7 +119,19 @@ public class PictogramActivity extends AppCompatActivity {
             secondary_when = true;
         }
         else {
+            // Append text
             appendText(buttonTextMap.get(buttonId));
+
+            // Read text aloud
+            String textToRead = enteredText.getText().toString().trim();
+            if (textToSpeech != null && !textToRead.isEmpty()) {
+                HashMap<String, String> params = new HashMap<>();
+                params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "readAloud");
+
+                // Speak the entered text
+                textToSpeech.speak(textToRead, TextToSpeech.QUEUE_FLUSH, params);
+            }
+            // Restart buttons
             secondary_drink = false;
             secondary_when = false;
             restartButtons();
