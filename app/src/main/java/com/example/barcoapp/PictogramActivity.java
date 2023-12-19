@@ -107,7 +107,9 @@ public class PictogramActivity extends AppCompatActivity {
                 button.setVisibility(View.INVISIBLE);
             }
             imgButtons_drink[0].setVisibility(View.VISIBLE);
+            imgButtons_drink[0].setEnabled(true);
             imgButtons_drink[1].setVisibility(View.VISIBLE);
+            imgButtons_drink[1].setEnabled(false);
             secondary_drink = true;
         }
         else if (buttonId == R.id.button_B){
@@ -115,12 +117,14 @@ public class PictogramActivity extends AppCompatActivity {
                 button.setVisibility(View.INVISIBLE);
             }
             imgButtons_when[0].setVisibility(View.VISIBLE);
+            imgButtons_when[0].setEnabled(true);
             imgButtons_when[1].setVisibility(View.VISIBLE);
+            imgButtons_when[1].setEnabled(false);
             secondary_when = true;
         }
         else {
             // Append text
-            appendText(buttonTextMap.get(buttonId));
+            appendText(buttonTextMap.get(buttonId)+ " ");
 
             // Read text aloud
             String textToRead = enteredText.getText().toString().trim();

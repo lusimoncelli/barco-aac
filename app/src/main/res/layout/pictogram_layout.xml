@@ -70,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:enabled='true'
+        android:enabled='false'
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp"
@@ -110,7 +110,7 @@
         android:text="Cuando"
         android:scaleType="fitCenter"
         android:textSize="35sp"
-        android:enabled='false'
+        android:enabled='true'
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
