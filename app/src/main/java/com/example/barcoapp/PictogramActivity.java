@@ -178,7 +178,7 @@ public class PictogramActivity extends AppCompatActivity {
             String firstButton = "", secondButton="";
             for(int i = 0 ; i < words.length  ; i++){
                 if ( i < words.length / 2)
-                    firstButton += words[i] ;
+                    firstButton += words[i];
                 else
                     secondButton += words[i];
             }
@@ -238,7 +238,10 @@ public class PictogramActivity extends AppCompatActivity {
                 button.setVisibility(View.VISIBLE);
             }
         }
-        else {setButtonVisibility(currentButtonIndex,View.VISIBLE);}
+        else {
+            for (Button button: configButtons) {
+                button.setVisibility(View.VISIBLE);
+            }}
     }
 
     private void performLongClick() {
@@ -255,8 +258,9 @@ public class PictogramActivity extends AppCompatActivity {
                 button.setVisibility(View.INVISIBLE);
             }
         } else {
-            setButtonVisibility(currentButtonIndex, View.INVISIBLE);
-        }
+            for (Button button : configButtons) {
+                button.setVisibility(View.INVISIBLE);
+            }}
 
         currentButtonIndex = 0;
         configCarrouselActivated = !configCarrouselActivated;
@@ -286,9 +290,9 @@ public class PictogramActivity extends AppCompatActivity {
                     setButtonEnable(currentButtonIndex, true);
                 }
             } else {
-                setButtonVisibility(currentButtonIndex, View.INVISIBLE);
+                setButtonEnable(currentButtonIndex, false);
                 currentButtonIndex = (currentButtonIndex + 1) % configButtons.length;
-                setButtonVisibility(currentButtonIndex, View.VISIBLE);
+                setButtonEnable(currentButtonIndex, true);
             }
 
             if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
