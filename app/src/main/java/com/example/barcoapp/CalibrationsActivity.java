@@ -15,9 +15,19 @@ public class CalibrationsActivity extends AppCompatActivity {
     private final Button[] buttons_calibrations = new Button[2]; // Array to hold the buttons
 
     private int currentButtonIndex = 0; // Current index for the button visibility loop
-    private boolean loopRunning = false; // Flag to control the loop
-    private final Handler handler = new Handler(); // Handler instance to manage button visibility
-    private final Handler checkSensorDataHandler = new Handler();
+    private boolean loopRunning = true; // Flag to control the loop
+    private final Handler mainHandler = new Handler(msg -> {
+        switch (msg.what) {
+            case Constants.CHECK_SENSOR_DATA:
+                handleSensorData();
+                return true;
+            case Constants.BUTTON_LOOP:
+                handleButtonLoop();
+                return true;
+            default:
+                return false;
+        }
+    });
     private final String[] initialButtonTexts = {"BAJA MEDIA", "ALTA INICIO"};
 
     @SuppressLint("MissingInflatedId")
@@ -30,7 +40,7 @@ public class CalibrationsActivity extends AppCompatActivity {
         buttons_calibrations[0] = findViewById(R.id.button_slow);
         buttons_calibrations[1] = findViewById(R.id.button_medium);
 
-        startLoop(); // Start the button visibility loop
+        handleButtonLoop(); // Start the button visibility loop
         startSensorDataCheck();
     }
 
@@ -52,10 +62,8 @@ public class CalibrationsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "La velocidad de rotación fue modificada a: ALTA", Toast.LENGTH_SHORT).show();
             }
             else {
-                boolean buttonSequenceRunning = false;
                 Intent intent = new Intent(CalibrationsActivity.this, LogInActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
             restartButtons();
@@ -80,17 +88,16 @@ public class CalibrationsActivity extends AppCompatActivity {
         }
     }
 
-    private void startSensorDataCheck() {
-        checkSensorDataHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String receivedData = SensorDataApplication.getSensorData();
-                if ("0".equals(receivedData)) {
-                    pressVisibleButton();
-                }
-                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
-            }
-        }, Constants.CHECK_INTERVAL);
+    private void startSensorDataCheck(){
+        mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
+    }
+
+    private void handleSensorData() {
+        String receivedData = SensorDataApplication.getSensorData();
+        if ("0".equals(receivedData)) {
+            pressVisibleButton();
+        }
+        startSensorDataCheck(); // Reschedule the check
     }
 
     private void pressVisibleButton() {
@@ -104,26 +111,21 @@ public class CalibrationsActivity extends AppCompatActivity {
                 buttons_calibrations[index].setEnabled(isEnabled);
             }}
 
-    private void startLoop() {
-        loopRunning = true;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setButtonEnable(currentButtonIndex, true);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons_calibrations.length;
-                setButtonEnable(currentButtonIndex, false);
-
-                if (loopRunning) {
-                    handler.postDelayed(this, FrequencyHolder.getFrequency());
-                }
+    private void handleButtonLoop() {
+        runOnUiThread(() -> {
+            setButtonEnable(currentButtonIndex, false);
+            currentButtonIndex = (currentButtonIndex + 1) % buttons_calibrations.length;
+            setButtonEnable(currentButtonIndex, true);
+            if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
+                mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
             }
-        }, 0); // Start the loop immediately
+        });
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        checkSensorDataHandler.removeCallbacksAndMessages(null);
+        mainHandler.removeCallbacksAndMessages(null);
     }
 
     @Override

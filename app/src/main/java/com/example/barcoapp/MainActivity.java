@@ -13,9 +13,20 @@ public class MainActivity extends AppCompatActivity {
 
     private final Button[] buttons_main = new Button[2]; // Array to hold the buttons
     private int currentButtonIndex = 0; // Current index for the button visibility loop
-    private boolean loopRunning = false; // Flag to control the loop
-    private final Handler handler = new Handler(); // Handler instance to manage button visibility
-    private final Handler checkSensorDataHandler = new Handler();
+    private boolean loopRunning = true; // Flag to control the loop
+
+    private final Handler mainHandler = new Handler(msg -> {
+        switch (msg.what) {
+            case Constants.CHECK_SENSOR_DATA:
+                handleSensorData();
+                return true;
+            case Constants.BUTTON_LOOP:
+                handleButtonLoop();
+                return true;
+            default:
+                return false;
+        }
+    });
     private final String[] initialButtonTexts = {"ALFABÉTICO NÚMEROS", "PALABRAS PICTOGRAMAS INICIO"};
 
     @SuppressLint("MissingInflatedId")
@@ -28,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         buttons_main[0] = findViewById(R.id.button_abcde);
         buttons_main[1] = findViewById(R.id.button_numbers);
 
-        startLoop(); // Start the button visibility loop
+        handleButtonLoop(); // Start the button visibility loop
         startSensorDataCheck();
     }
 
@@ -38,28 +49,23 @@ public class MainActivity extends AppCompatActivity {
         if (words.length == 1) {
             if ("ALFABÉTICO".equals(words[0])) {
                 Intent intent = new Intent(MainActivity.this, AlphanumericKeyboardActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);}
             else if ("NÚMEROS".equals(words[0])){
                 Intent intent = new Intent(MainActivity.this, NumbersKeyboardActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);}
             else if ("PALABRAS".equals(words[0])){
                 Intent intent = new Intent(MainActivity.this, NewKeyboardActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);}
             else if ("PICTOGRAMAS".equals(words[0])){
                 Intent intent = new Intent(MainActivity.this, PictogramActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);}
             else if ("INICIO".equals(words[0])){
                 Intent intent = new Intent(MainActivity.this, LogInActivity.class);
-                handler.removeCallbacksAndMessages(null);
-                checkSensorDataHandler.removeCallbacksAndMessages(null);
+                mainHandler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
             restartButtons();
@@ -72,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 else
                     secondButton += words[i] + " ";
             }
-            this.buttons_main[1].setText(firstButton);
-            this.buttons_main[0].setText(secondButton);
+            this.buttons_main[0].setText(firstButton);
+            this.buttons_main[1].setText(secondButton);
         }
     }
 
@@ -84,21 +90,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startSensorDataCheck() {
-        checkSensorDataHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String receivedData = SensorDataApplication.getSensorData();
-                if ("0".equals(receivedData)) {
-                    pressVisibleButton();
-                }
-                checkSensorDataHandler.postDelayed(this, Constants.CHECK_INTERVAL);
-            }
-        }, Constants.CHECK_INTERVAL);
+    private void startSensorDataCheck(){
+        mainHandler.sendEmptyMessageDelayed(Constants.CHECK_SENSOR_DATA, Constants.CHECK_INTERVAL);
+    }
+
+    private void handleSensorData() {
+        String receivedData = SensorDataApplication.getSensorData();
+        if ("0".equals(receivedData)) {
+            pressVisibleButton();
+        }
+        startSensorDataCheck(); // Reschedule the check
     }
 
     private void pressVisibleButton() {
-
         Button visibleButton = buttons_main[currentButtonIndex];
         runOnUiThread(() -> visibleButton.performClick());
     }
@@ -108,26 +112,21 @@ public class MainActivity extends AppCompatActivity {
             buttons_main[index].setEnabled(isEnabled);
         }}
 
-    private void startLoop() {
-        loopRunning = true;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                setButtonEnable(currentButtonIndex, true);
-                currentButtonIndex = (currentButtonIndex + 1) % buttons_main.length;
-                setButtonEnable(currentButtonIndex, false);
-
-                if (loopRunning) {
-                    handler.postDelayed(this, FrequencyHolder.getFrequency());
-                }
+    private void handleButtonLoop() {
+        runOnUiThread(() -> {
+            setButtonEnable(currentButtonIndex, false);
+            currentButtonIndex = (currentButtonIndex + 1) % buttons_main.length;
+            setButtonEnable(currentButtonIndex, true);
+            if (loopRunning && !mainHandler.hasMessages(Constants.BUTTON_LOOP)) {
+                mainHandler.sendEmptyMessageDelayed(Constants.BUTTON_LOOP, FrequencyHolder.getFrequency());
             }
-        }, 0); // Start the loop immediately
+        });
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        checkSensorDataHandler.removeCallbacksAndMessages(null);
+        mainHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
